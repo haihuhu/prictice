@@ -1,16 +1,13 @@
 import Sidebar from '@/components/Sidebar';
-const dashboardMenu = [
-  { label: 'Cart', href: '/dashboard/cart' },
-  { label: 'Todo', href: '/dashboard/todo' },
-];
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex">
-      <Sidebar dashboardMenu={dashboardMenu} />
-      <main className="flex-1">{children}</main>
-    </div>
+    <>
+      <div className="flex ">
+        <Sidebar />
+        <main className="flex-1 w-full">{children}</main>
+      </div>
+    </>
   );
 };
-
 export default DashboardLayout;

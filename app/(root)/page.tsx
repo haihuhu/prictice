@@ -1,11 +1,7 @@
-import Link from 'next/link';
+import React from 'react';
 
 const HomePage = () => {
-  return (
-    <>
-      <div className="mt-60 ml-60">HomePage</div>
-    </>
-  );
+  return <div>HomePage</div>;
 };
 
 export default HomePage;

@@ -1,28 +1,30 @@
 'use client';
+
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-interface SidebarProps {
-  dashboardMenu: { label: string; href: string }[];
-}
-const Sidebar = ({ dashboardMenu }: SidebarProps) => {
-  const pathname = usePathname();
 
+const sidebarMenu = [
+  { label: 'Cart', href: '/dashboard/cart' },
+  { label: 'Todo', href: '/dashboard/todo' },
+];
+
+const Sidebar = () => {
+  const pathname = usePathname();
   return (
     <>
-      <div className="flex justify-start items-center flex-col pt-3 gap-6 border-r-4 w-[80px]">
-        {dashboardMenu.map((item) => {
-          const isMatch = pathname === item.href;
-          const computedClassName = cn(
-            'text-lg font-medium px-4 py-2 rounded-md',
-            'hover:bg-blue-500/10 hover:text-blue-500',
-            isMatch ? 'bg-blue-200' : ''
-          );
+      <div className="flex flex-col items-center w-[120px]  border-r-4 gap-5 pt-5">
+        {sidebarMenu.map((item) => {
+          const isActive = pathname.startsWith(item.href);
           return (
             <Link
               key={item.label}
               href={item.href}
-              className={computedClassName}
+              className={cn(
+                'text-2xl px-2 py-1 rounded-md',
+                'hover:text-blue-500 hover:bg-blue-500/10',
+                isActive ? 'bg-blue-500 border-2 border-red-800' : ''
+              )}
             >
               {item.label}
             </Link>
@@ -32,4 +34,5 @@ const Sidebar = ({ dashboardMenu }: SidebarProps) => {
     </>
   );
 };
+
 export default Sidebar;
