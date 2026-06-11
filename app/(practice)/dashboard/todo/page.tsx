@@ -165,10 +165,10 @@ const TodoPage = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center mx-10">
+      <div className="flex flex-col w-4/5  items-center mx-10">
         <h2 className="text-5xl my-2">ToDo</h2>
         {/* Add a new todo item */}
-        <div className="flex w-full gap-2 my-2">
+        <div className="flex w-4/5 mx-auto gap-2 my-2">
           <Input
             value={inputValue}
             onChange={(e) => {
@@ -211,7 +211,7 @@ const TodoPage = () => {
           </thead>
           <tbody>
             {/* Render the todo list (sorted or unsorted) */}
-  
+
             {sortedTodo.map((item) => {
               return (
                 <tr key={item.id} className="border-b">

@@ -113,7 +113,7 @@ const CartPage = () => {
 
   return (
     <>
-      <div className="flex mx-5 gap-10">
+      <div className="flex w-4/5 mx-2 gap-2">
         <div className="max-w-1/2">
           <h2 className="text-3xl text-center my-2">Products</h2>
           <ProductTable products={products} onAddToCart={handleAddToCart} />

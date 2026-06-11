@@ -15,6 +15,7 @@ export const studyRoutes = [
   { label: 'Study', href: '/study' },
   { label: 'Test', href: '/study/test' },
   { label: 'Promise', href: '/study/promise' },
+  { label: 'Git', href: '/study/git-command' },
 ];
 
 export type ProductType = {

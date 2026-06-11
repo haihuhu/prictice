@@ -51,7 +51,7 @@ export default function NextjsCheatsheet() {
               <strong>2. async 必是 Server Component</strong>
               <br />
               async 组件默认是 Server 组件，不能加{' '}
-              <code className="bg-gray-200 px-1 rounded text-xs">'use client'</code>
+              <code className="bg-gray-200 px-1 rounded text-xs">&apos;use client&apos;</code>
             </p>
           </div>
           <div className="bg-red-50 border-l-4 border-red-600 p-3">
@@ -326,7 +326,7 @@ export default function BuyButton() {
         </pre>
 
         <h3 className="text-base font-semibold border-l-4 border-black pl-2 my-3">
-          实战 C：page.tsx 被迫加 'use client' 时（用 use）
+          实战 C：page.tsx 被迫加 &apos;use client&apos; 时（用 use）
         </h3>
         <pre className="bg-gray-100 border border-gray-300 rounded p-3 overflow-x-auto text-xs mb-4">
           {`'use client';
