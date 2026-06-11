@@ -1,37 +1,35 @@
 'use client';
 
+import { dashboardRoutes, studyRoutes } from '@/lib/data';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-const sidebarMenu = [
-  { label: 'Cart', href: '/dashboard/cart' },
-  { label: 'Todo', href: '/dashboard/todo' },
-];
-
 const Sidebar = () => {
   const pathname = usePathname();
+  const sidebarRoutes = pathname.startsWith('/dashboard')
+    ? dashboardRoutes
+    : pathname.startsWith('/study')
+      ? studyRoutes
+      : [];
   return (
-    <>
-      <div className="flex flex-col items-center w-[120px]  border-r-4 gap-5 pt-5">
-        {sidebarMenu.map((item) => {
-          const isActive = pathname.startsWith(item.href);
-          return (
-            <Link
-              key={item.label}
-              href={item.href}
-              className={cn(
-                'text-2xl px-2 py-1 rounded-md',
-                'hover:text-blue-500 hover:bg-blue-500/10',
-                isActive ? 'bg-blue-500 border-2 border-red-800' : ''
-              )}
-            >
-              {item.label}
-            </Link>
-          );
-        })}
-      </div>
-    </>
+    <div className="flex flex-col justify-start items-center gap-10 w-[120px] pt-5 px-5 border-r-4 ">
+      {sidebarRoutes.map((item) => {
+        return (
+          <Link
+            key={item.label}
+            href={item.href}
+            className={cn(
+              'text-xl p-2 rounded-md font-bold text-black ',
+              'hover:bg-blue-500/20',
+              pathname === item.href ? 'bg-blue-500' : ''
+            )}
+          >
+            {item.label}
+          </Link>
+        );
+      })}
+    </div>
   );
 };
 

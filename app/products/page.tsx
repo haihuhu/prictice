@@ -1,24 +1,16 @@
+import { products } from '@/lib/data';
 import Link from 'next/link';
-import React from 'react';
-interface ProductType {
-  id: string;
-  name: string;
-  price: number;
-}
-
-export const products: ProductType[] = [
-  { id: 'products-1', name: 'Laptop', price: 30 },
-  { id: 'products-2', name: 'WareLess mouse', price: 30 },
-  { id: 'products-3', name: 'Desk chair', price: 30 },
-  { id: 'products-4', name: 'Phone', price: 30 },
-];
-
 const ProductsPage = () => {
   return (
-    <div className="flex justify-center items-center gap-5 text-2xl">
+    <div className="flex  items-center justify-center gap-5">
+      <h1 className="text-2xl font-bold text-black">All Products:</h1>
       {products.map((item) => {
         return (
-          <Link key={item.id} href={`/products/${item.id}`}>
+          <Link
+            key={item.id}
+            href={`/products/${item.id}`}
+            className="text-xl  text-black hover:text-blue-500"
+          >
             {item.name}
           </Link>
         );
