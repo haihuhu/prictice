@@ -1,12 +1,17 @@
 import { products } from '@/lib/data';
 
-const ProductIdPage = async ({ params }: { params: Promise<{ productId: string }> }) => {
+const ProductIdPage = async ({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ productId: string }>;
+  searchParams: Promise<{ [key: string]: string | [] | undefined }>;
+}) => {
   const { productId } = await params;
-  console.log(productId);
+  const query = await searchParams;
+  console.log(query);
 
   const product = products.find((item) => item.id === productId);
-  console.log(product);
-
   return (
     <div>
       {product && (
