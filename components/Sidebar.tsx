@@ -1,26 +1,26 @@
 'use client';
 
-import { dashboardRoutes, studyRoutes } from '@/lib/data';
-import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { studyRoutes } from '@/lib/data';
+import { practiceRoutes } from '@/lib/data';
 import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 const Sidebar = () => {
   const pathname = usePathname();
-  const sidebarRoutes = pathname.startsWith('/dashboard')
-    ? dashboardRoutes
-    : pathname.startsWith('/study')
-      ? studyRoutes
-      : [];
+  const displayRoutes =
+    (pathname.startsWith('/study') && studyRoutes) ||
+    (pathname.startsWith('/practice') && practiceRoutes) ||
+    [];
   return (
-    <div className="flex flex-col justify-start items-center gap-2 w-[100px] pt-5 px-5 border-r-4 ">
-      {sidebarRoutes.map((item) => {
+    <div className="flex flex-col items-center pt-5 ">
+      {displayRoutes.map((item) => {
         return (
           <Link
             key={item.label}
             href={item.href}
             className={cn(
-              'text-lg p-1 rounded-md font-bold text-black ',
+              'text-xl my-1 py-1 px-2 rounded-md',
               'hover:bg-blue-500/20',
               pathname === item.href ? 'bg-blue-500' : ''
             )}

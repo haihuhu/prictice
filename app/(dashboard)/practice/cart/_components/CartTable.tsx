@@ -30,10 +30,10 @@ const CartTable = ({
 }: CartTableType) => {
   return (
     <div className="w-full">
-      <table className="w-full border-2">
+      <table className="w-full table-fixed border-2">
         <thead>
           <tr className="border-b">
-            <th className="text-left px-2 text-2xl">
+            <th className="w-10 text-left px-2 text-2xl">
               {sortCartList.length > 0 && (
                 <input
                   type="checkbox"
@@ -43,9 +43,9 @@ const CartTable = ({
                 />
               )}
             </th>
-            <th className="text-left px-2 text-2xl">Title</th>
-            <th className="text-center px-2 text-2xl">Price</th>
-            <th className="text-center px-2 text-2xl">
+            <th className=" text-left px-2 text-2xl">Title</th>
+            <th className="w-20 text-center px-2 text-2xl">Price</th>
+            <th className="w-28 text-center px-2 text-2xl">
               <div
                 className="flex items-center justify-center hover:cursor-pointer hover:text-blue-500"
                 onClick={() => onToggleSort()}
@@ -54,7 +54,7 @@ const CartTable = ({
                 <ArrowUpDown className="w-6 h-6 ml-2" />
               </div>
             </th>
-            <th className="text-right px-2 text-2xl">Action</th>
+            <th className="w-22 text-right px-2 text-2xl">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -83,10 +83,7 @@ const CartTable = ({
                       onClick={() => onDecreaseItemQuantity(item.id)}
                     />
                     <div className="text-right mx-2 w-5">
-                      <QuantityInput
-                        item={item}
-                        onUpdateQuantity={onUpdateQuantity}
-                      />
+                      <QuantityInput item={item} onUpdateQuantity={onUpdateQuantity} />
                     </div>
                     <PlusIcon
                       className="h-6 w-6 hover:cursor-pointer hover:text-blue-500"
@@ -97,11 +94,7 @@ const CartTable = ({
                   </div>
                 </td>
                 <td className="text-left text-xl px-2 ">
-                  <Button
-                    variant="outline"
-                    className="my-2"
-                    onClick={() => onDeleteItem(item.id)}
-                  >
+                  <Button variant="outline" className="my-2" onClick={() => onDeleteItem(item.id)}>
                     Delete
                   </Button>
                 </td>
@@ -111,11 +104,7 @@ const CartTable = ({
         </tbody>
       </table>
       {sortCartList.length > 0 && (
-        <Button
-          variant="outline"
-          className="mt-2 w-full"
-          onClick={() => onDeleteSelected()}
-        >
+        <Button variant="outline" className="mt-2 w-full" onClick={() => onDeleteSelected()}>
           Delete selected
         </Button>
       )}

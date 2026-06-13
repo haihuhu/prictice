@@ -1,8 +1,12 @@
-@import "tailwindcss";
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
 
 @custom-variant dark (&:is(.dark *));
+
+html {
+  scrollbar-gutter: stable; /* always show scrollbar */
+}
 
 @theme inline {
   --color-background: var(--background);
@@ -129,16 +133,14 @@
   }
 }
 
-
-
 /* 隐藏 Chrome, Safari, Edge, Opera 的箭头 */
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
 /* 隐藏 Firefox 的箭头 */
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
