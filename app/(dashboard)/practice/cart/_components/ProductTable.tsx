@@ -9,12 +9,12 @@ interface ProductTableType {
 const ProductTable = ({ products, onAddToCart }: ProductTableType) => {
   return (
     <div className="w-full">
-      <table className="w-full border-2">
+      <table className="w-full table-fixed border-2">
         <thead>
           <tr className="border-b">
             <th className="text-left px-2 text-2xl">Title</th>
-            <th className="text-center px-2  text-2xl">Price</th>
-            <th className="text-right px-2  text-2xl">Action</th>
+            <th className="w-20 text-center px-2  text-2xl">Price</th>
+            <th className="w-32 text-right px-2  text-2xl">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -29,11 +29,7 @@ const ProductTable = ({ products, onAddToCart }: ProductTableType) => {
                 </td>
                 <td className="text-left px-2 text-xl">{item.price}</td>
                 <td className="text-right px-2 text-xl">
-                  <Button
-                    variant="outline"
-                    className="my-2"
-                    onClick={() => onAddToCart(item.id)}
-                  >
+                  <Button variant="outline" className="my-2" onClick={() => onAddToCart(item.id)}>
                     Add to cart
                   </Button>
                 </td>

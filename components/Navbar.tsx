@@ -1,20 +1,22 @@
 'use client';
-import { navRoutes } from '@/lib/data';
-import { cn } from '@/lib/utils';
+
 import Link from 'next/link';
+import { navbarRoutes } from '@/lib/data';
+import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
 
 const Navbar = () => {
   const pathname = usePathname();
   return (
-    <div className=" flex h-20 border-b-4">
-      <div className="flex justify-center items-center h-full">
-        <Link className="text-2xl font-bold text-black" href="/">
-          Logo
+    <div className="flex justify-between items-center max-w-6xl w-full mx-auto ">
+      <div className="w-32 ">
+        <Link href="/">
+          <h1 className="text-3xl text-center">Logo</h1>
         </Link>
       </div>
-      <div className="flex justify-center items-center gap-5 ml-50">
-        {navRoutes.map((item) => {
+
+      <div className="flex flex-1 gap-5 pl-5">
+        {navbarRoutes.map((item) => {
           const isActive =
             (item.href === '/' && pathname === '/') ||
             (item.href !== '/' && pathname.startsWith(item.href));
@@ -23,7 +25,7 @@ const Navbar = () => {
               key={item.label}
               href={item.href}
               className={cn(
-                'text-2xl p-2 rounded-md font-bold text-black',
+                'text-2xl px-2  rounded-md',
                 'hover:bg-blue-500/20',
                 isActive ? 'bg-blue-500' : ''
               )}

@@ -1,53 +1,61 @@
-export const navRoutes = [
+export const navbarRoutes = [
   { label: 'Home', href: '/' },
-  { label: 'Dashboard', href: '/dashboard' },
+  { label: 'Practice', href: '/practice' },
   { label: 'Study', href: '/study' },
-  { label: 'Products', href: '/products' },
-  { label: 'About', href: '/about' },
+  { label: 'Project', href: '/project' },
+  { label: 'Contact', href: '/contact' },
 ];
 
-export const dashboardRoutes = [
-  { label: 'Cart', href: '/dashboard/cart' },
-  { label: 'Todo', href: '/dashboard/todo' },
+export const practiceRoutes = [
+  { label: 'Cart', href: '/practice/cart' },
+  { label: 'Todo', href: '/practice/todo' },
+  { label: 'Dynamic', href: '/practice/dynamic/products' },
 ];
 
 export const studyRoutes = [
   { label: 'Study', href: '/study' },
-  { label: 'Code', href: '/study/code' },
-  { label: 'Promise', href: '/study/promise' },
-  { label: 'Git', href: '/study/git-command' },
+  { label: 'code', href: '/study/code' },
+  { label: 'git', href: '/study/git-command' },
+  { label: 'promise', href: '/study/promise' },
+  { label: 'Tailwind', href: '/study/tailwind' },
 ];
 
 export type ProductType = {
   id: string;
-  name: string;
+  title: string;
   price: number;
   description: string;
 };
 
 export const products: ProductType[] = [
+  { id: '1', title: 'Apple', price: 5, description: 'Apple is a fruit that is red and round' },
   {
-    id: 'product-1',
-    name: 'wareLess-keyboard',
-    price: 100,
-    description: 'A warless is a type of product that is used to make a warless',
+    id: '2',
+    title: 'Banana',
+    price: 2,
+    description: 'Banana is a fruit that is yellow and round',
   },
+  { id: '3', title: 'Cherry', price: 3, description: 'Cherry is a fruit that is red and round' },
+  { id: '4', title: 'Date', price: 4, description: 'Date is a fruit that is brown and round' },
   {
-    id: 'product-2',
-    name: 'desk-chair',
-    price: 100,
-    description: 'A desk chair is a type of product that is used to make a desk chair',
+    id: '5',
+    title: 'Elderberry',
+    price: 5,
+    description: 'Elderberry is a fruit that is purple and round',
   },
+  { id: '6', title: 'Fig', price: 6, description: 'Fig is a fruit that is brown and round' },
+  { id: '7', title: 'Grape', price: 7, description: 'Grape is a fruit that is purple and round' },
   {
-    id: 'product-3',
-    name: 'wireless-mouse',
-    price: 100,
-    description: 'A wireless mouse is a type of product that is used to make a wireless mouse',
+    id: '8',
+    title: 'Honeydew',
+    price: 8,
+    description: 'Honeydew is a fruit that is green and round',
   },
+  { id: '9', title: 'Kiwi', price: 9, description: 'Kiwi is a fruit that is brown and round' },
   {
-    id: 'product-4',
-    name: 'monitor-stand',
-    price: 100,
-    description: 'A monitor stand is a type of product that is used to make a monitor stand',
+    id: '10',
+    title: 'Lemon',
+    price: 8,
+    description: 'Lemon is a fruit that is yellow and round',
   },
 ];

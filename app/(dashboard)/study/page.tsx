@@ -430,129 +430,124 @@ const weeklyData = [
 
 const FullStackPlanPage = () => {
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans p-5 md:p-10">
-      <div className="max-w-6xl mx-auto space-y-12">
-        {/* Header Section */}
-        <header className="bg-gradient-to-br from-indigo-600 to-blue-500 rounded-[2rem] p-10 md:p-16 text-center text-white shadow-[0_10px_25px_-5px_rgba(79,70,229,0.3)]">
-          <h1 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight">
-            🚀 全栈开发进阶计划 (Week 3-20)
-          </h1>
-          <div className="bg-white/15 backdrop-blur-md border border-white/20 p-6 rounded-2xl inline-block max-w-3xl text-left md:text-center shadow-sm">
-            <p className="text-base md:text-lg font-medium">
-              🔄 <strong className="text-amber-300">每周固定节奏：</strong>
-              周一复习默写 ➔ 周二到周四新内容 (早跟练/下午独立写) ➔{' '}
-              <span className="text-amber-300">周五 60分钟综合默写</span> ➔ 周末休息
-            </p>
-            <p className="text-sm md:text-base mt-3 text-indigo-50">
-              🇬🇧 <strong className="text-amber-300">每日必做：</strong> 编程结束后 1
-              小时英语闭环（写英文注释 ➔ AI 纠错 ➔ 听力）
-            </p>
-          </div>
-        </header>
+    <div className="flex flex-col gap-12">
+      {/* Header Section */}
+      <header className="bg-gradient-to-br from-indigo-600 to-blue-500 rounded-[2rem] p-10 md:p-16 text-center text-white shadow-[0_10px_25px_-5px_rgba(79,70,229,0.3)]">
+        <h1 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight">
+          🚀 全栈开发进阶计划 (Week 3-20)
+        </h1>
+        <div className="bg-white/15 backdrop-blur-md border border-white/20 p-6 rounded-2xl inline-block text-left md:text-center shadow-sm">
+          <p className="text-base md:text-lg font-medium">
+            🔄 <strong className="text-amber-300">每周固定节奏：</strong>
+            周一复习默写 ➔ 周二到周四新内容 (早跟练/下午独立写) ➔{' '}
+            <span className="text-amber-300">周五 60分钟综合默写</span> ➔ 周末休息
+          </p>
+          <p className="text-sm md:text-base mt-3 text-indigo-50">
+            🇬🇧 <strong className="text-amber-300">每日必做：</strong> 编程结束后 1
+            小时英语闭环（写英文注释 ➔ AI 纠错 ➔ 听力）
+          </p>
+        </div>
+      </header>
 
-        {/* Overview Table */}
-        <section>
-          <h2 className="text-2xl font-bold mb-6 pb-3 border-b-2 border-slate-200 flex items-center gap-2">
-            📊 学习总览表
-          </h2>
-          <div className="overflow-x-auto bg-white rounded-2xl shadow-sm border border-slate-200">
-            <table className="w-full text-left border-collapse min-w-[800px]">
-              <thead className="bg-slate-50 border-b border-slate-200">
-                <tr>
-                  <th className="p-4 px-6 font-semibold text-slate-500 uppercase text-sm tracking-wider">
-                    阶段
-                  </th>
-                  <th className="p-4 px-6 font-semibold text-slate-500 uppercase text-sm tracking-wider">
-                    周次
-                  </th>
-                  <th className="p-4 px-6 font-semibold text-slate-500 uppercase text-sm tracking-wider">
-                    主题
-                  </th>
-                  <th className="p-4 px-6 font-semibold text-slate-500 uppercase text-sm tracking-wider">
-                    验收标准（独立写出才算过）
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {overviewData.map((row, idx) => (
-                  <tr key={idx} className="hover:bg-slate-50 transition-colors">
-                    <td className="p-4 px-6">
-                      <span
-                        className={`px-3 py-1 rounded-full text-xs font-semibold ${getTagStyle(row.phase)}`}
-                      >
-                        {row.phase}
-                      </span>
-                    </td>
-                    <td className="p-4 px-6 font-medium text-slate-700">{row.week}</td>
-                    <td className="p-4 px-6 text-slate-800">{row.topic}</td>
-                    <td className="p-4 px-6 text-slate-600">{row.criteria}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        {/* Weekly Detail Cards Grid */}
-        <section>
-          <h2 className="text-2xl font-bold mb-6 pb-3 border-b-2 border-slate-200 flex items-center gap-2">
-            📅 每周详细执行清单
-          </h2>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {weeklyData.map((week, idx) => (
-              <div
-                key={idx}
-                className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-200 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 flex flex-col"
-              >
-                {/* Card Header */}
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-5 border-b border-dashed border-slate-200 pb-5 gap-3 md:gap-0">
-                  <h3 className="text-xl md:text-2xl font-bold text-indigo-600">{week.title}</h3>
-                  <span
-                    className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap ${getTagStyle(week.phase)}`}
-                  >
-                    {week.tagText}
-                  </span>
-                </div>
-
-                {/* Goal Section */}
-                <p className="text-sm md:text-base text-slate-600 bg-slate-50 p-4 rounded-xl border-l-4 border-indigo-400 mb-6 font-medium">
-                  {week.goal}
-                </p>
-
-                {/* Days List */}
-                <ul className="flex flex-col gap-4 flex-1">
-                  {week.days.map((day, dayIdx) => (
-                    <li
-                      key={dayIdx}
-                      className="flex flex-col md:flex-row gap-3 md:gap-4 items-start"
+      {/* Overview Table */}
+      <section>
+        <h2 className="text-2xl font-bold mb-6 pb-3 border-b-2 border-slate-200 flex items-center gap-2">
+          📊 学习总览表
+        </h2>
+        <div className="overflow-x-auto bg-white rounded-2xl shadow-sm border border-slate-200">
+          <table className="w-full text-left border-collapse ">
+            <thead className="bg-slate-50 border-b border-slate-200">
+              <tr>
+                <th className="p-4 px-6 font-semibold text-slate-500 uppercase text-sm tracking-wider">
+                  阶段
+                </th>
+                <th className="p-4 px-6 font-semibold text-slate-500 uppercase text-sm tracking-wider">
+                  周次
+                </th>
+                <th className="p-4 px-6 font-semibold text-slate-500 uppercase text-sm tracking-wider">
+                  主题
+                </th>
+                <th className="p-4 px-6 font-semibold text-slate-500 uppercase text-sm tracking-wider">
+                  验收标准（独立写出才算过）
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {overviewData.map((row, idx) => (
+                <tr key={idx} className="hover:bg-slate-50 transition-colors">
+                  <td className="p-4 px-6">
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-semibold ${getTagStyle(row.phase)}`}
                     >
-                      {/* Day Badge */}
-                      <span
-                        className={`px-2.5 py-1 rounded-md text-sm font-semibold whitespace-nowrap mt-1 ${
-                          day.isMock ? 'bg-red-500 text-white shadow-sm' : 'bg-slate-800 text-white'
-                        }`}
-                      >
-                        {day.day}
-                      </span>
+                      {row.phase}
+                    </span>
+                  </td>
+                  <td className="p-4 px-6 font-medium text-slate-700">{row.week}</td>
+                  <td className="p-4 px-6 text-slate-800">{row.topic}</td>
+                  <td className="p-4 px-6 text-slate-600">{row.criteria}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
 
-                      {/* Content & Acceptance */}
-                      <div className="flex-1 bg-slate-50/80 p-3 md:p-4 rounded-xl border border-slate-100 text-sm md:text-[0.95rem] leading-relaxed text-slate-700 w-full">
-                        <div className="whitespace-pre-wrap">{day.content}</div>
-                        {day.acceptance && (
-                          <div className="mt-3 text-sm text-emerald-700 bg-emerald-50 border border-emerald-100 px-3 py-2 rounded-lg font-medium flex items-center gap-2">
-                            <span className="text-emerald-500">✓</span>
-                            <span>验收：{day.acceptance}</span>
-                          </div>
-                        )}
-                      </div>
-                    </li>
-                  ))}
-                </ul>
+      {/* Weekly Detail Cards Grid */}
+      <section>
+        <h2 className="text-2xl font-bold mb-6 pb-3 border-b-2 border-slate-200 flex items-center gap-2">
+          📅 每周详细执行清单
+        </h2>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {weeklyData.map((week, idx) => (
+            <div
+              key={idx}
+              className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-200 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 flex flex-col"
+            >
+              {/* Card Header */}
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-5 border-b border-dashed border-slate-200 pb-5 gap-3 md:gap-0">
+                <h3 className="text-xl md:text-2xl font-bold text-indigo-600">{week.title}</h3>
+                <span
+                  className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap ${getTagStyle(week.phase)}`}
+                >
+                  {week.tagText}
+                </span>
               </div>
-            ))}
-          </div>
-        </section>
-      </div>
+
+              {/* Goal Section */}
+              <p className="text-sm md:text-base text-slate-600 bg-slate-50 p-4 rounded-xl border-l-4 border-indigo-400 mb-6 font-medium">
+                {week.goal}
+              </p>
+
+              {/* Days List */}
+              <ul className="flex flex-col gap-4 flex-1">
+                {week.days.map((day, dayIdx) => (
+                  <li key={dayIdx} className="flex flex-col md:flex-row gap-3 md:gap-4 items-start">
+                    {/* Day Badge */}
+                    <span
+                      className={`px-2.5 py-1 rounded-md text-sm font-semibold whitespace-nowrap mt-1 ${
+                        day.isMock ? 'bg-red-500 text-white shadow-sm' : 'bg-slate-800 text-white'
+                      }`}
+                    >
+                      {day.day}
+                    </span>
+
+                    {/* Content & Acceptance */}
+                    <div className="flex-1 bg-slate-50/80 p-3 md:p-4 rounded-xl border border-slate-100 text-sm md:text-[0.95rem] leading-relaxed text-slate-700 w-full">
+                      <div className="whitespace-pre-wrap">{day.content}</div>
+                      {day.acceptance && (
+                        <div className="mt-3 text-sm text-emerald-700 bg-emerald-50 border border-emerald-100 px-3 py-2 rounded-lg font-medium flex items-center gap-2">
+                          <span className="text-emerald-500">✓</span>
+                          <span>验收：{day.acceptance}</span>
+                        </div>
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   );
 };
