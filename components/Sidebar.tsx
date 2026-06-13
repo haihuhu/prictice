@@ -13,7 +13,7 @@ const Sidebar = () => {
     (pathname.startsWith('/practice') && practiceRoutes) ||
     [];
   return (
-    <div className="flex flex-col items-center pt-5 ">
+    <div className="flex flex-row md:flex-col items-center pt-2 md:pt-5 ">
       {displayRoutes.map((item) => {
         return (
           <Link
