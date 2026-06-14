@@ -8,14 +8,14 @@ import { usePathname } from 'next/navigation';
 const Navbar = () => {
   const pathname = usePathname();
   return (
-    <div className="flex justify-between items-center max-w-6xl w-full mx-auto ">
-      <div className="w-32 ">
+    <>
+      <div className="hidden md:block w-32 ">
         <Link href="/">
           <h1 className="text-3xl text-center">Logo</h1>
         </Link>
       </div>
 
-      <div className="flex flex-1 gap-5 pl-5">
+      <div className="flex flex-1 gap-2 md:gap-5 px-1 md:pl-5">
         {navbarRoutes.map((item) => {
           const isActive =
             (item.href === '/' && pathname === '/') ||
@@ -25,7 +25,7 @@ const Navbar = () => {
               key={item.label}
               href={item.href}
               className={cn(
-                'text-2xl px-2  rounded-md',
+                'text-base md:text-xl px-1  rounded-md',
                 'hover:bg-blue-500/20',
                 isActive ? 'bg-blue-500' : ''
               )}
@@ -35,7 +35,7 @@ const Navbar = () => {
           );
         })}
       </div>
-    </div>
+    </>
   );
 };
 

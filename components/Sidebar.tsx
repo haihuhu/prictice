@@ -13,14 +13,14 @@ const Sidebar = () => {
     (pathname.startsWith('/practice') && practiceRoutes) ||
     [];
   return (
-    <div className="flex flex-row md:flex-col items-center pt-2 md:pt-5 ">
+    <div className="flex  flex-row md:flex-col overflow-x-auto border-b md:border-b-0 items-center bg-white pt-2 md:pt-5  ">
       {displayRoutes.map((item) => {
         return (
           <Link
             key={item.label}
             href={item.href}
             className={cn(
-              'text-xl my-1 py-1 px-2 rounded-md',
+              'text-base  md:text-xl my-1 py-1 px-2 rounded-md',
               'hover:bg-blue-500/20',
               pathname === item.href ? 'bg-blue-500' : ''
             )}

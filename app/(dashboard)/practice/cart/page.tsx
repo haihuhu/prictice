@@ -113,12 +113,12 @@ const CartPage = () => {
 
   return (
     <>
-      <div className="flex w-full gap-2">
-        <div className="w-1/2">
+      <div className="flex flex-col md:flex-row w-full gap-2">
+        <div className="w-full md:w-1/2">
           <h2 className="text-3xl text-center my-2">Products</h2>
           <ProductTable products={products} onAddToCart={handleAddToCart} />
         </div>
-        <div className="w-1/2">
+        <div className="w-full md:w-1/2">
           <h2 className="text-3xl text-center my-2">shopping cart</h2>
           <CartTable
             sortCartList={sortCartList}

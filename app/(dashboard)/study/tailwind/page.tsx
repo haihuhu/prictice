@@ -13,7 +13,7 @@ const TailwindNotes = () => {
         </p>
       </header>
 
-      {/* 主内容区：使用 space-y-8 让四大模块上下清晰分隔 */}
+      {/* 主内容区：使用 space-y-10 让模块上下清晰分隔 */}
       <main className="max-w-7xl mx-auto space-y-10">
         {/* ==================== 顶部两列：心法与排错 ==================== */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -234,9 +234,8 @@ const TailwindNotes = () => {
           </div>
         </section>
 
-        {/* ==================== 模块五：第3周踩坑专栏 (🌟 全新无损加入) ==================== */}
+        {/* ==================== 模块五：第3周踩坑专栏 (宽度与溢出) ==================== */}
         <section className="bg-amber-50 rounded-xl shadow-sm border border-amber-200 p-6 relative overflow-hidden">
-          {/* 背景装饰 */}
           <div className="absolute -right-4 -top-4 bg-amber-400 text-white font-bold px-8 py-2 rotate-45 shadow-sm text-sm">
             Week 3
           </div>
@@ -256,7 +255,7 @@ const TailwindNotes = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* 踩坑 1 & 2：div vs flex item */}
+            {/* 踩坑 1 & 2 */}
             <PitfallCard title="1. 普通块级 (div) vs 2. Flex item">
               <div className="space-y-3 text-sm">
                 <div className="border-b border-amber-100 pb-3">
@@ -274,86 +273,79 @@ const TailwindNotes = () => {
                   </span>
                   <p className="text-gray-600 mt-1">
                     写了 <code className="text-indigo-600 bg-indigo-50 px-1 rounded">w-64</code>{' '}
-                    却被同级元素挤窄？因为 flex 子项默认 <code className="text-xs">shrink: 1</code>{' '}
-                    (空间不够我可以被压缩)。
+                    却被兄弟元素挤窄？因为 flex 子项默认 <code className="text-xs">shrink: 1</code>
+                    。
                   </p>
                   <div className="bg-amber-100/50 p-2 rounded mt-2 text-amber-800 text-xs font-mono">
-                    ✅ 护身符修法：
-                    <br />
-                    给它加 shrink-0 (我拒绝被压缩)
-                    <br />
-                    或给同级兄弟加 min-w-0 (让兄弟服软去缩)
+                    ✅ 给它加 shrink-0 (我拒绝被压缩) 或给兄弟加 min-w-0。
                   </div>
                 </div>
               </div>
             </PitfallCard>
 
-            {/* 踩坑 3：Table 的坏脾气 */}
-            <PitfallCard title="3. Table 最有个性，会撑爆">
-              <div className="space-y-2 text-sm text-gray-700">
-                <p>
-                  Table 默认 <code className="text-xs">table-layout: auto</code>，
-                  <b>内容宽度优先</b>于你设的 width。写了{' '}
-                  <code className="text-indigo-600">w-full</code>
-                  ，如果内容太多，它会撑出父级导致溢出。
-                </p>
-                <div className="bg-amber-100/50 p-3 rounded mt-2 border border-amber-200">
-                  <p className="font-bold text-amber-800 mb-1">
-                    ✅ 解法：加 table-fixed，并善用"弹性列"
+            {/* 踩坑 3 & 4：Table & td 溢出综合症 */}
+            <PitfallCard title="3 & 4. 表格溢出综合症">
+              <div className="space-y-3 text-sm text-gray-700">
+                <div>
+                  <span className="font-semibold text-gray-800">Table 撑出父级外：</span>
+                  <p className="text-gray-600 mt-1">
+                    默认内容宽度优先，无视 w-full。加{' '}
+                    <code className="font-mono font-bold text-amber-700">table-fixed</code>{' '}
+                    让它听话，不写宽度的列自动吃剩余空间。
                   </p>
-                  <ul className="list-disc list-inside text-amber-700 text-xs space-y-1">
+                </div>
+                <div className="border-t border-amber-100 pt-2">
+                  <span className="font-semibold text-gray-800">单元格处理：</span>
+                  <ul className="list-disc list-inside mt-1 space-y-1 text-gray-600">
                     <li>
-                      给 <code className="font-mono">{'<table>'}</code> 加 <b>table-fixed</b>
-                      ，让它真正听从 w-full。
+                      文字变...：
+                      <code className="text-xs">overflow-hidden whitespace-nowrap truncate</code>
                     </li>
                     <li>
-                      窄列 (如 Price/Action)：设固定宽 <b>w-24</b>。
-                    </li>
-                    <li>
-                      长列 (如 Title)：<b>故意不写 width</b>，它自动弹性吃掉剩余空间。
+                      按钮不掉出去：直接给这列 <b>分配足够宽</b>(w-28)。
                     </li>
                   </ul>
                 </div>
               </div>
             </PitfallCard>
 
-            {/* 踩坑 4：td 溢出 */}
-            <PitfallCard title="4. td 单元格内容溢出">
+            {/* 🌟新增：踩坑 6 手机端横向滑动的真凶 */}
+            <PitfallCard title="5. 手机横滑真凶 (长字符串连累页面)">
               <div className="text-sm text-gray-700 space-y-2">
-                <p>表格不被撑爆了，但格子里的文字太长怎么办？</p>
-                <div className="grid grid-cols-1 gap-2 mt-2">
-                  <div className="bg-white border border-gray-200 p-2 rounded text-xs flex flex-col gap-1">
-                    <span className="font-bold text-gray-800">想要文字变 "..." (截断)：</span>
-                    <code className="text-indigo-600 bg-indigo-50 p-1 rounded break-words">
-                      overflow-hidden whitespace-nowrap text-ellipsis
-                    </code>
+                <p>
+                  现象：连续的长字符串 (如 894165156)
+                  没有空格，浏览器无法断行，直接把格子撑爆，导致整个页面出现横向滚动条。
+                </p>
+                <div className="bg-white border border-amber-200 p-2 rounded text-xs">
+                  <span className="font-bold text-amber-800">✅ 治本：强制断行</span>
+                  <div className="mt-1">
+                    <code className="text-indigo-600 bg-indigo-50 p-1 rounded">
+                      className="break-all"
+                    </code>{' '}
+                    (或 break-words)
                   </div>
-                  <div className="bg-white border border-gray-200 p-2 rounded text-xs flex flex-col gap-1">
-                    <span className="font-bold text-gray-800">想要按钮不掉出去 (不截断)：</span>
-                    <span className="text-gray-600">
-                      不要加溢出隐藏！直接给这列 <b>分配足够的宽度</b> (如 w-28)。
-                    </span>
-                  </div>
+                </div>
+                <div className="bg-white border border-amber-200 p-2 rounded text-xs">
+                  <span className="font-bold text-amber-800">✅ 兜底体验：只让表格自己横滑</span>
+                  <p className="text-gray-600 mt-1 flex flex-col gap-1">
+                    用{' '}
+                    <code className="text-indigo-600">
+                      {'<div className="w-full overflow-x-auto">'}
+                    </code>{' '}
+                    包住 table。 页面整体框架 (Navbar) 稳稳不动，只有表格能滑。
+                  </p>
                 </div>
               </div>
             </PitfallCard>
 
-            {/* 踩坑 5：滚动条疑云 & 调试习惯 */}
+            {/* 调试排查习惯 */}
             <div className="flex flex-col gap-4">
-              <PitfallCard title="5. 为什么右侧滚动条一直显示？">
-                <div className="text-sm text-gray-700 space-y-2">
+              <PitfallCard title="6. 为什么右侧滚动条一直显示？">
+                <div className="text-sm text-gray-700">
                   <p>
-                    如果是内容没满却有滚动条，大概率是<b>某处高度算超了</b>。
-                  </p>
-                  <ul className="list-disc list-inside text-xs text-amber-800 space-y-1 bg-amber-100/30 p-2 rounded">
-                    <li>
-                      元素写了 <code className="font-mono">h-screen</code>，但同时又加了
-                      margin/padding，导致总高 {'>'} 100vh。
-                    </li>
-                    <li>body 默认的 margin 没清空。</li>
-                  </ul>
-                  <p className="text-xs text-gray-500 font-bold mt-1">
-                    👉 动作：去 DevTools 看是 html 在滚，还是某子元素顶出来的。
+                    内容没满却有滚动条，多半是某处高度算超了。比如写了{' '}
+                    <code className="font-mono">h-screen</code> 又加了 margin/padding。👉 去
+                    DevTools 查到底是哪一层顶出来的。
                   </p>
                 </div>
               </PitfallCard>
@@ -361,9 +353,83 @@ const TailwindNotes = () => {
               <div className="bg-gray-800 rounded-xl p-4 text-white shadow-md">
                 <h3 className="font-bold text-amber-400 mb-1 text-sm">💡 最重要的排错习惯</h3>
                 <p className="text-xs leading-relaxed text-gray-300">
-                  遇到“我明明写了还是不行”，第一反应是去 DevTools 或代码里<b>逐字核对</b>
-                  ：写的属性对不对？是不是加错了层级（如加在 td 而非 table）？
-                  <b>不要凭印象判断。</b>
+                  遇到“我明明写了还是不行”，不要凭印象！去 DevTools <b>逐字核对</b>
+                  是不是写错了层级（比如加在 td 还是 table 上）。
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ==================== 模块六：架构心法 (🌟 崭新加入) ==================== */}
+        <section className="bg-emerald-50/50 rounded-xl shadow-sm border border-emerald-200 p-6 relative overflow-hidden">
+          <div className="absolute -right-4 -top-4 bg-emerald-500 text-white font-bold px-8 py-2 rotate-45 shadow-sm text-sm">
+            Architecture
+          </div>
+          <h2 className="text-xl font-bold border-b border-emerald-200 pb-2 mb-5 text-emerald-800 flex items-center gap-2">
+            🏗️ 六、组件封装与架构心法
+          </h2>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* 架构心法 1：Flex 层级失效 */}
+            <div className="bg-white p-5 rounded-xl border border-emerald-100 shadow-sm flex flex-col">
+              <h3 className="font-bold text-emerald-900 mb-3 border-b border-emerald-50 pb-2">
+                1. Flex 层级穿透之谜 (为何 justify-between 失效)
+              </h3>
+              <p className="text-sm text-gray-700 mb-3 bg-emerald-50 p-2 rounded border border-emerald-100 font-medium text-emerald-800">
+                口诀：Flex 属性只管直接子元素，隔层绝对不认！
+              </p>
+              <div className="text-sm text-gray-600 space-y-3">
+                <p>
+                  分清 <b>"包着组件的父级"</b> 和 <b>"组件自己渲染出的第一层"</b>：
+                </p>
+                <div className="bg-gray-800 text-gray-300 p-3 rounded font-mono text-xs overflow-x-auto leading-relaxed shadow-inner">
+                  <span className="text-gray-500">// layout.tsx</span>
+                  <br />
+                  &lt;div className="<span className="text-emerald-400">flex justify-between</span>
+                  "&gt;
+                  <br />
+                  &nbsp;&nbsp;&lt;Navbar /&gt;{' '}
+                  <span className="text-gray-500">// 它内部实际只返回了唯一的一个 div 根节点</span>
+                  <br />
+                  &lt;/div&gt;
+                </div>
+                <p className="pt-1">
+                  👉 父级 <b>只有一个直接孩子</b> (Navbar的那个根div)，所以 justify-between
+                  毫无意义。要生效，必须让内部的元素成为同一级 Flex 的直接孩子。
+                </p>
+              </div>
+            </div>
+
+            {/* 架构心法 2：组件层级该不该合并 */}
+            <div className="bg-white p-5 rounded-xl border border-emerald-100 shadow-sm flex flex-col">
+              <h3 className="font-bold text-emerald-900 mb-3 border-b border-emerald-50 pb-2">
+                2. 标签层级合并与语义升级 (aside vs div)
+              </h3>
+              <p className="text-sm text-gray-700 mb-3">
+                外面包一层管定位 (<code className="text-xs">sticky</code>)，里面组件管内部排列 (
+                <code className="text-xs">flex-col</code>)，要不要合并？
+              </p>
+              <div className="text-sm text-gray-600 space-y-3">
+                <p>
+                  <b>方案 A：保留两层</b>。职责清晰，以后想换侧栏位置只改外层
+                  layout，不碰内部组件代码。
+                </p>
+                <p>
+                  <b>方案 B：合并成一层 (推荐)</b>。少一层 DOM 代码更干净，且顺手做<b>语义升级</b>：
+                </p>
+                <div className="bg-emerald-50 border border-emerald-100 p-3 rounded text-xs text-emerald-800 font-mono shadow-inner">
+                  &lt;aside className="sticky top-16 flex flex-col..."&gt;
+                  <br />
+                  &nbsp;&nbsp;
+                  <span className="text-emerald-600/70">
+                    {'{/* 让组件直接返回 <aside> 标签，语义跟着组件走 */}'}
+                  </span>
+                  <br />
+                  &lt;/aside&gt;
+                </div>
+                <p className="text-xs text-emerald-700/80 font-bold bg-emerald-100/40 p-2 rounded">
+                  ⚠️ 注意：合并时内外 class 会挤在同一个标签上，小心 flex 属性打架。
                 </p>
               </div>
             </div>
@@ -394,9 +460,9 @@ const Snippet = ({ code, desc }: { code: string; desc: string }) => (
   </li>
 );
 
-/* 第3周专属：踩坑卡片小组件 */
+/* 踩坑专属卡片 */
 const PitfallCard = ({ title, children }: { title: string; children: React.ReactNode }) => (
-  <div className="bg-amber-50/60 p-4 rounded-xl border border-amber-200 flex flex-col h-full">
+  <div className="bg-amber-50/60 p-4 rounded-xl border border-amber-200 flex flex-col h-full hover:shadow-sm transition-shadow">
     <h3 className="font-bold text-amber-900 mb-3 text-sm border-b border-amber-200/60 pb-2">
       {title}
     </h3>

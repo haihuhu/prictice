@@ -165,10 +165,10 @@ const TodoPage = () => {
 
   return (
     <>
-      <div className="flex flex-col w-4/5  items-center mx-10">
+      <div className="flex flex-col  items-center mx-2">
         <h2 className="text-5xl my-2">ToDo</h2>
         {/* Add a new todo item */}
-        <div className="flex w-4/5 mx-auto gap-2 my-2">
+        <div className="flex w-full mx-auto gap-2 my-2">
           <Input
             value={inputValue}
             onChange={(e) => {
@@ -179,72 +179,73 @@ const TodoPage = () => {
             Add Todo
           </Button>
         </div>
-
-        <table className="border-2 w-full">
-          <thead>
-            <tr className="border-b ">
-              <th className="text-left px-2">
-                <span className="mr-2">Title</span>
-              </th>
-              <th className="text-center px-2">
-                {/* Sort by completion status when clicked */}
-                <div
-                  className="flex items-center justify-center hover:text-blue-500 cursor-pointer"
-                  onClick={() => toggleSort('complete')}
-                >
-                  <span className="mr-2">Status</span>
-                  <ArrowUpDownIcon />
-                </div>
-              </th>
-              <th className="text-center px-2">
-                {/* Sort by importance when clicked */}
-                <div
-                  className="flex items-center justify-center hover:text-blue-500 cursor-pointer"
-                  onClick={() => toggleSort('important')}
-                >
-                  <span className="mr-2">Important</span>
-                  <ArrowUpDownIcon />
-                </div>
-              </th>
-              <th className="text-right px-2">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* Render the todo list (sorted or unsorted) */}
-
-            {sortedTodo.map((item) => {
-              return (
-                <tr key={item.id} className="border-b">
-                  <td
-                    className="text-left px-2 hover:text-blue-500 cursor-pointer"
-                    onClick={() => toggleComplete(item.id)}
+        <div className="w-full overflow-x-auto">
+          <table className="border-2 w-full">
+            <thead>
+              <tr className="border-b ">
+                <th className="text-left px-2">
+                  <span className="mr-2">Title</span>
+                </th>
+                <th className="text-center px-2">
+                  {/* Sort by completion status when clicked */}
+                  <div
+                    className="flex items-center justify-center hover:text-blue-500 cursor-pointer"
+                    onClick={() => toggleSort('complete')}
                   >
-                    {item.title}
-                  </td>
-                  <td
-                    className="text-center px-2 hover:text-blue-500 cursor-pointer"
-                    onClick={() => toggleComplete(item.id)}
+                    <span className="mr-2">Status</span>
+                    <ArrowUpDownIcon />
+                  </div>
+                </th>
+                <th className="text-center px-2">
+                  {/* Sort by importance when clicked */}
+                  <div
+                    className="flex items-center justify-center hover:text-blue-500 cursor-pointer"
+                    onClick={() => toggleSort('important')}
                   >
-                    {item.status}
-                  </td>
-                  <td className="text-center px-2 ">
-                    <span
-                      className={`inline-block px-3 py-1 rounded-full text-white hover:text-blue-200 cursor-pointer transition-transform duration-200 hover:scale-110
+                    <span className="mr-2">Important</span>
+                    <ArrowUpDownIcon />
+                  </div>
+                </th>
+                <th className="text-right px-2">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {/* Render the todo list (sorted or unsorted) */}
+
+              {sortedTodo.map((item) => {
+                return (
+                  <tr key={item.id} className="border-b">
+                    <td
+                      className="text-left  px-2 hover:text-blue-500 cursor-pointer"
+                      onClick={() => toggleComplete(item.id)}
+                    >
+                      {item.title}
+                    </td>
+                    <td
+                      className="text-center px-2 hover:text-blue-500 cursor-pointer"
+                      onClick={() => toggleComplete(item.id)}
+                    >
+                      {item.status}
+                    </td>
+                    <td className="text-center px-2 ">
+                      <span
+                        className={`inline-block px-3 py-1 rounded-full text-white hover:text-blue-200 cursor-pointer transition-transform duration-200 hover:scale-110
                       ${importantStyle[item.important]}
                       `}
-                      onClick={() => changeImportant(item.id)}
-                    >
-                      {item.important}
-                    </span>
-                  </td>
-                  <td className="text-right px-2 py-2">
-                    <Button onClick={() => deleteTodo(item.id)}>Delete</Button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                        onClick={() => changeImportant(item.id)}
+                      >
+                        {item.important}
+                      </span>
+                    </td>
+                    <td className="text-right px-2 py-2">
+                      <Button onClick={() => deleteTodo(item.id)}>Delete</Button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
     </>
   );
