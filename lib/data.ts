@@ -2,8 +2,9 @@ export const navbarRoutes = [
   { label: 'Home', href: '/' },
   { label: 'Practice', href: '/practice' },
   { label: 'Study', href: '/study' },
-  { label: 'Project', href: '/project' },
-  { label: 'Contact', href: '/contact' },
+  // { label: 'Project', href: '/project' },
+  // { label: 'Contact', href: '/contact' },
+  // { label: 'Game', href: '/game' },
 ];
 
 export const practiceRoutes = [
@@ -19,6 +20,7 @@ export const studyRoutes = [
   { label: 'promise', href: '/study/promise' },
   { label: 'Tailwind', href: '/study/tailwind' },
   { label: 'Shadcn', href: '/study/shadcn' },
+  { label: 'NextPWA', href: '/study/next-pwa' },
 ];
 
 export type ProductType = {
