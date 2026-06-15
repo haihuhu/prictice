@@ -68,7 +68,7 @@ const FormPage = () => {
 
   return (
     <>
-      <div className="flex flex-col mx-50 gap-5">
+      <div className="flex flex-col w-full  md:mx-50 gap-5 px-2">
         <div className=" gap-2">
           <div className="flex gap-2">
             <h1>UserName:</h1>
@@ -145,12 +145,12 @@ const FormPage = () => {
           />
         </div>
       </div>
-      <div className="flex gap-2 mt-10">
-        <div className="flex-1 border-4 rounded-lg">
+      <div className="flex justify-center items-center flex-col md:flex-row w-full md:max-w-4xl md:mx-auto gap-2 px-2 mt-2">
+        <div className="w-full md:flex-1 border-4 rounded-lg">
           <h2 className="text-center text-lg font-bold">Form Value</h2>
           <pre>{JSON.stringify(formValue, null, 2)}</pre>
         </div>
-        <div className="flex-1 border-4 rounded-lg">
+        <div className="w-full md:flex-1 border-4 rounded-lg">
           <h2 className="text-center text-lg font-bold">Form Errors</h2>
           <pre>{JSON.stringify(formErrors, null, 2)}</pre>
         </div>

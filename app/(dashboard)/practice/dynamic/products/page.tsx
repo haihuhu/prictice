@@ -4,8 +4,8 @@ import Link from 'next/link';
 
 const ProductsPage = () => {
   return (
-    <div>
-      <table className=" w-full table-fixed border-2">
+    <div className="w-full overflow-x-auto">
+      <table className=" w-full table-fixed   border-2">
         <thead>
           <tr className="border-b text-2xl bg-blue-300">
             <th className="w-10 text-center">Id</th>
