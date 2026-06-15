@@ -11,6 +11,7 @@ export const practiceRoutes = [
   { label: 'Cart', href: '/practice/cart' },
   { label: 'Todo', href: '/practice/todo' },
   { label: 'Dynamic', href: '/practice/dynamic/products' },
+  { label: 'Form', href: '/practice/form' },
 ];
 
 export const studyRoutes = [

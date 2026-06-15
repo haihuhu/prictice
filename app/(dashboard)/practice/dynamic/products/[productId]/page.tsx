@@ -2,13 +2,11 @@ import { Button } from '@/components/ui/button';
 import { products } from '@/lib/data';
 import Link from 'next/link';
 
-const ProductIdPage = async ({
-  params,
-}: {
-  params: Promise<{ [key: string]: string | number | undefined }>;
-}) => {
+const ProductIdPage = async ({ params }: { params: Promise<{ productId: string }> }) => {
   const { productId } = await params;
   const product = products.find((item) => item.id === productId);
+
+
   return (
     <div>
       <table className=" w-full table-fixed border-2">

@@ -15,6 +15,11 @@ const Sidebar = () => {
   return (
     <div className="flex  flex-row md:flex-col overflow-x-auto border-b md:border-b-0 items-center bg-white pt-2 md:pt-5  ">
       {displayRoutes.map((item) => {
+        const isActive =
+          item.href === '/study'
+            ? pathname === '/study' || pathname.startsWith('/study/plan')
+            : pathname.startsWith(item.href);
+
         return (
           <Link
             key={item.label}
@@ -22,7 +27,7 @@ const Sidebar = () => {
             className={cn(
               'text-base  md:text-xl my-1 py-1 px-2 rounded-md',
               'hover:bg-blue-500/20',
-              pathname === item.href ? 'bg-blue-500' : ''
+              isActive ? 'bg-blue-500' : ''
             )}
           >
             {item.label}
