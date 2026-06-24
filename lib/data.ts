@@ -2,8 +2,8 @@ export const navbarRoutes = [
   { label: 'Home', href: '/' },
   { label: 'Practice', href: '/practice' },
   { label: 'Study', href: '/study' },
-  // { label: 'Project', href: '/project' },
-  // { label: 'Contact', href: '/contact' },
+  { label: 'Project', href: '/project' },
+  { label: 'Contact', href: '/contact' },
   // { label: 'Game', href: '/game' },
 ];
 
@@ -12,13 +12,15 @@ export const practiceRoutes = [
   { label: 'Todo', href: '/practice/todo' },
   { label: 'Dynamic', href: '/practice/dynamic/products' },
   { label: 'Form', href: '/practice/form' },
+  { label: 'Week5', href: '/practice/week5' },
 ];
 
 export const studyRoutes = [
   { label: 'Study', href: '/study' },
-  { label: 'code', href: '/study/code' },
-  { label: 'git', href: '/study/git-command' },
-  { label: 'promise', href: '/study/promise' },
+  { label: 'English', href: '/study/en-study' },
+  { label: 'Code', href: '/study/code' },
+  { label: 'Git', href: '/study/git-command' },
+  { label: 'Promise', href: '/study/promise' },
   { label: 'Tailwind', href: '/study/tailwind' },
   { label: 'Shadcn', href: '/study/shadcn' },
   { label: 'NextPWA', href: '/study/next-pwa' },
@@ -502,3 +504,10 @@ export const weeklyData = [
     ],
   },
 ];
+
+export type Product1Type = {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+};

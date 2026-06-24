@@ -1,162 +1,199 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import React, { useState } from 'react';
+import { Textarea } from '@/components/ui/textarea';
+import { cn } from '@/lib/utils';
+import { useState } from 'react';
 
-interface FormType {
+interface FormValueType {
   username: string;
-  age: number;
-  gender: 'male' | 'female';
   email: string;
-  message: string;
+  gender: 'male' | 'female';
+  age: number;
+  description: string;
   subscribe: boolean;
 }
 
-interface FormErrorType {
+interface ErrorType {
   username: string;
-  age: string;
-  gender: string;
   email: string;
-  message: string;
-  subscribe: string;
+  age: string;
+  description: string;
 }
 
 const FormPage = () => {
-  const [formValue, setFormValue] = useState<FormType>({
+  const [formValue, setFormValue] = useState<FormValueType>({
     username: '',
-    age: 0,
-    gender: 'male',
     email: '',
-    message: '',
+    gender: 'female',
+    age: 0,
+    description: '',
     subscribe: false,
   });
 
-  const [formErrors, setFormErrors] = useState<FormErrorType>({
+  const [errors, setErrors] = useState<ErrorType>({
     username: '',
-    age: '',
-    gender: '',
     email: '',
-    message: '',
-    subscribe: '',
+    age: '',
+    description: '',
   });
 
-  const validateField = (fieldName: string, value: any): string => {
-    if (fieldName === 'username') {
-      if (!value) return 'username is required';
-      if (value.length < 2 || value.length > 20)
-        return 'username must be between 2 and 20 characters';
+  const validateForm = (field: string, value: any): string => {
+    if (field === 'username') {
+      if (value.length < 2 || value.length > 20) return 'username should between 2 and 20 characters';
       return '';
     }
-    if (fieldName === 'age') {
-      if (value < 18) return 'age must be greater than 18';
-      if (value > 100) return 'age must be less than 100';
+    if (field === 'email') {
+      if (!value.includes('@') || !value.includes('.')) return 'type in correct Email';
       return '';
     }
-    if (fieldName === 'email') {
-      if (!value) return 'email is required';
-      if (!value.includes('@')) return 'type correct email';
-      if (!value.includes('.')) return 'type correct email';
+    if (field === 'age') {
+      if (value < 18 || value > 100) return 'age must be between 18 and 100';
       return '';
     }
-    if (fieldName === 'message') {
-      if (value.length < 10 || value.length > 500)
-        return 'message must be between 10 and 500 characters';
+    if (field === 'description') {
+      if (value.length < 10 || value.length > 100) return 'description must be between 10 and 100 characters';
       return '';
     }
     return '';
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const newErrors = {
+      username: validateForm('username', formValue.username),
+      email: validateForm('email', formValue.email),
+      age: validateForm('age', formValue.age),
+      description: validateForm('description', formValue.description),
+    };
+    setErrors(newErrors);
+    const hasError = Object.values(newErrors).some((item) => item !== '');
+    if (hasError) return;
+    console.log('form value:', formValue);
+  };
   return (
     <>
-      <div className="flex flex-col w-full  md:mx-50 gap-5 px-2">
-        <div className=" gap-2">
-          <div className="flex gap-2">
-            <h1>UserName:</h1>
-            <Input
-              value={formValue.username}
-              onChange={(e) => {
-                setFormValue({ ...formValue, username: e.target.value });
-              }}
-              onBlur={() => {
-                const error = validateField('username', formValue.username);
-                setFormErrors({ ...formErrors, username: error });
-              }}
-            />
+      <form onSubmit={handleSubmit}>
+        <div className="flex flex-col w-full max-w-4xl mx-auto gap-2">
+          {/* UserName */}
+          <div>
+            <div className="flex">
+              <h2 className="w-28">UserName:</h2>
+              <Input
+                className={cn('', errors.username ? 'border-red-500' : '')}
+                value={formValue.username}
+                onChange={(e) => {
+                  setFormValue({ ...formValue, username: e.target.value });
+                }}
+                onBlur={() => {
+                  const error = validateForm('username', formValue.username);
+                  setErrors({ ...errors, username: error });
+                }}
+              />
+            </div>
+            <p className="ml-28 text-red-500">{errors.username}</p>
           </div>
-          {formErrors.username && <p className="ml-30 text-red-500">{formErrors.username}</p>}
-        </div>
-        <div className="gap-2">
-          <div className="flex gap-2">
-            <h1>Age:</h1>
-            <Input
-              value={formValue.age}
-              onChange={(e) => {
-                setFormValue({ ...formValue, age: Number(e.target.value) });
-              }}
-              onBlur={() => {
-                const error = validateField('age', formValue.age);
-                setFormErrors({ ...formErrors, age: error });
-              }}
-            />
+          {/* email */}
+          <div>
+            <div className="flex">
+              <h2 className="w-28">Email:</h2>
+              <Input
+                className={cn('', errors.email ? 'border-red-500' : '')}
+                value={formValue.email}
+                onChange={(e) => {
+                  setFormValue({ ...formValue, email: e.target.value });
+                }}
+                onBlur={() => {
+                  const error = validateForm('email', formValue.email);
+                  setErrors({ ...errors, email: error });
+                }}
+              />
+            </div>
+            <p className="ml-28 text-red-500">{errors.email}</p>
           </div>
-          {formErrors.age && <p className="ml-30 text-red-500">{formErrors.age}</p>}
+          {/* gender */}
+          <div>
+            <div className="flex">
+              <h2 className="w-28">Gender:</h2>
+              <select
+                title="gender"
+                className="border rounded-md border-slate-500"
+                value={formValue.gender}
+                onChange={(e) => {
+                  setFormValue({ ...formValue, gender: e.target.value as 'male' | 'female' });
+                }}
+              >
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            </div>
+          </div>
+          {/* age */}
+          <div>
+            <div className="flex">
+              <h2 className="w-28">Age:</h2>
+              <Input
+                className={cn('', errors.age ? 'border-red-500' : '')}
+                type="number"
+                value={formValue.age}
+                onChange={(e) => {
+                  setFormValue({ ...formValue, age: Number(e.target.value) });
+                }}
+                onBlur={() => {
+                  const error = validateForm('age', formValue.age);
+                  setErrors({ ...errors, age: error });
+                }}
+              />
+            </div>
+            <p className="ml-28 text-red-500">{errors.age}</p>
+          </div>
+          {/* description */}
+          <div>
+            <div className="flex">
+              <h2 className="w-28">Description:</h2>
+              <Textarea
+                className={cn(errors.description ? 'border border-red-500' : '')}
+                value={formValue.description}
+                onChange={(e) => {
+                  setFormValue({ ...formValue, description: e.target.value });
+                }}
+                onBlur={() => {
+                  const error = validateForm('description', formValue.description);
+                  setErrors({ ...errors, description: error });
+                }}
+              />
+            </div>
+            <p className="ml-28 text-red-500">{errors.description}</p>
+          </div>
+
+          {/* subscribe */}
+          <div>
+            <div className="flex">
+              <h2 className="w-28">Subscribe:</h2>
+              <Input
+                type="checkbox"
+                checked={formValue.subscribe}
+                onChange={(e) => {
+                  setFormValue({ ...formValue, subscribe: e.target.checked });
+                }}
+              />
+            </div>
+          </div>
         </div>
-        <div className="flex gap-2">
-          <h1>Gender:</h1>
-          <select
-            title="Gender"
-            className="border rounded-md"
-            name="gender"
-            value={formValue.gender}
-            onChange={(e) => {
-              setFormValue({ ...formValue, gender: e.target.value as 'male' | 'female' });
-            }}
-          >
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
-        </div>
-        <div className="flex gap-2">
-          <h1>Email:</h1>
-          <Input
-            value={formValue.email}
-            onChange={(e) => {
-              setFormValue({ ...formValue, email: e.target.value });
-            }}
-          />
-        </div>
-        <div className="flex gap-2">
-          <h1>Message:</h1>
-          <Input
-            value={formValue.message}
-            onChange={(e) => {
-              setFormValue({ ...formValue, message: e.target.value });
-            }}
-          />
-        </div>
-        <div className="flex gap-2">
-          <h1>Subscribe:</h1>
-          <Input
-            type="checkbox"
-            checked={formValue.subscribe}
-            onChange={(e) => {
-              setFormValue({ ...formValue, subscribe: e.target.checked });
-            }}
-          />
-        </div>
-      </div>
-      <div className="flex justify-center items-center flex-col md:flex-row w-full md:max-w-4xl md:mx-auto gap-2 px-2 mt-2">
-        <div className="w-full md:flex-1 border-4 rounded-lg">
-          <h2 className="text-center text-lg font-bold">Form Value</h2>
-          <pre>{JSON.stringify(formValue, null, 2)}</pre>
-        </div>
-        <div className="w-full md:flex-1 border-4 rounded-lg">
-          <h2 className="text-center text-lg font-bold">Form Errors</h2>
-          <pre>{JSON.stringify(formErrors, null, 2)}</pre>
-        </div>
+        <Button className="w-full max-w-4xl mx-auto my-2" type="submit">
+          Submit
+        </Button>
+      </form>
+      <div className="flex flex-col md:flex-row w-full border  border-blue-300 rounded-md mt-2 mx-auto gap-2 p-2">
+        <pre className="flex-1 overflow-x-auto border border-blue-200 rounded-md hover:border-blue-500 hover:shadow-md hover:transition-all">
+          {JSON.stringify(formValue, null, 2)}
+        </pre>
+        <pre className="flex-1 overflow-x-auto border  border-blue-200 rounded-md hover:border-blue-500 hover:shadow-md hover:transition-all">
+          {JSON.stringify(errors, null, 2)}
+        </pre>
       </div>
     </>
   );
 };
-
 export default FormPage;

@@ -6,19 +6,19 @@ const FullStackPlanPage = () => {
   return (
     <div className="flex flex-col gap-12 max-w-6xl mx-auto p-4 md:p-8">
       {/* Header Section */}
-      <header className="bg-gradient-to-br from-indigo-600 to-blue-500 rounded-[2rem] p-10 md:p-16 text-center text-white shadow-[0_10px_25px_-5px_rgba(79,70,229,0.3)]">
+      <header className="hidden md:block bg-gradient-to-br from-indigo-600 to-blue-500 rounded-[2rem] p-10 md:p-16 text-center text-white shadow-[0_10px_25px_-5px_rgba(79,70,229,0.3)]">
         <h1 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight">
           🚀 全栈开发进阶计划 (Week 3-20)
         </h1>
         <div className="bg-white/15 backdrop-blur-md border border-white/20 p-6 rounded-2xl inline-block text-left md:text-center shadow-sm">
           <p className="text-base md:text-lg font-medium">
             🔄 <strong className="text-amber-300">每周固定节奏：</strong>
-            周一复习默写 ➔ 周二到周四新内容 ➔{' '}
-            <span className="text-amber-300">周五 60分钟综合默写</span> ➔ 周末休息
+            周一复习默写 ➔ 周二到周四新内容 ➔ <span className="text-amber-300">周五 60分钟综合默写</span> ➔
+            周末休息
           </p>
           <p className="text-sm md:text-base mt-3 text-indigo-50">
-            🇬🇧 <strong className="text-amber-300">每日必做：</strong> 编程结束后 1
-            小时英语闭环（写英文注释 ➔ AI 纠错 ➔ 听力）
+            🇬🇧 <strong className="text-amber-300">每日必做：</strong> 编程结束后 1 小时英语闭环（写英文注释 ➔
+            AI 纠错 ➔ 听力）
           </p>
         </div>
       </header>
@@ -84,9 +84,7 @@ const FullStackPlanPage = () => {
             <Link href={`/study/plan/week/${row.week}`} key={idx}>
               <div className="bg-white rounded-xl p-5 shadow-sm border border-slate-200 hover:border-indigo-400 hover:shadow-md transition-all active:scale-[0.98] relative overflow-hidden">
                 <div className="flex justify-between items-center mb-3">
-                  <span
-                    className={`px-2.5 py-1 rounded-md text-xs font-semibold ${getTagStyle(row.phase)}`}
-                  >
+                  <span className={`px-2.5 py-1 rounded-md text-xs font-semibold ${getTagStyle(row.phase)}`}>
                     {row.phase}阶段
                   </span>
                   <span className="text-sm font-bold text-slate-400">Week {row.week}</span>
