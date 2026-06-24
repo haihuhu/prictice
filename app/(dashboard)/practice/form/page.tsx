@@ -8,59 +8,52 @@ import { useState } from 'react';
 
 interface FormValueType {
   username: string;
-  age: number;
-  gender: 'male' | 'female';
   email: string;
+  gender: 'male' | 'female';
+  age: number;
   description: string;
   subscribe: boolean;
 }
 
 interface ErrorType {
   username: string;
-  age: string;
-  gender: string;
   email: string;
+  age: string;
   description: string;
 }
 
 const FormPage = () => {
   const [formValue, setFormValue] = useState<FormValueType>({
     username: '',
-    age: 0,
-    gender: 'male',
     email: '',
+    gender: 'female',
+    age: 0,
     description: '',
     subscribe: false,
   });
 
   const [errors, setErrors] = useState<ErrorType>({
     username: '',
-    age: '',
-    gender: '',
     email: '',
+    age: '',
     description: '',
   });
 
-  const validateForm = (formField: string, value: any): string => {
-    if (formField === 'username') {
-      if (value === '') return 'username is required';
-      if (value.length < 2 || value.length > 20) return 'username must be between 2 and 20';
+  const validateForm = (field: string, value: any): string => {
+    if (field === 'username') {
+      if (value.length < 2 || value.length > 20) return 'username should between 2 and 20 characters';
       return '';
     }
-    if (formField === 'age') {
+    if (field === 'email') {
+      if (!value.includes('@') || !value.includes('.')) return 'type in correct Email';
+      return '';
+    }
+    if (field === 'age') {
       if (value < 18 || value > 100) return 'age must be between 18 and 100';
       return '';
     }
-    if (formField === 'gender') {
-      if (value !== 'male' && value !== 'female') return 'gender must be male or female';
-      return '';
-    }
-    if (formField === 'email') {
-      if (!value.includes('@')) return 'email is not valid';
-      return '';
-    }
-    if (formField === 'description') {
-      if (value.length < 10 || value.length > 100) return 'description must be between 10 and 100';
+    if (field === 'description') {
+      if (value.length < 10 || value.length > 100) return 'description must be between 10 and 100 characters';
       return '';
     }
     return '';
@@ -70,30 +63,25 @@ const FormPage = () => {
     e.preventDefault();
     const newErrors = {
       username: validateForm('username', formValue.username),
-      age: validateForm('age', formValue.age),
-      gender: validateForm('gender', formValue.gender),
       email: validateForm('email', formValue.email),
+      age: validateForm('age', formValue.age),
       description: validateForm('description', formValue.description),
     };
-
     setErrors(newErrors);
-
-    const hasError = Object.values(newErrors).some((e) => e !== '');
-
+    const hasError = Object.values(newErrors).some((item) => item !== '');
     if (hasError) return;
-
-    console.log('formValue:', formValue);
+    console.log('form value:', formValue);
   };
-
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <div className="w-full">
-          <div className="flex-col justify-between items-center w-full md:max-w-4xl mx-auto px-2 my-2">
+        <div className="flex flex-col w-full max-w-4xl mx-auto gap-2">
+          {/* UserName */}
+          <div>
             <div className="flex">
-              <h2 className="w-24 text-lg font-bold">Username:</h2>
+              <h2 className="w-28">UserName:</h2>
               <Input
-                className={cn(errors.username && 'border-red-500')}
+                className={cn('', errors.username ? 'border-red-500' : '')}
                 value={formValue.username}
                 onChange={(e) => {
                   setFormValue({ ...formValue, username: e.target.value });
@@ -104,53 +92,14 @@ const FormPage = () => {
                 }}
               />
             </div>
-            <p className="ml-24 text-red-500 text-sm">{errors.username}</p>
+            <p className="ml-28 text-red-500">{errors.username}</p>
           </div>
-          <div className="flex-col justify-between items-center w-full md:max-w-4xl mx-auto px-2 my-2">
-            <div className="flex ">
-              <h2 className="w-24 text-lg font-bold">Age:</h2>
+          {/* email */}
+          <div>
+            <div className="flex">
+              <h2 className="w-28">Email:</h2>
               <Input
-                type="number"
-                className={cn(errors.age && 'border-red-500')}
-                value={formValue.age}
-                onChange={(e) => {
-                  setFormValue({ ...formValue, age: Number(e.target.value) });
-                }}
-                onBlur={() => {
-                  const error = validateForm('age', formValue.age);
-                  setErrors({ ...errors, age: error });
-                }}
-              />
-            </div>
-            <p className="ml-24 text-red-500 text-sm">{errors.age}</p>{' '}
-          </div>
-          <div className="flex-col justify-between items-center w-full md:max-w-4xl mx-auto px-2 my-2">
-            <div className="flex ">
-              <h2 className="w-24 text-lg font-bold">Gender:</h2>
-              <select
-                title="gender"
-                className="rounded-lg border "
-                value={formValue.gender}
-                onChange={(e) => {
-                  setFormValue({ ...formValue, gender: e.target.value as 'male' | 'female' });
-                }}
-                onBlur={() => {
-                  const error = validateForm('gender', formValue.gender);
-                  setErrors({ ...errors, gender: error });
-                }}
-              >
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-              </select>
-            </div>
-            <p className="ml-24 text-red-500 text-sm">{errors.gender}</p>{' '}
-          </div>
-          {/* Email */}
-          <div className="flex-col justify-between items-center w-full md:max-w-4xl mx-auto px-2 my-2">
-            <div className="flex ">
-              <h2 className="w-24 text-lg font-bold">Email:</h2>
-              <Input
-                className={cn(errors.email && 'border-red-500')}
+                className={cn('', errors.email ? 'border-red-500' : '')}
                 value={formValue.email}
                 onChange={(e) => {
                   setFormValue({ ...formValue, email: e.target.value });
@@ -161,15 +110,50 @@ const FormPage = () => {
                 }}
               />
             </div>
-
-            <p className="ml-24 text-red-500 text-sm">{errors.email}</p>
+            <p className="ml-28 text-red-500">{errors.email}</p>
           </div>
-
-          <div className="flex-col justify-between items-center w-full md:max-w-4xl mx-auto px-2 my-2">
-            <div className="flex ">
-              <h2 className="w-24 text-lg font-bold">Description:</h2>
+          {/* gender */}
+          <div>
+            <div className="flex">
+              <h2 className="w-28">Gender:</h2>
+              <select
+                title="gender"
+                className="border rounded-md border-slate-500"
+                value={formValue.gender}
+                onChange={(e) => {
+                  setFormValue({ ...formValue, gender: e.target.value as 'male' | 'female' });
+                }}
+              >
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            </div>
+          </div>
+          {/* age */}
+          <div>
+            <div className="flex">
+              <h2 className="w-28">Age:</h2>
+              <Input
+                className={cn('', errors.age ? 'border-red-500' : '')}
+                type="number"
+                value={formValue.age}
+                onChange={(e) => {
+                  setFormValue({ ...formValue, age: Number(e.target.value) });
+                }}
+                onBlur={() => {
+                  const error = validateForm('age', formValue.age);
+                  setErrors({ ...errors, age: error });
+                }}
+              />
+            </div>
+            <p className="ml-28 text-red-500">{errors.age}</p>
+          </div>
+          {/* description */}
+          <div>
+            <div className="flex">
+              <h2 className="w-28">Description:</h2>
               <Textarea
-                className={cn(errors.description && 'border-red-500')}
+                className={cn(errors.description ? 'border border-red-500' : '')}
                 value={formValue.description}
                 onChange={(e) => {
                   setFormValue({ ...formValue, description: e.target.value });
@@ -180,12 +164,13 @@ const FormPage = () => {
                 }}
               />
             </div>
-            <p className="ml-24 text-red-500 text-sm">{errors.description}</p>{' '}
+            <p className="ml-28 text-red-500">{errors.description}</p>
           </div>
 
-          <div className="flex-col justify-between items-center w-full md:max-w-4xl mx-auto px-2 my-2">
+          {/* subscribe */}
+          <div>
             <div className="flex">
-              <h2 className="w-24 text-lg font-bold">Subscribe:</h2>
+              <h2 className="w-28">Subscribe:</h2>
               <Input
                 type="checkbox"
                 checked={formValue.subscribe}
@@ -195,21 +180,20 @@ const FormPage = () => {
               />
             </div>
           </div>
-          <Button type="submit" className="flex w-full max-w-3xl mx-auto my-2 px-2">
-            Submit
-          </Button>
-          <div className="flex flex-col md:flex-row justify-between items-center w-full md:max-w-4xl gap-2 mx-auto px-2">
-            <div className="w-full flex-1 border-4 rounded-md break-all">
-              <pre className="whitespace-pre-wrap">{JSON.stringify(formValue, null, 2)}</pre>
-            </div>
-            <div className="w-full flex-1 border-4 rounded-md">
-              <pre className="whitespace-pre-wrap">{JSON.stringify(errors, null, 2)}</pre>
-            </div>
-          </div>
         </div>
+        <Button className="w-full max-w-4xl mx-auto my-2" type="submit">
+          Submit
+        </Button>
       </form>
+      <div className="flex flex-col md:flex-row w-full border  border-blue-300 rounded-md mt-2 mx-auto gap-2 p-2">
+        <pre className="flex-1 overflow-x-auto border border-blue-200 rounded-md hover:border-blue-500 hover:shadow-md hover:transition-all">
+          {JSON.stringify(formValue, null, 2)}
+        </pre>
+        <pre className="flex-1 overflow-x-auto border  border-blue-200 rounded-md hover:border-blue-500 hover:shadow-md hover:transition-all">
+          {JSON.stringify(errors, null, 2)}
+        </pre>
+      </div>
     </>
   );
 };
-
 export default FormPage;
