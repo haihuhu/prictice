@@ -33,7 +33,7 @@ const SearchProducts = ({ products }: { products: Product1Type[] }) => {
         <table className="w-full border">
           <thead>
             <tr className="border-b">
-              <th>UseId</th>
+              <th>UserId</th>
               <th>Id</th>
               <th>Title</th>
               <th>Body</th>
