@@ -2,46 +2,63 @@
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { formSchema, FormValues } from '@/schemas/user-form';
+import { zodResolver } from '@hookForm/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
-const UserForm = () => {
+const UserPage = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
-  console.log(register);
+  } = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+  });
+
+  const onSubmit = (data: FormValues) => {
+    console.log(data);
+  };
 
   return (
     <>
-      <form onSubmit={handleSubmit((data) => console.log(data))}>
-        <div className="flex-col px-2 space-y-2">
-          <div>
-            <div className="flex gap-2">
-              <h2>Name:</h2>
-              <Input
-                {...register('name', {
-                  required: 'Name is required!',
-                  minLength: { value: 3, message: 'Name must be at least 3 characters long' },
-                  maxLength: { value: 20, message: 'Name must be less than 20 characters long' },
-                })}
-              />
-            </div>
-            <p className="ml-32 text-red-500">{errors.name?.message as string}</p>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-2 px-2">
+        {/* name */}
+        <div>
+          <div className="flex gap-2">
+            <h2>Name:</h2>
+            <Input {...register('name')} />
           </div>
-          <div>
-            <div className="flex gap-2">
-              <h2>Email:</h2>
-              <Input {...register('email', { required: 'Email is required' })} />
-            </div>
-            <p className="ml-32 text-red-500">{errors.email?.message as string}</p>
-          </div>
-          <Button type="submit" className="w-full my-2" variant={'outline'}>
-            Submit
-          </Button>
+          <p className="text-red-500 text-center">{errors.name?.message}</p>
         </div>
+        {/* email */}
+        <div>
+          <div className="flex gap-2">
+            <h2>Email:</h2>
+            <Input {...register('email')} />
+          </div>
+          <p className="text-red-500 text-center">{errors.email?.message}</p>
+        </div>
+        {/* password */}
+        <div>
+          <div className="flex gap-2">
+            <h2>Password:</h2>
+            <Input type="password" {...register('password')} />
+          </div>
+          <p className="text-red-500 text-center">{errors.password?.message}</p>
+        </div>
+        {/* confirm password */}
+        <div>
+          <div className="flex gap-2">
+            <h2>Confirm Password:</h2>
+            <Input type="password" {...register('confirm')} />
+          </div>
+          <p className="text-red-500 text-center">{errors.confirm?.message}</p>
+        </div>
+        <Button type="submit" variant="default">
+          Submit
+        </Button>
       </form>
     </>
   );
 };
-export default UserForm;
+export default UserPage;
