@@ -2,12 +2,17 @@ export const navbarRoutes = [
   { label: 'Home', href: '/' },
   { label: 'Practice', href: '/practice' },
   { label: 'Study', href: '/study' },
-  { label: 'Project', href: '/project' },
-  { label: 'Contact', href: '/contact' },
+  // { label: 'Project', href: '/project' },
+  // { label: 'Contact', href: '/contact' },
   // { label: 'Game', href: '/game' },
 ];
+type PracticeRouteType = {
+  label: string;
+  href: string;
+  description?: string;
+};
 
-export const practiceRoutes = [
+export const practiceRoutes: PracticeRouteType[] = [
   { label: 'Cart', href: '/practice/cart' },
   { label: 'Todo', href: '/practice/todo' },
   { label: 'Dynamic', href: '/practice/dynamic/products' },
@@ -15,7 +20,13 @@ export const practiceRoutes = [
   { label: 'Week5', href: '/practice/week5' },
 ];
 
-export const studyRoutes = [
+export type StudyRouteType = {
+  label: string;
+  href: string;
+  description?: string;
+};
+
+export const studyRoutes: StudyRouteType[] = [
   { label: 'Study', href: '/study' },
   { label: 'English', href: '/study/en-study' },
   { label: 'Code', href: '/study/code' },
@@ -24,6 +35,11 @@ export const studyRoutes = [
   { label: 'Tailwind', href: '/study/tailwind' },
   { label: 'Shadcn', href: '/study/shadcn' },
   { label: 'NextPWA', href: '/study/next-pwa' },
+  {
+    label: 'Form+zod',
+    href: '/study/form-zod',
+    description: 'A quick reference for Zod validators, custom error messages, and automatic type coercion.',
+  },
 ];
 
 export type ProductType = {
@@ -31,6 +47,13 @@ export type ProductType = {
   title: string;
   price: number;
   description: string;
+};
+// week5 day1
+export type Product1Type = {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
 };
 
 export const products: ProductType[] = [
@@ -505,7 +528,7 @@ export const weeklyData = [
   },
 ];
 
-export type Product1Type = {
+export type Product2Type = {
   userId: number;
   id: number;
   title: string;
