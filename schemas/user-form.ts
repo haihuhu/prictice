@@ -1,4 +1,4 @@
-import z from 'zod';
+import { z } from 'zod';
 
 export const formSchema = z
   .object({
@@ -8,7 +8,7 @@ export const formSchema = z
     confirm: z.string(),
   })
   .refine((data) => data.password === data.confirm, {
-    message: 'Twice password do not match',
+    message: 'Passwords do not match!',
     path: ['confirm'],
   });
 

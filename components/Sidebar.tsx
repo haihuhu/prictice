@@ -24,6 +24,7 @@ const Sidebar = () => {
           <Link
             key={item.label}
             href={item.href}
+            title={item.description}
             className={cn(
               'text-base  md:text-xl my-1 py-1 px-2 rounded-md',
               'hover:bg-blue-500/20',
