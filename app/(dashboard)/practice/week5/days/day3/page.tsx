@@ -6,7 +6,9 @@ import { formSchema, FormValues } from '@/schemas/user-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import PasswordInput from './_components/PasswordInput';
+
 import { week5Days } from '@/lib/data';
+
 
 const UserPage = () => {
   const {
@@ -22,10 +24,12 @@ const UserPage = () => {
   };
   return (
     <>
+
       <h1 className="text-3xl font-bold text-center mb-2">
         Week:{week5Days.find((day) => day.id === 3)?.week}
       </h1>
       <h1 className="text-2xl font-bold text-center mb-2">{week5Days.find((day) => day.id === 3)?.label}</h1>
+
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-2 px-2">
         {/* name */}
         <div>
