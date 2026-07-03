@@ -6,27 +6,22 @@ export const navbarRoutes = [
   // { label: 'Contact', href: '/contact' },
   // { label: 'Game', href: '/game' },
 ];
-type PracticeRouteType = {
+type SidebarType = {
   label: string;
   href: string;
   description?: string;
 };
 
-export const practiceRoutes: PracticeRouteType[] = [
+export const practiceRoutes: SidebarType[] = [
   { label: 'Cart', href: '/practice/cart' },
   { label: 'Todo', href: '/practice/todo' },
   { label: 'Dynamic', href: '/practice/dynamic/products' },
   { label: 'Form', href: '/practice/form' },
   { label: 'Week5', href: '/practice/week5' },
+  { label: 'Week6', href: '/practice/week6' },
 ];
 
-export type StudyRouteType = {
-  label: string;
-  href: string;
-  description?: string;
-};
-
-export const studyRoutes: StudyRouteType[] = [
+export const studyRoutes: SidebarType[] = [
   { label: 'Study', href: '/study' },
   { label: 'English', href: '/study/en-study' },
   { label: 'Code', href: '/study/code' },
@@ -534,3 +529,36 @@ export type Product2Type = {
   title: string;
   body: string;
 };
+
+export const week5Days = [
+  {
+    week: 5,
+    id: 1,
+    label: 'Day1 and Day2:Server Component:async fetch data + loading/error status',
+    href: '/practice/week5/days/day1',
+  },
+  {
+    week: 5,
+    id: 2,
+    label: 'Day1 and Day 2: review server component + async fetch data + loading/errors status',
+    href: '/practice/week5/days/day2',
+  },
+  {
+    week: 5,
+    id: 3,
+    label: 'Day3:use react-hook-form for form!',
+    href: '/practice/week5/days/day3',
+  },
+  {
+    week: 5,
+    id: 4,
+    label: 'Day4',
+    href: '/practice/week5/days/day4',
+  },
+  {
+    week: 5,
+    id: 5,
+    label: 'Day5',
+    href: '/practice/week5/days/day5',
+  },
+];
