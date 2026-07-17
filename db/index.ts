@@ -1,8 +1,23 @@
-// 1. import drizzle (from which path? postgres-js)
+// index.ts
 import { drizzle } from 'drizzle-orm/postgres-js';
-// 2. import the postgres driver
 import postgres from 'postgres';
-// 3. create client from the connection string in .env
-const client = postgres(process.env.DATABASE_URL!);
-// 4. wrap client with drizzle, export as db
+
+const connectionString = process.env.DATABASE_URL;
+
+if (!connectionString) {
+  throw new Error('DATABASE_URL is missing');
+}
+
+// check global first, reuse if exists
+const globalForDb = globalThis as unknown as {
+  client?: ReturnType<typeof postgres>;
+};
+
+// only create once, then reuse
+const client = globalForDb.client ?? postgres(connectionString);
+
+if (process.env.NODE_ENV !== 'production') {
+  globalForDb.client = client;
+}
+
 export const db = drizzle(client);
