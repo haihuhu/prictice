@@ -10,6 +10,7 @@ export const DeleteButton = ({ id }: { id: number }) => {
       const res = await deleteInventory(id);
       if (!res.success) {
         toast.error(res.error);
+        return;
       }
       toast.success('Successfully deleted');
     } catch (error) {

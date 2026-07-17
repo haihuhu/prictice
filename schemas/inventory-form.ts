@@ -7,7 +7,11 @@ export const inventorySchema = z.object({
   }),
   quantity: z.number().int().positive(),
   price: z.number().positive(),
-  inStock: z.boolean().refine((val) => val === true, { error: 'InStock must be choose' }),
+  inStock: z
+    .boolean()
+    .refine((val) => val === true, {
+      error: 'InStock must be choose',
+    }),
 });
 
 export type InventoryValues = z.infer<typeof inventorySchema>;

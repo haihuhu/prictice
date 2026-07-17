@@ -1,10 +1,18 @@
+'use client';
+
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 // ============================================================================
 // 🎨 Mac + VS Code 风格深色代码块组件 (基于 react-syntax-highlighter)
 // ============================================================================
-export const CodeWindow = ({ code, language = 'tsx' }: { code: string; language?: string }) => {
+export const CodeWindow = ({
+  code,
+  language = 'tsx',
+}: {
+  code: string;
+  language?: string;
+}) => {
   return (
     <div className="rounded-lg overflow-hidden shadow-xl border border-gray-700/50 bg-[#1E1E1E] mb-6">
       {/* 顶部控制栏 (红黄绿按钮) */}
@@ -14,7 +22,9 @@ export const CodeWindow = ({ code, language = 'tsx' }: { code: string; language?
           <div className="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
           <div className="w-3 h-3 rounded-full bg-[#27C93F]"></div>
         </div>
-        <div className="text-[11px] text-gray-400 font-sans tracking-wide uppercase">{language}</div>
+        <div className="text-[11px] text-gray-400 font-sans tracking-wide uppercase">
+          {language}
+        </div>
       </div>
 
       {/* 代码内容区：交给专业库渲染 */}

@@ -82,7 +82,7 @@ export const updateInventory = async (
     };
   }
 
-  await db
+  const updated = await db
     .update(inventories)
     .set({
       itemName: values.itemName,
@@ -91,7 +91,16 @@ export const updateInventory = async (
       price: String(values.price),
       inStock: values.inStock,
     })
-    .where(eq(inventories.id, id));
+    .where(eq(inventories.id, id))
+    .returning();
+
+  if (updated.length === 0) {
+    return {
+      success: false,
+      errors: { itemName: ['Item not found or already deleted'] },
+    };
+  }
+
   revalidatePath('/practice/week7/days/day2');
   return { success: true };
 };

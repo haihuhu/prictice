@@ -168,7 +168,11 @@ const InventoryForm = ({
           <Button type="submit" disabled={isSubmitting} className="">
             Submit
           </Button>
-          <Button type="reset" variant="outline">
+          <Button
+            type="button"
+            onClick={() => reset()}
+            variant="outline"
+          >
             Reset
           </Button>
         </div>
