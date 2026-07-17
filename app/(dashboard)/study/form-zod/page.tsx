@@ -1,5 +1,6 @@
 // Week5Notes.tsx — React Hook Form + zod reference card
 import React from 'react';
+import { CodeWindow } from '@/components/CodeWindow';
 
 // ==========================================
 // 1. UI 基础组件 (美化后的 CodeBlock & Section)
@@ -82,7 +83,7 @@ const Week5Notes = () => {
             使用 <code>zodResolver</code> 将 Zod 校验规则与 RHF 完美桥接。强烈建议配置{' '}
             <code>defaultValues</code>。
           </p>
-          <CodeBlock
+          <CodeWindow
             code={`import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -99,7 +100,7 @@ const {
   }
 });`}
           />
-          <CodeBlock
+          <CodeWindow
             code={`// register — 解构并绑定到原生 input 上，接管 onChange/onBlur/ref/name
 <Input {...register('email')} />
 
@@ -128,7 +129,7 @@ const {
             定义数据模型和校验规则。通过 <code>z.infer</code> 自动提取 TypeScript 类型，实现{' '}
             <b>Single Source of Truth</b>（单一数据源）。
           </p>
-          <CodeBlock
+          <CodeWindow
             code={`import { z } from 'zod';
 
 export const formSchema = z
@@ -167,7 +168,7 @@ export type FormValues = z.infer<typeof formSchema>;`}
             大多数基础校验都可以传入第二个参数，作为校验失败时的<b>自定义报错信息</b>
             。这在页面错误回显时非常关键。
           </p>
-          <CodeBlock
+          <CodeWindow
             code={`// -------------------------
 // String (字符串类型校验)
 // -------------------------
@@ -203,7 +204,7 @@ z.string().optional().default('guest')    // 兜底逻辑：如果没传或为 u
 // -------------------------
 // 枚举：常配合 <select> 或 RadioGroup 使用，限制值只能是其中之一
 z.enum(['admin', 'user', 'guest'], { 
-  errorMap: () => ({ message: '请选择有效的角色' }) 
+  error: '请选择有效的角色' 
 })
 
 // 数组：常配合 Checkbox 多选框使用
@@ -231,7 +232,7 @@ z.object({
             </svg>
           }
         >
-          <CodeBlock
+          <CodeWindow
             code={`const {
   watch,        // 实时监听字段值变化 (会触发重渲染，慎用或局部使用)
   reset,        // 重置表单到初始状态 (defaultValues)
@@ -242,7 +243,7 @@ z.object({
   control,      // 将 RHF 的上下文传递给受控组件 (如 shadcn UI 的 <Controller> / <FormField>)
 } = useForm<FormValues>({ resolver: zodResolver(formSchema) });`}
           />
-          <CodeBlock
+          <CodeWindow
             code={`// 场景：提交成功后清空表单
 const onSubmit = async (data: FormValues) => {
   await submitToServer(data);
@@ -270,7 +271,7 @@ setError('email', {
             </svg>
           }
         >
-          <CodeBlock
+          <CodeWindow
             code={`const { formState: {
   errors,        // 表单当前的错误对象 (包含所有未通过校验的字段)
   isSubmitting,  // 是否正在提交 (异步 onSubmit 执行期间为 true → 用于禁用按钮)
@@ -278,7 +279,7 @@ setError('email', {
   isDirty,       // 表单是否被修改过 (与 defaultValues 比较)
 } } = useForm();`}
           />
-          <CodeBlock
+          <CodeWindow
             code={`// prevent double submit (防止重复提交，提供良好的交互反馈)
 <button 
   disabled={isSubmitting} 
@@ -306,7 +307,7 @@ setError('email', {
             在 Next.js App Router 中，服务端组件可以直接使用 `async/await` 发起 Fetch 请求，无需使用
             `useEffect`。
           </p>
-          <CodeBlock
+          <CodeWindow
             code={`// 默认没有 'use client'，这是一个服务端组件 (Server Component)
 const Page = async () => {
   // 原生 fetch 的拓展，默认会有缓存或者可以直接控制 revalidate
