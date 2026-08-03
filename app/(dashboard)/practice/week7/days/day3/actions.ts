@@ -25,9 +25,7 @@ export const searchByTitle = async (title: string) => {
   return res;
 };
 
-export const createProject = async (
-  data: ProjectFormData
-): Promise<actionResult> => {
+export const createProject = async (data: ProjectFormData): Promise<actionResult> => {
   const res = projectSchema.safeParse(data);
   if (!res.success) {
     return {
@@ -37,15 +35,12 @@ export const createProject = async (
   }
 
   const values = res.data;
-  const existingTitle = await db
-    .select()
-    .from(projects)
-    .where(eq(projects.title, values.title));
+  const existingTitle = await db.select().from(projects).where(eq(projects.title, values.title));
 
   if (existingTitle[0]) {
     return {
       success: false,
-      fieldErrors: { title: ['Title is already exists'] },
+      fieldErrors: { title: ['Title  already exists'] },
     };
   }
 
@@ -64,10 +59,7 @@ export const createProject = async (
 };
 
 export const deleteProject = async (id: number) => {
-  const deleted = await db
-    .delete(projects)
-    .where(eq(projects.id, id))
-    .returning();
+  const deleted = await db.delete(projects).where(eq(projects.id, id)).returning();
   if (deleted.length === 0) {
     return {
       success: false,
@@ -77,10 +69,7 @@ export const deleteProject = async (id: number) => {
   return { success: true };
 };
 
-export const updateProject = async (
-  id: number,
-  data: ProjectFormData
-) => {
+export const updateProject = async (id: number, data: ProjectFormData) => {
   const res = projectSchema.safeParse(data);
   if (!res.success) {
     return {
@@ -94,14 +83,12 @@ export const updateProject = async (
   const existingTitle = await db
     .select()
     .from(projects)
-    .where(
-      and(eq(projects.title, values.title), ne(projects.id, id))
-    );
+    .where(and(eq(projects.title, values.title), ne(projects.id, id)));
 
   if (existingTitle[0]) {
     return {
       success: false,
-      error: 'Failed to update project',
+      fieldErrors: { title: ['Title already exists'] },
     };
   }
 
