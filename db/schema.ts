@@ -1,5 +1,5 @@
 import { projectCategories, projectStatus, supportTicketPriorities } from '@/lib/data';
-import { boolean, integer, numeric, pgTable, serial, timestamp, varchar } from 'drizzle-orm/pg-core';
+import { boolean, integer, numeric, pgTable, serial, text, timestamp, varchar } from 'drizzle-orm/pg-core';
 
 export const products = pgTable('products', {
   id: serial('id').primaryKey(),
@@ -68,12 +68,20 @@ export type userInsert = typeof users.$inferInsert;
 
 export const categories = pgTable('categories', {
   id: serial('id').primaryKey(),
-  name: varchar('name', {
-    enum: ['Electronics', 'Furniture', 'Office'],
-  }).notNull(),
+  name: varchar('name', { length: 255 }).notNull(),
 });
 
 export type CategorySelect = typeof categories.$inferSelect;
 export type CategoryInsert = typeof categories.$inferInsert;
 
-export const items = pgTable('items', {});
+export const items = pgTable('items', {
+  id: serial('id').primaryKey(),
+  name: text('name').notNull(),
+  price: numeric('price', { precision: 10, scale: 2 }).notNull(),
+  categoryId: integer('categoryId')
+    .references(() => categories.id)
+    .notNull(),
+});
+
+export type ItemSelect = typeof items.$inferSelect;
+export type ItemInsert = typeof items.$inferInsert;
