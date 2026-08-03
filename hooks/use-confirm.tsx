@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -12,20 +12,27 @@ import {
 
 export const useConfirm = (title: string, message: string) => {
   const [promise, setPromise] = useState<{ resolve: (value: boolean) => void } | null>(null);
+  const pendingResolveRef = useRef<((value: boolean) => void) | null>(null);
 
   const confirm = () =>
     new Promise<boolean>((resolve) => {
+      if (pendingResolveRef.current) {
+        pendingResolveRef.current(false);
+      }
+      pendingResolveRef.current = resolve;
       setPromise({ resolve });
     });
 
   const handleClose = () => {
-    promise?.resolve(false);
+    pendingResolveRef.current?.(false);
+    pendingResolveRef.current = null;
     setPromise(null);
   };
 
   const handleConfirm = () => {
-    promise?.resolve(true);
-    handleClose();
+    pendingResolveRef.current?.(true);
+    pendingResolveRef.current = null;
+    setPromise(null);
   };
 
   const handleCancel = () => {

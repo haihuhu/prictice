@@ -1,12 +1,12 @@
-import { db } from './index'
-import { supportTickets } from './schema'
+import { supportTicketPriorities } from '@/lib/data';
+import { db } from './index';
+import { supportTickets } from './schema';
 
-// 支持优先级
-const priorities = ['low', 'medium', 'high'] as const
+const priorities = supportTicketPriorities.map((category) => category.value);
 
 // 随机生成一个优先级
 function getRandomPriority() {
-  return priorities[Math.floor(Math.random() * priorities.length)]
+  return priorities[Math.floor(Math.random() * priorities.length)];
 }
 
 // 随机生成标题
@@ -32,32 +32,32 @@ function getRandomTitle() {
     'VIP功能未解锁',
     '登录提醒未收到',
     '历史记录缺失',
-    '设备绑定失败'
-  ]
-  return `${types[Math.floor(Math.random() * types.length)]} #${Math.floor(Math.random() * 1000 + 1)}`
+    '设备绑定失败',
+  ];
+  return `${types[Math.floor(Math.random() * types.length)]} #${Math.floor(Math.random() * 1000 + 1)}`;
 }
 
 // 随机邮箱
 function getRandomEmail(id: number) {
-  const domains = ['gmail.com', 'qq.com', 'example.com', '163.com', 'hotmail.com', 'outlook.com']
-  return `user${id}@${domains[Math.floor(Math.random() * domains.length)]}`
+  const domains = ['gmail.com', 'qq.com', 'example.com', '163.com', 'hotmail.com', 'outlook.com'];
+  return `user${id}@${domains[Math.floor(Math.random() * domains.length)]}`;
 }
 
 // 随机生成未来的到期日（有一定概率为null）
 function getRandomDueDate() {
-  if (Math.random() < 0.2) return null
-  const now = new Date()
+  if (Math.random() < 0.2) return null;
+  const now = new Date();
   // 随机7~90天后
-  const daysToAdd = Math.floor(Math.random() * 84) + 7
-  const due = new Date(now)
-  due.setDate(now.getDate() + daysToAdd)
-  due.setHours(0, 0, 0, 0)
-  return due
+  const daysToAdd = Math.floor(Math.random() * 84) + 7;
+  const due = new Date(now);
+  due.setDate(now.getDate() + daysToAdd);
+  due.setHours(0, 0, 0, 0);
+  return due;
 }
 
 // 随机已解决与否
 function getRandomIsResolved() {
-  return Math.random() < 0.4 // 40% 设为true
+  return Math.random() < 0.4; // 40% 设为true
 }
 
 const ticketData = Array.from({ length: 100 }).map((_, i) => ({
@@ -65,12 +65,12 @@ const ticketData = Array.from({ length: 100 }).map((_, i) => ({
   customerEmail: getRandomEmail(i + 1),
   priority: getRandomPriority(),
   dueDate: getRandomDueDate(),
-  isResolved: getRandomIsResolved()
-}))
+  isResolved: getRandomIsResolved(),
+}));
 
 const seedSupportTickets = async () => {
-  await db.insert(supportTickets).values(ticketData)
-  console.log('100 Support tickets seeded.')
-}
+  await db.insert(supportTickets).values(ticketData);
+  console.log('100 Support tickets seeded.');
+};
 
-seedSupportTickets()
+seedSupportTickets();
