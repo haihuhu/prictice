@@ -15,6 +15,20 @@
       "when": 1783071811845,
       "tag": "0001_robust_joystick",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1784520754158,
+      "tag": "0002_married_energizer",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1784537945859,
+      "tag": "0003_oval_jack_murdock",
+      "breakpoints": true
     }
   ]
 }
