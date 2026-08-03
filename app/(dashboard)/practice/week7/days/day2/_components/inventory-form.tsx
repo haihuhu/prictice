@@ -58,11 +58,11 @@ const InventoryForm = ({
       const res = initialData
         ? await updateInventory(initialData.id, data)
         : await createInventory(data);
-      const errors = res.errors;
-      console.log('errors:', errors);
+      const fieldErrors = res.errors;
+      console.log('errors:', fieldErrors);
 
-      if (errors) {
-        Object.entries(errors).forEach(([key, value]) => {
+      if (fieldErrors) {
+        Object.entries(fieldErrors).forEach(([key, value]) => {
           setError(key as keyof InventoryValues, {
             message: value[0],
           });

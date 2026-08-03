@@ -16,7 +16,7 @@ export const getInventoryById = async (id: number) => {
 };
 
 export const getInventoryByItemName = async (itemName: string) => {
-  const result = db
+  const result = await db
     .select()
     .from(inventories)
     .where(ilike(inventories.itemName, `%${itemName}%`));

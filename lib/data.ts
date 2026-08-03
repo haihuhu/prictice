@@ -20,7 +20,31 @@ export const practiceRoutes: SidebarType[] = [
   { label: 'Week5', href: '/practice/week5' },
   { label: 'Week6', href: '/practice/week6' },
   { label: 'Week7', href: '/practice/week7' },
+
+  { label: 'Week9', href: '/practice/week9' },
 ];
+
+export const projectCategories = [
+  { label: 'Website', value: 'Website' },
+  { label: 'Dashboard', value: 'Dashboard' },
+  { label: 'E-commerce', value: 'E-commerce' },
+  { label: 'Mobile', value: 'Mobile' },
+  { label: 'Landing Page', value: 'Landing Page' },
+] as const;
+
+export const projectStatus = [
+  { label: 'Planning', value: 'Planning' },
+  { label: 'In Progress', value: 'In Progress' },
+  { label: 'Completed', value: 'Completed' },
+  { label: 'Paused', value: 'Paused' },
+] as const;
+
+export const supportTicketPriorities = [
+  { label: 'Low', value: 'low' },
+  { label: 'Medium', value: 'medium' },
+  { label: 'High', value: 'high' },
+  { label: 'Critical', value: 'critical' },
+] as const;
 
 export const studyRoutes: SidebarType[] = [
   { label: 'Study', href: '/study' },
@@ -34,8 +58,7 @@ export const studyRoutes: SidebarType[] = [
   {
     label: 'Form+zod',
     href: '/study/form-zod',
-    description:
-      'A quick reference for Zod validators, custom error messages, and automatic type coercion.',
+    description: 'A quick reference for Zod validators, custom error messages, and automatic type coercion.',
   },
   {
     label: 'zod-server',
@@ -50,8 +73,7 @@ export const studyRoutes: SidebarType[] = [
   {
     label: 'CRUD',
     href: '/study/drizzle-postgres-crud',
-    description:
-      'A quick reference for Drizzle ORM and PostgreSQL CRUD',
+    description: 'A quick reference for Drizzle ORM and PostgreSQL CRUD',
   },
 ];
 
@@ -271,28 +293,23 @@ export const weeklyData = [
     days: [
       {
         day: 'Day 1',
-        content:
-          '搭最小项目，建 /、/about、/products；下午独立加 /contact、/blog',
+        content: '搭最小项目，建 /、/about、/products；下午独立加 /contact、/blog',
       },
       {
         day: 'Day 2',
-        content:
-          'root layout.tsx + navbar；下午给 /products 加嵌套 layout（侧边栏）',
+        content: 'root layout.tsx + navbar；下午给 /products 加嵌套 layout（侧边栏）',
       },
       {
         day: 'Day 3',
-        content:
-          '<Link> 连接所有页；下午建 /products/[id] 动态路由，读 id',
+        content: '<Link> 连接所有页；下午建 /products/[id] 动态路由，读 id',
       },
       {
         day: 'Day 4',
-        content:
-          'Server vs Client Component；下午把第2周购物车嵌进来跑起来',
+        content: 'Server vs Client Component；下午把第2周购物车嵌进来跑起来',
       },
       {
         day: 'Day 5',
-        content:
-          '默写验收： 60 分钟默写 layout + navbar + 首页 + 列表 + 动态详情 + 跳转',
+        content: '默写验收： 60 分钟默写 layout + navbar + 首页 + 列表 + 动态详情 + 跳转',
         isMock: true,
       },
     ],
@@ -311,8 +328,7 @@ export const weeklyData = [
       },
       {
         day: 'Day 3',
-        content:
-          '手写校验逻辑（required、email 格式、密码长度），不用库',
+        content: '手写校验逻辑（required、email 格式、密码长度），不用库',
       },
       {
         day: 'Day 4',
@@ -334,32 +350,27 @@ export const weeklyData = [
     days: [
       {
         day: 'Day 1',
-        content:
-          '早：写 async Server Component，从假 API 取数。\n午：自己写 /users 页取假数据。',
+        content: '早：写 async Server Component，从假 API 取数。\n午：自己写 /users 页取假数据。',
         acceptance: '说清 Server Component 为什么能直接 await',
       },
       {
         day: 'Day 2',
-        content:
-          '早：加 loading.tsx 和 error.tsx。\n午：给 /products 加这俩状态。',
+        content: '早：加 loading.tsx 和 error.tsx。\n午：给 /products 加这俩状态。',
         acceptance: '能说清这两个文件什么时候触发',
       },
       {
         day: 'Day 3',
-        content:
-          '早：装 RHF，跟练最简表单。\n午：用 RHF 重写第4周的联系表单。',
+        content: '早：装 RHF，跟练最简表单。\n午：用 RHF 重写第4周的联系表单。',
         acceptance: '不看文档说出 register 和 handleSubmit 干啥',
       },
       {
         day: 'Day 4',
-        content:
-          '早：装 zod，写第一个 schema + resolver。\n午：给联系表单加 zod 校验。',
+        content: '早：装 zod，写第一个 schema + resolver。\n午：给联系表单加 zod 校验。',
         acceptance: '能独立写一个 zod schema',
       },
       {
         day: 'Day 5',
-        content:
-          '默写验收： 60 分钟从零写一个 rhf + zod 注册表单（含两次密码一致校验）',
+        content: '默写验收： 60 分钟从零写一个 rhf + zod 注册表单（含两次密码一致校验）',
         isMock: true,
       },
     ],
@@ -374,25 +385,21 @@ export const weeklyData = [
       { day: 'Day 1', content: '复习默写 Week 5 的 rhf + zod 表单' },
       {
         day: 'Day 2',
-        content:
-          '早：跟练最简 Server Action。\n午：写 Action 把表单数据 console.log。',
+        content: '早：跟练最简 Server Action。\n午：写 Action 把表单数据 console.log。',
         acceptance: '能说清 Server Action 和普通函数的区别',
       },
       {
         day: 'Day 3',
-        content:
-          '早：revalidatePath 跟练。\n午：做"留言板"，提交后列表自动更新。',
+        content: '早：revalidatePath 跟练。\n午：做"留言板"，提交后列表自动更新。',
         acceptance: '解释为什么要 revalidatePath',
       },
       {
         day: 'Day 4',
-        content:
-          '早：rhf + zod + Server Action 三者串起来。\n午：把留言板换成完整的验证提交闭环。',
+        content: '早：rhf + zod + Server Action 三者串起来。\n午：把留言板换成完整的验证提交闭环。',
       },
       {
         day: 'Day 5',
-        content:
-          '默写验收： 60 分钟写完整提交流程：表单 → 校验 → Action → 刷新',
+        content: '默写验收： 60 分钟写完整提交流程：表单 → 校验 → Action → 刷新',
         isMock: true,
       },
     ],
@@ -406,29 +413,24 @@ export const weeklyData = [
     days: [
       {
         day: 'Day 1',
-        content:
-          '早：注册 Neon 配 .env。\n午：重新配新数据库，跑通测试。',
+        content: '早：注册 Neon 配 .env。\n午：重新配新数据库，跑通测试。',
       },
       {
         day: 'Day 2',
-        content:
-          '早：跟练 Drizzle schema (products表)。\n午：定义 tasks 表。',
+        content: '早：跟练 Drizzle schema (products表)。\n午：定义 tasks 表。',
         acceptance: '能说清每个字段类型怎么选',
       },
       {
         day: 'Day 3',
-        content:
-          '早：generate + migrate 推到数据库。\n午：把 tasks 表迁移上去并在 Neon 确认。',
+        content: '早：generate + migrate 推到数据库。\n午：把 tasks 表迁移上去并在 Neon 确认。',
       },
       {
         day: 'Day 4',
-        content:
-          '早：跟练 db.select() 查询。\n午：独立写 /tasks 页，从数据库读出来显示。',
+        content: '早：跟练 db.select() 查询。\n午：独立写 /tasks 页，从数据库读出来显示。',
       },
       {
         day: 'Day 5',
-        content:
-          '默写验收： 60分钟：定义 notes 表 + migrate + 列表页显示',
+        content: '默写验收： 60分钟：定义 notes 表 + migrate + 列表页显示',
         isMock: true,
       },
     ],
@@ -443,18 +445,15 @@ export const weeklyData = [
       { day: 'Day 1', content: '复习默写 Week 7 的建表 + 查询' },
       {
         day: 'Day 2',
-        content:
-          '早：跟练 Create (db.insert())。\n午：给 notes 加新增功能。',
+        content: '早：跟练 Create (db.insert())。\n午：给 notes 加新增功能。',
       },
       {
         day: 'Day 3',
-        content:
-          '早：跟练 Update (db.update().where())。\n午：给 notes 加编辑功能。',
+        content: '早：跟练 Update (db.update().where())。\n午：给 notes 加编辑功能。',
       },
       {
         day: 'Day 4',
-        content:
-          '早：跟练 Delete + 确认。\n午：给 notes 加删除功能。',
+        content: '早：跟练 Delete + 确认。\n午：给 notes 加删除功能。',
       },
       {
         day: 'Day 5',
@@ -473,19 +472,16 @@ export const weeklyData = [
       { day: 'Day 1', content: '复习默写 Week 8 完整 CRUD' },
       {
         day: 'Day 2',
-        content:
-          '早：Action 返回 error 前端回显。\n午：给新增表单加服务端校验失败回显。',
+        content: '早：Action 返回 error 前端回显。\n午：给新增表单加服务端校验失败回显。',
         acceptance: '说清 client 和 server 校验各防什么',
       },
       {
         day: 'Day 3',
-        content:
-          '早：双层校验跟练。\n午：自己实现一个字段的双层校验。',
+        content: '早：双层校验跟练。\n午：自己实现一个字段的双层校验。',
       },
       {
         day: 'Day 4',
-        content:
-          '早：跟练外键关联 (relations)。\n午：给 tasks 加 projects 关联表并带出名字。',
+        content: '早：跟练外键关联 (relations)。\n午：给 tasks 加 projects 关联表并带出名字。',
       },
       {
         day: 'Day 5',
@@ -503,13 +499,11 @@ export const weeklyData = [
     days: [
       {
         day: 'Day 1',
-        content:
-          '理论：搞清 session、cookie、token 三个概念，画登录流程图。',
+        content: '理论：搞清 session、cookie、token 三个概念，画登录流程图。',
       },
       {
         day: 'Day 2',
-        content:
-          '早：跟练 Better Auth 安装配置。\n午：自己重新配一遍配置文件。',
+        content: '早：跟练 Better Auth 安装配置。\n午：自己重新配一遍配置文件。',
       },
       {
         day: 'Day 3',
@@ -536,18 +530,15 @@ export const weeklyData = [
       { day: 'Day 1', content: '复习默写 Week 10 登录注册' },
       {
         day: 'Day 2',
-        content:
-          '早：跟练 middleware 保护路由。\n午：保护 /dashboard，未登录跳转。',
+        content: '早：跟练 middleware 保护路由。\n午：保护 /dashboard，未登录跳转。',
       },
       {
         day: 'Day 3',
-        content:
-          '早：在 Server 端拿 current user session。\n午：在页面顶部显示当前登录用户名。',
+        content: '早：在 Server 端拿 current user session。\n午：在页面顶部显示当前登录用户名。',
       },
       {
         day: 'Day 4',
-        content:
-          '早：用户数据隔离查询。\n午：把 Week 9 CRUD 改成"只查/改自己的"。',
+        content: '早：用户数据隔离查询。\n午：把 Week 9 CRUD 改成"只查/改自己的"。',
         acceptance: '说清不做隔离会有什么安全问题',
       },
       {
@@ -566,8 +557,7 @@ export const weeklyData = [
     days: [
       {
         day: 'Day 1',
-        content:
-          '纸上写需求 + 数据模型 (users, tasks 字段) + 页面清单。',
+        content: '纸上写需求 + 数据模型 (users, tasks 字段) + 页面清单。',
       },
       {
         day: 'Day 2',
@@ -598,8 +588,7 @@ export const weeklyData = [
       { day: 'Day 4', content: '表单校验（zod）+ 错误回显。' },
       {
         day: 'Day 5',
-        content:
-          '验收： 用户数据隔离自测（用两个账号验证互相看不到）。',
+        content: '验收： 用户数据隔离自测（用两个账号验证互相看不到）。',
         isMock: true,
       },
     ],
@@ -626,8 +615,7 @@ export const weeklyData = [
       { day: 'Day 4', content: '部署到 Vercel + 配置线上环境变量。' },
       {
         day: 'Day 5',
-        content:
-          '验收： 复盘总结，写下哪些是真会、哪些是查了文档的。',
+        content: '验收： 复盘总结，写下哪些是真会、哪些是查了文档的。',
         isMock: true,
       },
     ],
@@ -645,23 +633,19 @@ export const weeklyData = [
       },
       {
         day: 'Day 2',
-        content:
-          '早：跟练创建 checkout session。\n午：自己写"买一个商品"的按钮。',
+        content: '早：跟练创建 checkout session。\n午：自己写"买一个商品"的按钮。',
       },
       {
         day: 'Day 3',
-        content:
-          '早：支付跳转 + 回跳页设计。\n午：独立配 success / cancel 页。',
+        content: '早：支付跳转 + 回跳页设计。\n午：独立配 success / cancel 页。',
       },
       {
         day: 'Day 4',
-        content:
-          '早：跟练 webhook 接收事件。\n午：webhook 里把订单状态写进数据库。',
+        content: '早：跟练 webhook 接收事件。\n午：webhook 里把订单状态写进数据库。',
       },
       {
         day: 'Day 5',
-        content:
-          '默写验收： 60分钟写支付流程（按钮 → checkout → 回跳）',
+        content: '默写验收： 60分钟写支付流程（按钮 → checkout → 回跳）',
         isMock: true,
       },
     ],
@@ -679,23 +663,19 @@ export const weeklyData = [
       },
       {
         day: 'Day 2',
-        content:
-          '早：跟练基础 chat completion。\n午：写一个"输入问题返回答案"的简单页。',
+        content: '早：跟练基础 chat completion。\n午：写一个"输入问题返回答案"的简单页。',
       },
       {
         day: 'Day 3',
-        content:
-          '早：streaming 响应跟练。\n午：把昨日页面改成逐字流式输出。',
+        content: '早：streaming 响应跟练。\n午：把昨日页面改成逐字流式输出。',
       },
       {
         day: 'Day 4',
-        content:
-          '早：整合完整功能页（输入 → loading → 流式）。\n午：加错误处理 + 输入校验。',
+        content: '早：整合完整功能页（输入 → loading → 流式）。\n午：加错误处理 + 输入校验。',
       },
       {
         day: 'Day 5',
-        content:
-          '默写验收： 60分钟从零写一个 AI 问答页（含 streaming）',
+        content: '默写验收： 60分钟从零写一个 AI 问答页（含 streaming）',
         isMock: true,
       },
     ],
@@ -709,8 +689,7 @@ export const weeklyData = [
     days: [
       {
         day: 'Day 1',
-        content:
-          '产品定义 + 看 2-3 个同类站点（限时 1 小时）+ 数据模型设计。',
+        content: '产品定义 + 看 2-3 个同类站点（限时 1 小时）+ 数据模型设计。',
       },
       {
         day: 'Day 2',
@@ -718,8 +697,7 @@ export const weeklyData = [
       },
       {
         day: 'Day 3',
-        content:
-          '核心布局搭建（navbar + sidebar + dashboard 框架）。',
+        content: '核心布局搭建（navbar + sidebar + dashboard 框架）。',
       },
       {
         day: 'Day 4',
@@ -749,13 +727,11 @@ export const weeklyData = [
       },
       {
         day: 'Day 3',
-        content:
-          '正式接入 OpenAI 生成功能（使用 streaming 提升体验）。',
+        content: '正式接入 OpenAI 生成功能（使用 streaming 提升体验）。',
       },
       {
         day: 'Day 4',
-        content:
-          '用户配额限制逻辑（如：免费用户每天限制 N 次生成）。',
+        content: '用户配额限制逻辑（如：免费用户每天限制 N 次生成）。',
       },
       {
         day: 'Day 5',
@@ -777,8 +753,7 @@ export const weeklyData = [
       },
       {
         day: 'Day 2',
-        content:
-          '完成前端订阅页面 + Stripe Checkout 接口调用（月付版）。',
+        content: '完成前端订阅页面 + Stripe Checkout 接口调用（月付版）。',
       },
       {
         day: 'Day 3',
@@ -804,18 +779,15 @@ export const weeklyData = [
     days: [
       {
         day: 'Day 1',
-        content:
-          'UI 整体打磨（利用 shadcn/ui 统一间距、色彩及交互体验）。',
+        content: 'UI 整体打磨（利用 shadcn/ui 统一间距、色彩及交互体验）。',
       },
       {
         day: 'Day 2',
-        content:
-          '全站处理 loading / error / empty 状态 + 增加全局错误边界。',
+        content: '全站处理 loading / error / empty 状态 + 增加全局错误边界。',
       },
       {
         day: 'Day 3',
-        content:
-          '设计 Landing Page 落地页 + 基础 SEO（Metadata 配置）。',
+        content: '设计 Landing Page 落地页 + 基础 SEO（Metadata 配置）。',
       },
       {
         day: 'Day 4',
@@ -823,8 +795,7 @@ export const weeklyData = [
       },
       {
         day: 'Day 5',
-        content:
-          '验收： 写英文 README + 录制高清 Demo 视频 + 复盘，为接单做准备！',
+        content: '验收： 写英文 README + 录制高清 Demo 视频 + 复盘，为接单做准备！',
         isMock: true,
       },
     ],
@@ -842,15 +813,13 @@ export const week5Days = [
   {
     week: 5,
     id: 1,
-    label:
-      'Day1 and Day2:Server Component:async fetch data + loading/error status',
+    label: 'Day1 and Day2:Server Component:async fetch data + loading/error status',
     href: '/practice/week5/days/day1',
   },
   {
     week: 5,
     id: 2,
-    label:
-      'Day1 and Day 2: review server component + async fetch data + loading/errors status',
+    label: 'Day1 and Day 2: review server component + async fetch data + loading/errors status',
     href: '/practice/week5/days/day2',
   },
   {
