@@ -32,3 +32,22 @@ export const formatDatetimeLocal = (date: Date) => {
 
   return new Date(date.getTime() - offset).toISOString().slice(0, 16);
 };
+
+// Check if the error is a unique violation
+export const isUniqueViolation = (error: unknown): boolean => {
+  if (typeof error !== 'object' || error === null) {
+    return false;
+  }
+
+  const err = error as Record<string, unknown>;
+
+  if (err.code === '23505') {
+    return true;
+  }
+
+  if (err.cause) {
+    return isUniqueViolation(err.cause);
+  }
+
+  return false;
+};

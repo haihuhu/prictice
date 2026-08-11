@@ -2,7 +2,10 @@ import { projectCategories, projectStatus } from '@/lib/data';
 import { z } from 'zod';
 
 export const projectSchema = z.object({
-  title: z.string().min(3, { message: 'Title must between 3 and 100 characters' }).max(100, { message: 'Title must between 3 and 100 characters' }),
+  title: z
+    .string()
+    .min(3, { message: 'Title must between 3 and 100 characters' })
+    .max(100, { message: 'Title must between 3 and 100 characters' }),
   category: z.enum(projectCategories.map((category) => category.value) as [string, ...string[]], {
     message: 'Please choose a valid option',
   }),

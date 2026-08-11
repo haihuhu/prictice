@@ -29,6 +29,13 @@
       "when": 1784537945859,
       "tag": "0003_oval_jack_murdock",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1785833303693,
+      "tag": "0004_bent_wilson_fisk",
+      "breakpoints": true
     }
   ]
 }
