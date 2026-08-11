@@ -49,6 +49,7 @@ export const supportTicketPriorities = [
 export const studyRoutes: SidebarType[] = [
   { label: 'Study', href: '/study' },
   { label: 'temporary', href: '/study/temporary-plan' },
+  { label: 'nextVsShort', href: '/study/next-vs-playlet' },
   { label: 'English', href: '/study/en-study' },
   { label: 'Code', href: '/study/code' },
   { label: 'Git', href: '/study/git-command' },
