@@ -29,7 +29,8 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts",
-    "app/(dashboard)/practice/week7/days/day1/actions"
+    "app/(dashboard)/practice/week7/days/day1/actions",
+    "app/(dashboard)/practice/week9/days/day1/users/[userId]/projects/[projectId]/tasks/new-task"
   ],
   "exclude": ["node_modules"]
 }

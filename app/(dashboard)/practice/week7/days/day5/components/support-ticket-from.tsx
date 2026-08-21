@@ -14,12 +14,12 @@ import { createSupportTicket, updateSupportTicket } from '../action';
 import { FormField } from './form-field';
 import { FormSelect } from './select-field';
 
-interface SUpportTicketFormProps {
+interface SupportTicketFormProps {
   initialData?: SupportTicketSelect;
   onSuccess?: () => void;
 }
 
-const SupportTicketForm = ({ initialData, onSuccess }: SUpportTicketFormProps) => {
+const SupportTicketForm = ({ initialData, onSuccess }: SupportTicketFormProps) => {
   const router = useRouter();
   const {
     control,

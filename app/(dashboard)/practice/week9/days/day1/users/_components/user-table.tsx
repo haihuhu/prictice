@@ -2,7 +2,15 @@
 
 import { Users } from 'lucide-react';
 import { Week9ProjectSelect, Week9UserSelect } from '@/db/schema';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { useRouter } from 'next/navigation';
 
 // extend type for user with projects
 export type UserWithProjects = Week9UserSelect & {
@@ -11,7 +19,10 @@ export type UserWithProjects = Week9UserSelect & {
 };
 
 const UserTable = ({ users }: { users: UserWithProjects[] }) => {
-  console.log(users);
+  const router = useRouter();
+  const handleClick = (userId: number) => {
+    router.push(`/practice/week9/days/day1/users/${userId}`);
+  };
   return (
     <div className="w-full  mx-auto p-6 bg-white rounded-xl shadow-lg border border-gray-100">
       {/* Header */}
@@ -45,7 +56,8 @@ const UserTable = ({ users }: { users: UserWithProjects[] }) => {
             {users.map((user, index) => (
               <TableRow
                 key={user.id}
-                className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50/30'} hover:bg-blue-50/50 transition-colors`}
+                className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50/30'} hover:bg-blue-50/50 transition-colors cursor-pointer`}
+                onClick={() => handleClick(user.id)}
               >
                 <TableCell className="font-medium text-gray-500">#{user.id}</TableCell>
                 <TableCell className="text-gray-800">
