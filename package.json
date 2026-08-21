@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seed:week9": "node --env-file=.env --import tsx db/seed-week9-users-projects-tasks.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",

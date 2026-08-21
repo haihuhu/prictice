@@ -20,7 +20,6 @@ export const practiceRoutes: SidebarType[] = [
   { label: 'Week5', href: '/practice/week5' },
   { label: 'Week6', href: '/practice/week6' },
   { label: 'Week7', href: '/practice/week7' },
-
   { label: 'Week9', href: '/practice/week9' },
 ];
 
@@ -45,6 +44,15 @@ export const supportTicketPriorities = [
   { label: 'High', value: 'high' },
   { label: 'Critical', value: 'critical' },
 ] as const;
+
+export const week9StatusOptions = [
+  { label: 'Inactive', value: 'inactive' },
+  { label: 'Pending', value: 'pending' },
+  { label: 'Completed', value: 'completed' },
+  { label: 'Cancelled', value: 'cancelled' },
+] as const;
+
+export type Week9TaskStatus = (typeof week9StatusOptions)[number]['value'];
 
 export const studyRoutes: SidebarType[] = [
   { label: 'Study', href: '/study' },

@@ -9,12 +9,11 @@ export const getUsers = async () => {
     with: {
       ownerProjects: true,
       reviewProjects: true,
+      categories: true,
     },
   });
   return users;
 };
-
-
 
 export const getUsersByNameWithProjects = async (name: string) => {
   const userWithProjects = await db.query.week9Users.findMany({

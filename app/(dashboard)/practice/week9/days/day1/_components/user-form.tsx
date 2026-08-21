@@ -10,7 +10,7 @@ import { toast } from 'sonner';
 import { createUser } from '../actions/user-actions';
 import { FormField } from './form-field';
 
-const ProjectForm = () => {
+const UserForm = () => {
   const router = useRouter();
   const {
     register,
@@ -42,7 +42,7 @@ const ProjectForm = () => {
       }
       toast.success('User created successfully');
       reset();
-      router.push(`/practice/week9/days/day1/${result.data?.id}`);
+      router.push(`/practice/week9/days/day1/users/${result.data?.id}`);
     } catch (error) {
       console.error(error);
       toast.error('Failed to create user');
@@ -52,8 +52,8 @@ const ProjectForm = () => {
   return (
     <>
       <div className="mb-2">
-        <h2 className="text-2xl font-bold">Project Form:</h2>
-        <h3 className="text-sm text-gray-500">description: this form is used to create a new project</h3>
+        <h2 className="text-2xl font-bold">Create New User:</h2>
+        <h3 className="text-sm text-gray-500">description: this form is used to create a new user</h3>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="flex-row space-y-2">
         {/* name field */}
@@ -75,4 +75,4 @@ const ProjectForm = () => {
   );
 };
 
-export default ProjectForm;
+export default UserForm;

@@ -1,6 +1,21 @@
-import { projectCategories, projectStatus, supportTicketPriorities } from '@/lib/data';
+import {
+  projectCategories,
+  projectStatus,
+  supportTicketPriorities,
+  week9StatusOptions,
+} from '@/lib/data';
 import { relations } from 'drizzle-orm';
-import { boolean, integer, numeric, pgTable, serial, text, timestamp, varchar } from 'drizzle-orm/pg-core';
+import {
+  boolean,
+  integer,
+  numeric,
+  pgTable,
+  serial,
+  text,
+  timestamp,
+  uniqueIndex,
+  varchar,
+} from 'drizzle-orm/pg-core';
 
 export const products = pgTable('products', {
   id: serial('id').primaryKey(),
@@ -109,7 +124,9 @@ export type ChapterInsert = typeof chapters.$inferInsert;
 
 export const usersRelations = relations(users, ({ many }) => ({ courses: many(courses) }));
 
-export const categoriesRelations = relations(categories, ({ many }) => ({ courses: many(courses) }));
+export const categoriesRelations = relations(categories, ({ many }) => ({
+  courses: many(courses),
+}));
 
 export const coursesRelations = relations(courses, ({ one, many }) => ({
   user: one(users, { fields: [courses.userId], references: [users.id] }),
@@ -130,19 +147,46 @@ export const week9Users = pgTable('week9_users', {
 export type Week9UserInsert = typeof week9Users.$inferInsert;
 export type Week9UserSelect = typeof week9Users.$inferSelect;
 
-export const week9Projects = pgTable('week9_projects', {
-  id: serial('id').primaryKey(),
-  ownerId: integer('owner_id')
-    .references(() => week9Users.id)
-    .notNull(),
-  reviewerId: integer('reviewer_id').references(() => week9Users.id),
-  name: varchar('name', { length: 255 }).notNull(),
-  description: text('description'),
-  status: varchar('status', { enum: ['pending', 'in_progress', 'completed', 'cancelled'] })
-    .notNull()
-    .default('pending'),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-});
+export const week9ProjectCategories = pgTable(
+  'week9_project_categories',
+  {
+    id: serial('id').primaryKey(),
+    userId: integer('user_id')
+      .references(() => week9Users.id, { onDelete: 'cascade' })
+      .notNull(),
+    name: varchar('name', { length: 255 }).notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  (table) => [uniqueIndex('week9_project_categories_user_name_unique').on(table.userId, table.name)]
+);
+
+export type Week9ProjectCategoryInsert = typeof week9ProjectCategories.$inferInsert;
+export type Week9ProjectCategorySelect = typeof week9ProjectCategories.$inferSelect;
+
+export const week9Projects = pgTable(
+  'week9_projects',
+  {
+    id: serial('id').primaryKey(),
+    ownerId: integer('owner_id')
+      .references(() => week9Users.id, { onDelete: 'no action' })
+      .notNull(),
+    reviewerId: integer('reviewer_id').references(() => week9Users.id, { onDelete: 'set null' }),
+    name: varchar('name', { length: 255 }).notNull(),
+    description: text('description'),
+    categoryId: integer('category_id')
+      .references(() => week9ProjectCategories.id, {
+        onDelete: 'no action',
+      })
+      .notNull(),
+    status: varchar('status', {
+      enum: week9StatusOptions.map((item) => item.value) as [string, ...string[]],
+    })
+      .notNull()
+      .default('pending'),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  (table) => [uniqueIndex('week9_projects_owner_name_unique').on(table.ownerId, table.name)]
+);
 
 export type Week9ProjectInsert = typeof week9Projects.$inferInsert;
 export type Week9ProjectSelect = typeof week9Projects.$inferSelect;
@@ -150,10 +194,12 @@ export type Week9ProjectSelect = typeof week9Projects.$inferSelect;
 export const week9Tasks = pgTable('week9_tasks', {
   id: serial('id').primaryKey(),
   projectId: integer('project_id')
-    .references(() => week9Projects.id)
+    .references(() => week9Projects.id, { onDelete: 'cascade' })
     .notNull(),
   title: varchar('title', { length: 255 }).notNull(),
-  status: varchar('status', { enum: ['completed', 'in_progress', 'pending'] })
+  status: varchar('status', {
+    enum: week9StatusOptions.map((item) => item.value) as [string, ...string[]],
+  })
     .notNull()
     .default('pending'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
@@ -165,6 +211,12 @@ export type Week9TaskSelect = typeof week9Tasks.$inferSelect;
 export const week9UsersRelations = relations(week9Users, ({ many }) => ({
   ownerProjects: many(week9Projects, { relationName: 'ownerProjects' }),
   reviewProjects: many(week9Projects, { relationName: 'reviewProjects' }),
+  categories: many(week9ProjectCategories),
+}));
+
+export const week9CategoriesRelations = relations(week9ProjectCategories, ({ one, many }) => ({
+  user: one(week9Users, { fields: [week9ProjectCategories.userId], references: [week9Users.id] }),
+  projects: many(week9Projects),
 }));
 
 export const week9ProjectsRelations = relations(week9Projects, ({ one, many }) => ({
@@ -177,6 +229,10 @@ export const week9ProjectsRelations = relations(week9Projects, ({ one, many }) =
     fields: [week9Projects.reviewerId],
     references: [week9Users.id],
     relationName: 'reviewProjects',
+  }),
+  category: one(week9ProjectCategories, {
+    fields: [week9Projects.categoryId],
+    references: [week9ProjectCategories.id],
   }),
   tasks: many(week9Tasks),
 }));

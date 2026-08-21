@@ -8,7 +8,7 @@ export const FormField = ({ label, children, message }: FormFieldProps) => {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex">
-        <label className="w-24" htmlFor="name">
+        <label className="w-24 shrink-0" htmlFor="name">
           {label}
         </label>
         {children}

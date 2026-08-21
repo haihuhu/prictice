@@ -16,14 +16,17 @@ export const findUserById = async (id: number) => {
   const user = await db.query.week9Users.findFirst({
     where: eq(week9Users.id, id),
     with: {
+      categories: true,
       ownerProjects: {
         with: {
           tasks: true,
+          category: true,
         },
       },
       reviewProjects: {
         with: {
           tasks: true,
+          category: true,
         },
       },
     },
