@@ -29,7 +29,7 @@ const UserProjectsPage = async ({ params }: { params: Promise<{ userId: string }
           projects={user.reviewProjects}
           title="Review Projects"
           userId={userId}
-          canReview={isOwner}
+          canDelete={isReviewer}
         />
       </div>
     </div>

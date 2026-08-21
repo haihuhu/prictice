@@ -14,7 +14,7 @@ import {
 } from '@/app/(dashboard)/practice/week9/days/day1/actions/task-actions';
 import { toast } from 'sonner';
 import { useParams, useRouter } from 'next/navigation';
-import { Week9TaskSelect } from '@/schemas/week9/week9-user-select';
+import { Week9TaskSelect } from '@/db/schema';
 
 const TaskForm = ({
   projectId,
@@ -42,11 +42,12 @@ const TaskForm = ({
   const router = useRouter();
   const params = useParams();
   const userId = params.userId as string;
+  const projectIdNumber = parseInt(projectId);
   const onSubmit = async (data: Week9TaskFormInput) => {
     try {
       const response = initialData
-        ? await updateTask(initialData.id, projectId, data)
-        : await createTask(data, projectId);
+        ? await updateTask(initialData.id, projectIdNumber, data)
+        : await createTask(data, projectIdNumber);
 
       if (!response.success) {
         const fieldErrors = response.fieldErrors;

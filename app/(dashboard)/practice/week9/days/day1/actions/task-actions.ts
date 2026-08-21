@@ -9,7 +9,7 @@ import { and, eq } from 'drizzle-orm';
 
 export const createTask = async (
   data: Week9TaskFormData,
-  projectId: string
+  projectId: number
 ): Promise<ActionResult<Week9TaskSelect>> => {
   const res = week9TaskSchema.safeParse(data);
   if (!res.success) {
@@ -25,7 +25,7 @@ export const createTask = async (
       .insert(week9Tasks)
       .values({
         title: values.title,
-        projectId: parseInt(projectId),
+        projectId: projectId,
         status: values.status,
       })
       .returning();
@@ -73,8 +73,8 @@ export const deleteTask = async (taskId: string): Promise<ActionResult<Week9Task
 };
 
 export const updateTask = async (
-  taskId: string,
-  projectId: string,
+  taskId: number,
+  projectId: number,
   data: Week9TaskFormData
 ): Promise<ActionResult<Week9TaskSelect>> => {
   const res = week9TaskSchema.safeParse(data);
@@ -92,9 +92,7 @@ export const updateTask = async (
         title: values.title,
         status: values.status,
       })
-      .where(
-        and(eq(week9Tasks.id, parseInt(taskId)), eq(week9Tasks.projectId, parseInt(projectId)))
-      )
+      .where(and(eq(week9Tasks.id, taskId), eq(week9Tasks.projectId, projectId)))
       .returning();
     if (!updatedTask[0]) {
       return { success: false, error: 'Failed to update task' };
