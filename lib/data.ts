@@ -21,6 +21,7 @@ export const practiceRoutes: SidebarType[] = [
   { label: 'Week6', href: '/practice/week6' },
   { label: 'Week7', href: '/practice/week7' },
   { label: 'Week9', href: '/practice/week9' },
+  { label: 'Week10', href: '/practice/week10' },
 ];
 
 export const projectCategories = [
@@ -68,7 +69,8 @@ export const studyRoutes: SidebarType[] = [
   {
     label: 'Form+zod',
     href: '/study/form-zod',
-    description: 'A quick reference for Zod validators, custom error messages, and automatic type coercion.',
+    description:
+      'A quick reference for Zod validators, custom error messages, and automatic type coercion.',
   },
   {
     label: 'zod-server',
