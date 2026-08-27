@@ -13,36 +13,6 @@ export const week10Days = [
     label: 'Day2',
     href: '/practice/week10/days/day2',
   },
-  {
-    week: 10,
-    id: 3,
-    label: 'Day3',
-    href: '/practice/week10/days/day3',
-  },
-  {
-    week: 10,
-    id: 4,
-    label: 'Day4',
-    href: '/practice/week10/days/day4',
-  },
-  {
-    week: 10,
-    id: 5,
-    label: 'Day5',
-    href: '/practice/week10/days/day5',
-  },
-  {
-    week: 10,
-    id: 6,
-    label: 'Day6',
-    href: '/practice/week10/days/day6',
-  },
-  {
-    week: 10,
-    id: 7,
-    label: 'Day7',
-    href: '/practice/week10/days/day7',
-  },
 ];
 
 const Week10Page = () => {

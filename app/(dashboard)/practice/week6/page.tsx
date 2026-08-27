@@ -19,25 +19,6 @@ export const week6Days = [
     label: 'Day3',
     href: '/practice/week6/days/day3',
   },
-  {
-    week: 6,
-    id: 4,
-    label: 'Day4',
-    href: '/practice/week6/days/day4',
-  },
-  {
-    week: 6,
-    id: 5,
-    label: 'Day5',
-    href: '/practice/week6/days/day5',
-  },
-  {
-    week: 6,
-    id: 6,
-    label: 'Day3:Messages board',
-    href: '/practice/week6/days/contents-board',
-  },
-  { week: 6, id: 7, label: 'Day5:register form practice', href: '/practice/week6/days/register' },
 ];
 
 const Week6Page = () => {

@@ -846,12 +846,6 @@ export const week5Days = [
     label: 'Day4',
     href: '/practice/week5/days/day4',
   },
-  {
-    week: 5,
-    id: 5,
-    label: 'Day5',
-    href: '/practice/week5/days/day5',
-  },
 ];
 
 export const test = {
