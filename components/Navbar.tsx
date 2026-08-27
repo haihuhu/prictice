@@ -10,7 +10,6 @@ import { Button } from './ui/button';
 const Navbar = () => {
   const pathname = usePathname();
   const { user } = useUser();
-  console.log(user);
   return (
     <>
       <div className="hidden md:block w-32 ">

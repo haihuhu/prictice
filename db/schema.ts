@@ -240,3 +240,53 @@ export const week9ProjectsRelations = relations(week9Projects, ({ one, many }) =
 export const week9TasksRelations = relations(week9Tasks, ({ one }) => ({
   project: one(week9Projects, { fields: [week9Tasks.projectId], references: [week9Projects.id] }),
 }));
+
+export const week10Day2Users = pgTable('week10_day2_users', {
+  id: serial('id').primaryKey(),
+  clerkId: varchar('clerk_id', { length: 255 }).notNull().unique(),
+  emailSnapshot: varchar('email_snapshot', { length: 255 }).notNull(),
+  nameSnapshot: varchar('name_snapshot', { length: 255 }).notNull(),
+  avatarUrlSnapshot: varchar('avatar_url_snapshot', { length: 255 }).notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at')
+    .defaultNow()
+    .notNull()
+    .$onUpdate(() => new Date()),
+});
+
+export type Week10Day2UserInsert = typeof week10Day2Users.$inferInsert;
+export type Week10Day2UserSelect = typeof week10Day2Users.$inferSelect;
+
+export const week10Day2UserProfiles = pgTable('week10_day2_user_profiles', {
+  id: serial('id').primaryKey(),
+  userId: integer('user_id')
+    .references(() => week10Day2Users.id, { onDelete: 'cascade' })
+    .notNull()
+    .unique(),
+  description: varchar('description', { length: 255 }),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at')
+    .defaultNow()
+    .notNull()
+    .$onUpdate(() => new Date()),
+});
+
+export type Week10Day2UserProfileInsert = typeof week10Day2UserProfiles.$inferInsert;
+export type week10Day2UserProfileSelect = typeof week10Day2UserProfiles.$inferSelect;
+
+export const week10Day2UsersRelations = relations(week10Day2Users, ({ one }) => ({
+  week10Day2UserProfile: one(week10Day2UserProfiles, {
+    fields: [week10Day2Users.id],
+    references: [week10Day2UserProfiles.userId],
+  }),
+}));
+
+export const week10Day2UserProfilesRelations = relations(week10Day2UserProfiles, ({ one }) => ({
+  week10Day2User: one(week10Day2Users, {
+    fields: [week10Day2UserProfiles.userId],
+    references: [week10Day2Users.id],
+  }),
+}));
+
+
+

@@ -21,4 +21,5 @@ const CopyButton = ({ text, label }: { text: string; label: string }) => {
     </>
   );
 };
+
 export default CopyButton;

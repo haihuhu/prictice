@@ -1,12 +1,10 @@
 import { clerkMiddleware } from '@clerk/nextjs/server';
 
 export default clerkMiddleware(async (auth, req) => {
-  const pathname = req.nextUrl.pathname;
-  const isProtectedRoute =
-    pathname === '/practice/week9' ||
-    pathname.startsWith('/practice/week9/') ||
-    pathname === '/practice/week10' ||
-    pathname.startsWith('/practice/week10/');
+  const { pathname } = req.nextUrl;
+
+  const isProtectedRoute = pathname.startsWith('/practice') || pathname.startsWith('/study');
+
   if (isProtectedRoute) {
     await auth.protect();
   }
@@ -20,8 +18,5 @@ export const config = {
     '/__clerk/:path*',
     // Always run for API routes
     '/(api|trpc)(.*)',
-
-    '/practice/week9/(.*)',
-    '/practice/week10/(.*)',
   ],
 };

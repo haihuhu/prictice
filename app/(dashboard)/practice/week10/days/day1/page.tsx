@@ -1,10 +1,12 @@
 import { UserButton } from '@clerk/nextjs';
-import { currentUser } from '@clerk/nextjs/server';
+import { auth, currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import CopyButton from './_components/copy-button';
 
 const Week10Day1Page = async () => {
   const user = await currentUser();
+  const userInformation = await auth();
+  // console.log(userInformation);
 
   if (!user) {
     return redirect('/sign-in');
@@ -31,25 +33,25 @@ const Week10Day1Page = async () => {
             <p className="text-gray-500">ID:</p>
             {user.id.slice(0, 10)}...
           </h3>
-          <CopyButton text={user.id}  label="User ID"/>
+          <CopyButton text={user.id} label="User ID" />
         </div>
 
         <h3 className="flex  gap-2 text-2xl font-bold">
           <p className="text-gray-500">Email:</p>
           {userEmail?.emailAddress ?? 'No email found'}
-          <CopyButton text={userEmail?.emailAddress ?? 'No email found'}  label="Email"/>
+          <CopyButton text={userEmail?.emailAddress ?? 'No email found'} label="Email" />
         </h3>
 
         <h3 className="flex  gap-2 text-2xl font-bold">
           <p className="text-gray-500">FullName:</p>
-          {user.fullName}
-          <CopyButton text={user.fullName ?? 'No full name found'}  label="Full Name"/>
+          {user.fullName ?? 'No full name found'}
+          <CopyButton text={user.fullName ?? 'No full name found'} label="Full Name" />
         </h3>
 
         <h3 className="flex  gap-2 text-2xl font-bold">
           <p className="text-gray-500">Created:</p>
           {formatCreated}
-          <CopyButton text={formatCreated}  label="Created"/>
+          <CopyButton text={formatCreated} label="Created" />
         </h3>
 
         <UserButton />

@@ -1,7 +1,13 @@
 import React from 'react';
+import TestComponent from './_components/test-component';
 
-const HomePage = () => {
-  return <div>HomePage</div>;
+const HomePage = async () => {
+  return (
+    <div>
+      HomePage
+      <TestComponent />
+    </div>
+  );
 };
 
 export default HomePage;
