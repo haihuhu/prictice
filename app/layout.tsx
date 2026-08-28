@@ -47,7 +47,7 @@ export default function RootLayout({
       <body className="w-full min-h-full ">
         <ClerkProvider>
           <div className="flex sticky top-0 z-50 w-full bg-slate-300 h-16">
-            <div className="flex justify-between items-center w-full max-w-6xl  mx-auto overflow-x-auto">
+            <div className="flex justify-between items-center w-full max-w-6xl mr-2 mx-auto overflow-x-auto">
               <Navbar />
             </div>
           </div>

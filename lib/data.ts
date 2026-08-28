@@ -55,6 +55,14 @@ export const week9StatusOptions = [
 
 export type Week9TaskStatus = (typeof week9StatusOptions)[number]['value'];
 
+export const week10Day2StatusOptions = [
+  { label: 'Pending', value: 'pending' },
+  { label: 'In Progress', value: 'in_progress' },
+  { label: 'Done', value: 'done' },
+] as const;
+
+export type Week10Day2TaskStatus = (typeof week10Day2StatusOptions)[number]['value'];
+
 export const studyRoutes: SidebarType[] = [
   { label: 'Study', href: '/study' },
   { label: 'temporary', href: '/study/temporary-plan' },
@@ -87,6 +95,7 @@ export const studyRoutes: SidebarType[] = [
     href: '/study/drizzle-postgres-crud',
     description: 'A quick reference for Drizzle ORM and PostgreSQL CRUD',
   },
+  { label: 'Clerk', href: '/study/clerk' },
 ];
 
 export type ProductType = {
