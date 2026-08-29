@@ -11,16 +11,16 @@ export default function FullStackArchitectureNotes() {
             <span>🛠️</span> 全栈进阶架构笔记：Full-Stack CRUD 与核心链路
           </h1>
           <p className="text-slate-600 leading-relaxed text-lg">
-            这个板块是全栈应用的核心<strong>数据链路</strong>。这里记录了曾让你苦恼数周的
-            “表单静默失败”、“多余的 await”、“TS 严格类型冲突”、“前后端 data/values 混用”等痛点。
+            这个板块是全栈应用的核心<strong>数据链路与组件架构</strong>。这里记录了曾让你苦恼数周的
+            “表单静默失败”、“TS 严格类型冲突”、“想得脑壳子疼的组件拆分”等痛点。
             <br />
             <strong>目的：</strong>在之后的独立开发中，凡是表单交互与错误处理、Drizzle
-            关联查询的坑，一查此笔记立刻就能跳出来，3 秒破案！
+            关联查询、或者是 Client/Server 组件边界划分的坑，一查此笔记立刻就能跳出来，3 秒破案！
           </p>
         </header>
 
         {/* 目录速查 */}
-        <nav className="bg-slate-900 text-slate-100 p-6 rounded-2xl shadow-lg sticky  z-10">
+        <nav className="bg-slate-900 text-slate-100 p-6 rounded-2xl shadow-lg sticky z-10 ">
           <h2 className="text-xl font-bold mb-4">📑 速查目录 (点击直达痛点)</h2>
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
             <li>
@@ -61,6 +61,14 @@ export default function FullStackArchitectureNotes() {
             <li>
               <a href="#section-8" className="hover:text-blue-400 transition">
                 八、 ⚡ Drizzle + PostgreSQL Quick Reference Cheatsheet
+              </a>
+            </li>
+            <li className="md:col-span-2 mt-2 pt-2 border-t border-slate-700">
+              <a
+                href="#section-9"
+                className="hover:text-rose-400 transition font-bold text-rose-300"
+              >
+                九、 🧠 架构心法：Client/Server 物理边界与状态提升 (Lifting State Up)
               </a>
             </li>
           </ul>
@@ -685,6 +693,183 @@ await db.delete(products)
                 every row. A delete without <code className="bg-black px-1 rounded">where</code> may
                 delete every row!
               </p>
+            </div>
+          </div>
+        </section>
+
+        {/* 九、 架构心法：Client vs. Server Component 物理边界 与 状态提升 */}
+        <section
+          id="section-9"
+          className="bg-white p-8 rounded-2xl shadow-sm border border-slate-200"
+        >
+          <h2 className="text-2xl font-bold border-b-2 border-rose-500 pb-2 mb-6 flex items-center gap-2 text-rose-600">
+            <span>🧠</span> 九、 架构心法：Client/Server 物理边界与状态提升
+          </h2>
+
+          <div className="mb-6">
+            <p className="text-slate-700 leading-relaxed mb-4">
+              这个板块是你曾经历过从<strong>“想得脑壳子疼，甚至突然想吐”</strong>的重度混乱，到最后
+              <strong>用极具灵性的大白话一语道破 React 状态管理真谛</strong>的华丽转身。
+            </p>
+          </div>
+
+          <div className="space-y-8">
+            {/* 1. 物理边界 */}
+            <div>
+              <h3 className="font-bold text-xl text-rose-800 mb-4 flex items-center gap-2">
+                1. 物理边界解密：Client vs Server Component
+              </h3>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div className="bg-rose-50 p-5 rounded-lg border border-rose-100">
+                  <h4 className="font-bold text-rose-900 mb-2">
+                    💡 什么时候必须加 <code>'use client'</code> (4类死律)
+                  </h4>
+                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-700">
+                    <li>
+                      使用 <strong>React 状态/副作用</strong>（如 useState, useEffect）。
+                    </li>
+                    <li>
+                      使用 <strong>浏览器原生交互事件</strong>（如 onClick, onChange）。
+                    </li>
+                    <li>
+                      使用 <strong>纯浏览器全局 API</strong>（如 localStorage, window）。
+                    </li>
+                    <li>使用了依赖上述特性的第三方复杂交互组件（未自带声明时）。</li>
+                  </ul>
+                  <p className="mt-3 text-xs text-rose-700 font-bold">
+                    注：page.tsx 可以写成 async，是因为框架路由层的规定，它依然受上述边界法则约束。
+                  </p>
+                </div>
+
+                <div className="bg-rose-50 p-5 rounded-lg border border-rose-100">
+                  <h4 className="font-bold text-rose-900 mb-2">
+                    ⚡ Fetch 为什么必须“两段式” await？
+                  </h4>
+                  <p className="text-sm text-slate-700 mb-2">
+                    <strong>第一阶段：</strong>
+                    <code>await fetch(url)</code>{' '}
+                    等的是“网络响应头”（状态码到了，但数据包还在路上）。
+                    <br />
+                    <strong>第二阶段：</strong>
+                    <code>await res.json()</code> 等的是“接收全部网络体”并在CPU内存中转换成JS对象。
+                  </p>
+                  <blockquote className="border-l-4 border-rose-400 pl-3 py-1 italic text-slate-600 text-sm bg-white rounded shadow-sm">
+                    “异步函数也就是服务器函数。第一次 await 是获取的 res 表头，第二次是获取完整的
+                    body 并转换为对象。” —— 你的顿悟原话
+                  </blockquote>
+                </div>
+              </div>
+
+              {/* params promise */}
+              <div className="bg-slate-900 rounded-lg p-5 overflow-x-auto text-sm text-slate-300">
+                <p className="text-rose-400 font-bold mb-2">
+                  🚨 Next.js 15+ 动态参数 params Promise 类型大坑
+                </p>
+                <p className="text-slate-400 mb-3 text-xs">
+                  对普通对象 await 不会报错，但 TS 会查出类型骗局。必须按标准的 Promise
+                  拆包类型定义！
+                </p>
+                <pre>
+                  <CodeWindow
+                    code={`const ProductIdPage = async ({ 
+  params, 
+  searchParams 
+}: { 
+  params: Promise<{ productId: string }>; 
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>; 
+}) => {
+  // 必须通过 await 拆开这个未拆封的“Promise 快递盒”！
+  const { productId } = await params;   
+  const query = await searchParams;     
+};`}
+                  />
+                </pre>
+              </div>
+            </div>
+
+            {/* 2. 状态提升 */}
+            <div>
+              <h3 className="font-bold text-xl text-rose-800 mb-4 flex items-center gap-2">
+                2. 状态提升 (Lifting State Up)：终极解耦哲学
+              </h3>
+
+              <div className="bg-slate-50 p-5 rounded-lg border border-slate-200 mb-4">
+                <blockquote className="border-l-4 border-rose-500 pl-4 py-2 italic text-slate-700 font-medium text-lg mb-3">
+                  “useState 放到上一层，好往两个儿子那里分配不一样的东西，
+                  <strong className="text-rose-600">同一个爹管两个儿子。</strong>”
+                </blockquote>
+                <p className="text-sm text-slate-600">
+                  <strong>核心理念：</strong>当大儿子 (ProjectForm) 和二儿子 (CategoryFormDialog)
+                  需要共享“弹窗开关状态”时，绝不能让他俩直接打电话（高耦合屎山）。必须在最近的客户端父组件（爹）中定义{' '}
+                  <code>useState</code>，然后向下分发动作 <code>onOpen</code> 和状态{' '}
+                  <code>isOpen</code>。
+                </p>
+              </div>
+
+              <div className="bg-slate-900 rounded-lg p-5 overflow-x-auto text-sm text-slate-300">
+                <p className="text-emerald-400 font-bold mb-2">
+                  🌟 实战对账：子组件越“傻”越好（通过 callback 解耦）
+                </p>
+                <p className="text-slate-400 mb-3 text-xs">
+                  绝不直接把 setOpen 塞给表单，表单只负责干活并喊“成功了！”，外层是谁负责关谁。
+                </p>
+                <pre>
+                  <CodeWindow
+                    code={`// 💡 父组件：EditButton（管理 Dialog 状态）
+export const EditButton = ({ project }) => {
+  const [open, setOpen] = useState(false);
+  
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent>
+        {/* 子表单不知道外层是Dialog/Drawer还是独立页面，只在成功时高喊 onSuccess */}
+        {/* 爹听到儿子喊成功了，爹自己亲手关窗！ */}
+        <ProjectForm initialData={project} onSuccess={() => setOpen(false)} />
+      </DialogContent>
+    </Dialog>
+  );
+};`}
+                  />
+                </pre>
+              </div>
+            </div>
+
+            {/* 3. 排查口诀 */}
+            <div className="bg-rose-900 p-6 rounded-xl shadow-inner text-rose-50">
+              <h3 className="font-bold text-lg text-white mb-4 flex items-center gap-2">
+                <span>📌</span> 核心排查口诀 (Q & A)
+              </h3>
+              <ul className="space-y-4 text-sm">
+                <li className="flex flex-col md:flex-row gap-2 border-b border-rose-800 pb-3">
+                  <strong className="text-rose-300 min-w-max">
+                    Q: 写在 SC 里的 console.log 为什么在浏览器死活看不到？
+                  </strong>
+                  <span>
+                    A: 因为 SC 是 Server Component，代码 100% 运行在{' '}
+                    <strong>终端 (Node 命令行窗口)</strong> 里，绝对不会越界发给浏览器 F12 控制台。
+                  </span>
+                </li>
+                <li className="flex flex-col md:flex-row gap-2 border-b border-rose-800 pb-3">
+                  <strong className="text-rose-300 min-w-max">
+                    Q: 点击列表跳转详情卡顿，没有骨架屏？
+                  </strong>
+                  <span>
+                    A: 因为 SC 的 <code>await</code> 会物理阻塞页面。必须在同级目录建{' '}
+                    <code>loading.tsx</code>，Next.js 会自动帮你套上 Suspense 渲染它！
+                  </span>
+                </li>
+                <li className="flex flex-col md:flex-row gap-2">
+                  <strong className="text-rose-300 min-w-max">
+                    Q: 用 loading.tsx 还是手写 &lt;Suspense&gt;？
+                  </strong>
+                  <span>
+                    A: 整页等一个数据 ➔ 丢给 <code>loading.tsx</code>
+                    ；页面多个独立模块并发查数据，希望各自局部转圈 ➔ 手写多个{' '}
+                    <code>&lt;Suspense&gt;</code> 包裹各组件。
+                  </span>
+                </li>
+              </ul>
             </div>
           </div>
         </section>
