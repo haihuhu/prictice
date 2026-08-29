@@ -31,18 +31,7 @@ export const week7Days = [
     label: 'Day5 Support Ticket CRUD Project ',
     href: '/practice/week7/days/day5',
   },
-  {
-    week: 7,
-    id: 6,
-    label: 'Day6',
-    href: '/practice/week7/days/day6',
-  },
-  {
-    week: 7,
-    id: 7,
-    label: 'Day7',
-    href: '/practice/week7/days/day7',
-  },
+ 
 ];
 
 const Week7Page = () => {

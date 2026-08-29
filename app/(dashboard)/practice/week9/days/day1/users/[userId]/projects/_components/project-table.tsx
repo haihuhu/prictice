@@ -20,7 +20,7 @@ import {
   Clock,
   EyeIcon,
   FolderKanban,
-  TrashIcon
+  TrashIcon,
 } from 'lucide-react';
 import Link from 'next/link';
 import { Fragment, useState } from 'react';

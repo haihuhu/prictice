@@ -1,12 +1,15 @@
 'use client';
 
-import Link from 'next/link';
 import { navbarRoutes } from '@/lib/data';
 import { cn } from '@/lib/utils';
+import { Show, SignInButton, SignUpButton, UserButton, useUser } from '@clerk/nextjs';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { Button } from './ui/button';
 
 const Navbar = () => {
   const pathname = usePathname();
+  const { user } = useUser();
   return (
     <>
       <div className="hidden md:block w-32 ">
@@ -35,6 +38,26 @@ const Navbar = () => {
           );
         })}
       </div>
+      <Show when="signed-out">
+        <div className="flex gap-2 items-center">
+          <SignInButton>
+            <Button variant="outline" className="cursor-pointer">
+              Sign In
+            </Button>
+          </SignInButton>
+          <SignUpButton>
+            <Button variant="default" className="cursor-pointer">
+              Sign Up
+            </Button>
+          </SignUpButton>
+        </div>
+      </Show>
+      <Show when="signed-in">
+        <div className="flex items-center gap-2">
+          <span>{user?.fullName}</span>
+          <UserButton />
+        </div>
+      </Show>
     </>
   );
 };

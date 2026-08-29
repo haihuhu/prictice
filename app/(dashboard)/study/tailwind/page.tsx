@@ -138,299 +138,223 @@ const TailwindNotes = () => {
               <Snippet code="h-[calc(100vh-64px)]" desc="支持 CSS 原生计算" />
             </SnippetCard>
           </div>
-
-          <div className="mt-6 bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <h3 className="text-sm font-bold text-gray-700 mb-2">
-              🧠 宽度怎么选？（写代码前先问自己）
-            </h3>
-            <div className="flex flex-wrap gap-2 text-sm">
-              <span className="bg-white px-3 py-1 rounded border shadow-sm">
-                1. 撑满? 👉 <code className="text-blue-600">w-full</code>
-              </span>
-              <span className="bg-white px-3 py-1 rounded border shadow-sm">
-                2. 占比? 👉 <code className="text-blue-600">w-1/2</code> /{' '}
-                <code className="text-blue-600">w-1/3</code>
-              </span>
-              <span className="bg-white px-3 py-1 rounded border shadow-sm">
-                3. 容器? 👉 <code className="text-blue-600">max-w-6xl</code>
-              </span>
-              <span className="bg-white px-3 py-1 rounded border shadow-sm">
-                4. 固定? 👉 算像素÷4 👉 <code className="text-blue-600">w-60</code>
-              </span>
-            </div>
-          </div>
         </section>
 
-        {/* ==================== 模块三：布局骨架 ==================== */}
+        {/* ==================== 模块三 & 四 合并展示区 ==================== */}
         <section className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
           <h2 className="text-xl font-bold border-b pb-2 mb-5 text-indigo-600">
-            三、布局骨架（钉死）
+            三、布局骨架 & 日常高频
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            <SnippetCard title="Flex 一维排列 (最常用)">
-              <Snippet code="flex" desc="开启 flex，默认横向" />
-              <Snippet code="flex-col" desc="改竖向" />
-              <Snippet code="justify-between" desc="主轴两端分布（横向时管左右）" />
-              <Snippet code="justify-center" desc="主轴居中" />
-              <Snippet code="items-center" desc="交叉轴居中（横向时管上下）" />
-              <Snippet code="gap-4" desc="子元素间距（替代 margin）" />
-              <Snippet code="flex-1" desc="子元素占满剩余空间" />
+            <SnippetCard title="Flex 一维排列">
+              <Snippet code="flex flex-col" desc="开启 flex / 改竖向" />
+              <Snippet code="justify-between" desc="主轴两端分布" />
+              <Snippet code="items-center" desc="交叉轴居中" />
+              <Snippet code="gap-4 flex-1" desc="子元素间距 / 占满剩余" />
             </SnippetCard>
-
-            <SnippetCard title="居中三件套">
-              <Snippet code="max-w-6xl mx-auto" desc="限宽+左右 auto，水平居中" />
-              <Snippet code="flex items-center justify-center" desc="flex 绝对居中" />
-            </SnippetCard>
-
-            <SnippetCard title="Sticky 吸顶/吸边">
-              <Snippet code="sticky top-0 z-50" desc="吸顶，z-50 提层级防遮挡" />
-              <Snippet code="sticky top-16 self-start" desc="吸在 header 下方" />
-            </SnippetCard>
-          </div>
-        </section>
-
-        {/* ==================== 模块四：日常高频 ==================== */}
-        <section className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <h2 className="text-xl font-bold border-b pb-2 mb-5 text-indigo-600">
-            四、日常高频补充（迟早会撞，先收着）
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            <SnippetCard title="间距 (记 4 的倍数感)">
-              <Snippet code="p-4 px-2 py-3" desc="padding：全 / 左右 / 上下" />
-              <Snippet code="m-4 mx-auto mt-2" desc="margin：全 / 左右居中 / 上" />
-              <Snippet code="gap-4" desc="flex/grid 间距 (优先用它)" />
-              <Snippet code="space-y-2" desc="竖向子元素统一间距" />
-            </SnippetCard>
-
-            <SnippetCard title="尺寸 (非数字类)">
-              <Snippet code="w-full h-screen" desc="宽满父级 / 高满屏" />
-              <Snippet code="min-h-screen" desc="最小高度满屏" />
+            <SnippetCard title="间距与尺寸">
+              <Snippet code="p-4 px-2 py-3" desc="内边距：全/左右/上下" />
+              <Snippet code="m-4 mx-auto" desc="外边距：全/水平居中" />
+              <Snippet code="w-full min-h-screen" desc="宽满父级 / 最小高度满屏" />
               <Snippet code="w-fit w-auto" desc="刚好包住内容 / 自动" />
             </SnippetCard>
-
-            <SnippetCard title="文字">
-              <Snippet code="text-2xl font-bold" desc="大小 / 粗细" />
-              <Snippet code="text-center" desc="对齐（会继承）" />
-              <Snippet code="text-gray-600" desc="颜色" />
-              <Snippet code="truncate" desc="超出变省略号" />
-            </SnippetCard>
-
-            <SnippetCard title="卡片三件套">
-              <Snippet code="rounded-lg" desc="圆角" />
-              <Snippet code="border border-gray-200" desc="边框" />
-              <Snippet code="shadow-md" desc="阴影" />
-            </SnippetCard>
-
-            <SnippetCard title="Grid 二维网格 (卡片列表必用)">
-              <Snippet code="grid grid-cols-3 gap-4" desc="3 列等宽网格，带间距" />
-            </SnippetCard>
-
-            <SnippetCard title="响应式 (移动优先)">
-              <Snippet code="grid-cols-1 md:grid-cols-3" desc="手机 1 列，中屏以上 3 列" />
-              <p className="text-xs text-gray-400 mt-2 border-t pt-2">
-                💡 记住：默认就是手机样式，加 md: lg: 是往大屏覆盖。
-              </p>
+            <SnippetCard title="卡片与文本">
+              <Snippet code="rounded-lg shadow-md" desc="圆角 / 阴影" />
+              <Snippet code="text-2xl font-bold" desc="字号 / 粗细" />
+              <Snippet code="text-center truncate" desc="对齐 / 超出变省略号" />
+              <Snippet code="grid-cols-1 md:grid-cols-3" desc="响应式网格(移动优先)" />
             </SnippetCard>
           </div>
         </section>
 
-        {/* ==================== 模块五：第3周踩坑专栏 (宽度与溢出) ==================== */}
+        {/* ==================== 模块五：宽度与溢出踩坑 ==================== */}
         <section className="bg-amber-50 rounded-xl shadow-sm border border-amber-200 p-6 relative overflow-hidden">
           <div className="absolute -right-4 -top-4 bg-amber-400 text-white font-bold px-8 py-2 rotate-45 shadow-sm text-sm">
             Week 3
           </div>
-
           <h2 className="text-xl font-bold border-b border-amber-200 pb-2 mb-5 text-amber-800 flex items-center gap-2">
-            🚧 五、第 3 周踩坑专栏：宽度与溢出 (Width & Overflow)
+            🚧 五、踩坑专栏：宽度与溢出 (Width & Overflow)
           </h2>
-
-          <div className="bg-white rounded-lg p-4 border border-amber-100 shadow-sm mb-6">
-            <h3 className="font-bold text-amber-700 mb-1">🧶 贯穿踩坑的一条主线：</h3>
-            <p className="text-sm text-gray-700 font-medium">
-              "我明明写了宽度限制，元素却不听" <span className="mx-2 text-amber-400">→</span>
-              <span className="bg-amber-100 text-amber-800 px-2 py-0.5 rounded">
-                因为元素有自己的默认脾气在对抗你。
-              </span>
-            </p>
-          </div>
-
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* 踩坑 1 & 2 */}
-            <PitfallCard title="1. 普通块级 (div) vs 2. Flex item">
-              <div className="space-y-3 text-sm">
-                <div className="border-b border-amber-100 pb-3">
-                  <span className="font-semibold text-gray-800 flex items-center gap-1">
-                    🟩 div 是最老实的
-                  </span>
-                  <p className="text-gray-600 mt-1">
-                    加了 <code className="text-indigo-600 bg-indigo-50 px-1 rounded">w-full</code> =
-                    100%。内容超了就溢出或换行，但它<b>自己绝不变宽</b>。
-                  </p>
+            <PitfallCard title="1. div 是最老实的，Flex item 会被挤压">
+              <p className="text-gray-600 mt-1 mb-2">
+                <code>w-full</code> = 100%。普通 div 自己绝不变宽，超了就换行。
+                <br />
+                但在 Flex 中，子项写了 <code>w-64</code> 却被兄弟挤窄？因为 flex 子项默认允许压缩。
+              </p>
+              <div className="bg-amber-100/50 p-2 rounded text-amber-800 font-mono text-xs mt-auto">
+                ✅ 给它加 shrink-0 (拒绝压缩) 或给兄弟加 min-w-0。
+              </div>
+            </PitfallCard>
+            <PitfallCard title="2. Table 撑出父级 / 手机横滑真凶">
+              <p className="text-gray-600 mt-1 mb-2">
+                Table 默认内容优先，无视 w-full。连续无空格长字符串（如
+                ID）会直接撑爆格子，导致页面横滑。
+              </p>
+              <div className="space-y-2 text-xs font-mono mt-auto">
+                <div className="bg-white border border-amber-200 p-2 rounded">
+                  ✅ table 加上 table-fixed
                 </div>
-                <div>
-                  <span className="font-semibold text-gray-800 flex items-center gap-1">
-                    🟨 Flex item 会被挤压
-                  </span>
-                  <p className="text-gray-600 mt-1">
-                    写了 <code className="text-indigo-600 bg-indigo-50 px-1 rounded">w-64</code>{' '}
-                    却被兄弟元素挤窄？因为 flex 子项默认 <code className="text-xs">shrink: 1</code>
-                    。
-                  </p>
-                  <div className="bg-amber-100/50 p-2 rounded mt-2 text-amber-800 text-xs font-mono">
-                    ✅ 给它加 shrink-0 (我拒绝被压缩) 或给兄弟加 min-w-0。
-                  </div>
+                <div className="bg-white border border-amber-200 p-2 rounded">
+                  ✅ 长文本单元格加上 break-all 或 truncate
                 </div>
               </div>
             </PitfallCard>
-
-            {/* 踩坑 3 & 4：Table & td 溢出综合症 */}
-            <PitfallCard title="3 & 4. 表格溢出综合症">
-              <div className="space-y-3 text-sm text-gray-700">
-                <div>
-                  <span className="font-semibold text-gray-800">Table 撑出父级外：</span>
-                  <p className="text-gray-600 mt-1">
-                    默认内容宽度优先，无视 w-full。加{' '}
-                    <code className="font-mono font-bold text-amber-700">table-fixed</code>{' '}
-                    让它听话，不写宽度的列自动吃剩余空间。
-                  </p>
-                </div>
-                <div className="border-t border-amber-100 pt-2">
-                  <span className="font-semibold text-gray-800">单元格处理：</span>
-                  <ul className="list-disc list-inside mt-1 space-y-1 text-gray-600">
-                    <li>
-                      文字变...：
-                      <code className="text-xs">overflow-hidden whitespace-nowrap truncate</code>
-                    </li>
-                    <li>
-                      按钮不掉出去：直接给这列 <b>分配足够宽</b>(w-28)。
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </PitfallCard>
-
-            {/* 🌟新增：踩坑 6 手机端横向滑动的真凶 */}
-            <PitfallCard title="5. 手机横滑真凶 (长字符串连累页面)">
-              <div className="text-sm text-gray-700 space-y-2">
-                <p>
-                  现象：连续的长字符串 (如 894165156)
-                  没有空格，浏览器无法断行，直接把格子撑爆，导致整个页面出现横向滚动条。
-                </p>
-                <div className="bg-white border border-amber-200 p-2 rounded text-xs">
-                  <span className="font-bold text-amber-800">✅ 治本：强制断行</span>
-                  <div className="mt-1">
-                    <code className="text-indigo-600 bg-indigo-50 p-1 rounded">
-                      className="break-all"
-                    </code>{' '}
-                    (或 break-words)
-                  </div>
-                </div>
-                <div className="bg-white border border-amber-200 p-2 rounded text-xs">
-                  <span className="font-bold text-amber-800">✅ 兜底体验：只让表格自己横滑</span>
-                  <p className="text-gray-600 mt-1 flex flex-col gap-1">
-                    用{' '}
-                    <code className="text-indigo-600">
-                      {'<div className="w-full overflow-x-auto">'}
-                    </code>{' '}
-                    包住 table。 页面整体框架 (Navbar) 稳稳不动，只有表格能滑。
-                  </p>
-                </div>
-              </div>
-            </PitfallCard>
-
-            {/* 调试排查习惯 */}
-            <div className="flex flex-col gap-4">
-              <PitfallCard title="6. 为什么右侧滚动条一直显示？">
-                <div className="text-sm text-gray-700">
-                  <p>
-                    内容没满却有滚动条，多半是某处高度算超了。比如写了{' '}
-                    <code className="font-mono">h-screen</code> 又加了 margin/padding。👉 去
-                    DevTools 查到底是哪一层顶出来的。
-                  </p>
-                </div>
-              </PitfallCard>
-
-              <div className="bg-gray-800 rounded-xl p-4 text-white shadow-md">
-                <h3 className="font-bold text-amber-400 mb-1 text-sm">💡 最重要的排错习惯</h3>
-                <p className="text-xs leading-relaxed text-gray-300">
-                  遇到“我明明写了还是不行”，不要凭印象！去 DevTools <b>逐字核对</b>
-                  是不是写错了层级（比如加在 td 还是 table 上）。
-                </p>
-              </div>
-            </div>
           </div>
         </section>
 
-        {/* ==================== 模块六：架构心法 (🌟 崭新加入) ==================== */}
-        <section className="bg-emerald-50/50 rounded-xl shadow-sm border border-emerald-200 p-6 relative overflow-hidden">
-          <div className="absolute -right-4 -top-4 bg-emerald-500 text-white font-bold px-8 py-2 rotate-45 shadow-sm text-sm">
-            Architecture
+        {/* ==================== 🌟 核心新加入：模块七 - 物理机制深度解密 ==================== */}
+        <section className="bg-violet-50/70 rounded-xl shadow-sm border border-violet-200 p-6 relative overflow-hidden">
+          <div className="absolute -right-4 -top-4 bg-violet-500 text-white font-bold px-8 py-2 rotate-45 shadow-sm text-sm">
+            Physics
           </div>
-          <h2 className="text-xl font-bold border-b border-emerald-200 pb-2 mb-5 text-emerald-800 flex items-center gap-2">
-            🏗️ 六、组件封装与架构心法
+          <h2 className="text-xl font-bold border-b border-violet-200 pb-2 mb-5 text-violet-800 flex items-center gap-2">
+            ⚛️ 六、高阶体感碰撞 (Flex 物理引擎解密)
           </h2>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* 架构心法 1：Flex 层级失效 */}
-            <div className="bg-white p-5 rounded-xl border border-emerald-100 shadow-sm flex flex-col">
-              <h3 className="font-bold text-emerald-900 mb-3 border-b border-emerald-50 pb-2">
-                1. Flex 层级穿透之谜 (为何 justify-between 失效)
-              </h3>
-              <p className="text-sm text-gray-700 mb-3 bg-emerald-50 p-2 rounded border border-emerald-100 font-medium text-emerald-800">
-                口诀：Flex 属性只管直接子元素，隔层绝对不认！
-              </p>
-              <div className="text-sm text-gray-600 space-y-3">
-                <p>
-                  分清 <b>"包着组件的父级"</b> 和 <b>"组件自己渲染出的第一层"</b>：
-                </p>
-                <div className="bg-gray-800 text-gray-300 p-3 rounded font-mono text-xs overflow-x-auto leading-relaxed shadow-inner">
-                  <span className="text-gray-500">// layout.tsx</span>
-                  <br />
-                  &lt;div className="<span className="text-emerald-400">flex justify-between</span>
-                  "&gt;
-                  <br />
-                  &nbsp;&nbsp;&lt;Navbar /&gt;{' '}
-                  <span className="text-gray-500">// 它内部实际只返回了唯一的一个 div 根节点</span>
-                  <br />
-                  &lt;/div&gt;
-                </div>
-                <p className="pt-1">
-                  👉 父级 <b>只有一个直接孩子</b> (Navbar的那个根div)，所以 justify-between
-                  毫无意义。要生效，必须让内部的元素成为同一级 Flex 的直接孩子。
-                </p>
-              </div>
-            </div>
+          <p className="text-sm text-violet-700 mb-6 bg-violet-100/50 p-3 rounded-lg border border-violet-100">
+            遇到“明明写了，元素却不听话”，是因为你触发了浏览器的
+            <strong>默认物理渲染引擎机制</strong>。
+          </p>
 
-            {/* 架构心法 2：组件层级该不该合并 */}
-            <div className="bg-white p-5 rounded-xl border border-emerald-100 shadow-sm flex flex-col">
-              <h3 className="font-bold text-emerald-900 mb-3 border-b border-emerald-50 pb-2">
-                2. 标签层级合并与语义升级 (aside vs div)
-              </h3>
-              <p className="text-sm text-gray-700 mb-3">
-                外面包一层管定位 (<code className="text-xs">sticky</code>)，里面组件管内部排列 (
-                <code className="text-xs">flex-col</code>)，要不要合并？
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            {/* 1. Sticky 失效 */}
+            <DeepDiveCard title="1. Sticky 粘性定位“静默失效”大案">
+              <p className="text-sm text-gray-700 mb-2">
+                <strong className="text-red-500">崩溃现场：</strong> 侧边栏加了{' '}
+                <code>sticky top-10</code> 却跟着页面滚走了。
               </p>
-              <div className="text-sm text-gray-600 space-y-3">
-                <p>
-                  <b>方案 A：保留两层</b>。职责清晰，以后想换侧栏位置只改外层
-                  layout，不碰内部组件代码。
-                </p>
-                <p>
-                  <b>方案 B：合并成一层 (推荐)</b>。少一层 DOM 代码更干净，且顺手做<b>语义升级</b>：
-                </p>
-                <div className="bg-emerald-50 border border-emerald-100 p-3 rounded text-xs text-emerald-800 font-mono shadow-inner">
-                  &lt;aside className="sticky top-16 flex flex-col..."&gt;
-                  <br />
-                  &nbsp;&nbsp;
-                  <span className="text-emerald-600/70">
-                    {'{/* 让组件直接返回 <aside> 标签，语义跟着组件走 */}'}
-                  </span>
-                  <br />
-                  &lt;/aside&gt;
+              <p className="text-sm text-gray-700 mb-3">
+                <strong className="text-violet-600">原理解密：</strong> Flex 容器默认{' '}
+                <code className="text-xs">align-items: stretch</code>
+                。侧边栏会被强制拉伸得跟右侧内容一样高，导致<b>失去了向下滚动的物理落差空间</b>。
+              </p>
+              <div className="bg-gray-800 text-gray-300 p-3 rounded text-xs font-mono leading-relaxed shadow-inner">
+                <span className="text-red-400">// ❌ 失效：被 stretch 拉长</span>
+                <br />
+                &lt;aside className="w-64 sticky top-10"&gt;
+                <br />
+                <br />
+                <span className="text-emerald-400">// ✅ 秒破案：强制元素回到自身真实高度</span>
+                <br />
+                &lt;aside className="w-64 sticky top-10{' '}
+                <span className="bg-violet-600 text-white px-1 rounded">self-start</span>"&gt;
+              </div>
+            </DeepDiveCard>
+
+            {/* 2. Flex 长文本撑爆 */}
+            <DeepDiveCard title="2. Flex 被长文本撑爆、横向溢出">
+              <p className="text-sm text-gray-700 mb-2">
+                <strong className="text-red-500">崩溃现场：</strong> 超长 Clerk ID 或邮箱，即使加了{' '}
+                <code>truncate</code>，依然把父容器顶出横向滚动条。
+              </p>
+              <p className="text-sm text-gray-700 mb-3">
+                <strong className="text-violet-600">原理解密：</strong> Flex 子项默认{' '}
+                <code className="text-xs">min-width: auto</code>
+                。为了不折断单词，浏览器赋予了它巨大的坚硬宽度，无视了 flex-1。
+              </p>
+              <div className="bg-gray-800 text-gray-300 p-3 rounded text-xs font-mono leading-relaxed shadow-inner">
+                <span className="text-emerald-400">
+                  // ✅ 秒破案：重置物理阻尼，允许宽度被压缩为 0
+                </span>
+                <br />
+                &lt;div className="flex-1{' '}
+                <span className="bg-violet-600 text-white px-1 rounded">min-w-0</span>"&gt;
+                <br />
+                &nbsp;&nbsp;&lt;p className="truncate"&gt;{'{clerkUserId}'}&lt;/p&gt;
+                <br />
+                &lt;/div&gt;
+              </div>
+            </DeepDiveCard>
+
+            {/* 3. 图标被挤扁 */}
+            <DeepDiveCard title="3. 小图标、侧边栏被无情挤扁">
+              <p className="text-sm text-gray-700 mb-2">
+                <strong className="text-red-500">崩溃现场：</strong> 左侧写了 <code>w-6 h-6</code>{' '}
+                的漂亮圆形 Icon，当右侧文字一多，直接被挤成一条线。
+              </p>
+              <p className="text-sm text-gray-700 mb-3">
+                <strong className="text-violet-600">原理解密：</strong> Flex
+                容器装不下时，会按比例让所有子项“背债务”。默认{' '}
+                <code className="text-xs">flex-shrink: 1</code>。
+              </p>
+              <div className="bg-gray-800 text-gray-300 p-3 rounded text-xs font-mono leading-relaxed shadow-inner">
+                <span className="text-emerald-400">// ✅ 秒破案：上锁🔒 拒绝任何挤压</span>
+                <br />
+                &lt;SettingsIcon className="w-6 h-6{' '}
+                <span className="bg-violet-600 text-white px-1 rounded">shrink-0</span>" /&gt;
+              </div>
+            </DeepDiveCard>
+
+            {/* 4. 路由与滚动条 */}
+            <DeepDiveCard title="4. 交互体验：幽灵高亮 & 页面抖动">
+              <div className="space-y-4">
+                <div>
+                  <h4 className="text-sm font-bold text-gray-800 border-b border-violet-100 pb-1 mb-1">
+                    👻 首页幽灵高亮
+                  </h4>
+                  <p className="text-xs text-gray-600 mb-1">
+                    用 <code>startsWith</code> 时，<code>/</code> 会匹配所有路由导致全亮。
+                  </p>
+                  <code className="bg-gray-800 text-emerald-400 p-1.5 rounded text-[11px] font-mono block">
+                    const isActive = item.href === '/' ? pathname === '/' :
+                    pathname.startsWith(item.href);
+                  </code>
                 </div>
-                <p className="text-xs text-emerald-700/80 font-bold bg-emerald-100/40 p-2 rounded">
-                  ⚠️ 注意：合并时内外 class 会挤在同一个标签上，小心 flex 属性打架。
-                </p>
+                <div>
+                  <h4 className="text-sm font-bold text-gray-800 border-b border-violet-100 pb-1 mb-1">
+                    🫨 页面切换横向跳动 15px
+                  </h4>
+                  <p className="text-xs text-gray-600 mb-1">
+                    长短页面切换时，右侧滚动条消失导致视口变宽产生位移。
+                  </p>
+                  <code className="bg-gray-800 text-emerald-400 p-1.5 rounded text-[11px] font-mono block">
+                    &lt;html className="
+                    <span className="text-white bg-violet-600 px-1 rounded">
+                      scrollbar-gutter-stable
+                    </span>
+                    "&gt;
+                  </code>
+                </div>
+              </div>
+            </DeepDiveCard>
+          </div>
+
+          {/* 快速排查手册 (Q&A) */}
+          <div className="bg-white rounded-xl p-5 border-2 border-violet-100 shadow-sm">
+            <h3 className="font-bold text-violet-900 mb-4 flex items-center gap-2">
+              🚑 快速排爆口诀
+            </h3>
+            <div className="space-y-4">
+              <div className="flex gap-3 items-start">
+                <span className="bg-red-100 text-red-700 font-bold px-2 py-1 rounded text-xs shrink-0">
+                  Q 1
+                </span>
+                <div>
+                  <p className="text-sm font-semibold text-gray-800">
+                    为什么我写了 w-full，子元素还是没有撑满整个父容器？
+                  </p>
+                  <p className="text-sm text-gray-600 mt-1">
+                    <strong className="text-emerald-600">A：</strong> 去查它的父容器是不是加了{' '}
+                    <code>items-center</code> 或 <code>items-start</code>
+                    ！这会导致子组件缩回到内容包裹线。改回默认的 <code>items-stretch</code> 即可。
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-3 items-start border-t border-violet-50 pt-4">
+                <span className="bg-red-100 text-red-700 font-bold px-2 py-1 rounded text-xs shrink-0">
+                  Q 2
+                </span>
+                <div>
+                  <p className="text-sm font-semibold text-gray-800">
+                    为什么在手机端测试，列表容器老是往外凸，屏幕有横向缝隙？
+                  </p>
+                  <p className="text-sm text-gray-600 mt-1">
+                    <strong className="text-emerald-600">A：</strong>{' '}
+                    绝大多数是因为写死了物理像素（如 <code>w-[375px]</code>）。外层容器一律只许写{' '}
+                    <code>w-full max-w-7xl</code>，绝对不允许在外层写死具体 px！
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -460,13 +384,22 @@ const Snippet = ({ code, desc }: { code: string; desc: string }) => (
   </li>
 );
 
-/* 踩坑专属卡片 */
 const PitfallCard = ({ title, children }: { title: string; children: React.ReactNode }) => (
   <div className="bg-amber-50/60 p-4 rounded-xl border border-amber-200 flex flex-col h-full hover:shadow-sm transition-shadow">
     <h3 className="font-bold text-amber-900 mb-3 text-sm border-b border-amber-200/60 pb-2">
       {title}
     </h3>
-    <div className="flex-1">{children}</div>
+    <div className="flex-1 flex flex-col">{children}</div>
+  </div>
+);
+
+/* 新增：底层机制专属深潜卡片 */
+const DeepDiveCard = ({ title, children }: { title: string; children: React.ReactNode }) => (
+  <div className="bg-white p-5 rounded-xl border border-violet-100 flex flex-col h-full hover:shadow-md transition-all">
+    <h3 className="font-bold text-violet-900 mb-3 text-sm border-b border-violet-50 pb-2">
+      {title}
+    </h3>
+    <div className="flex-1 flex flex-col">{children}</div>
   </div>
 );
 

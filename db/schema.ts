@@ -2,6 +2,8 @@ import {
   projectCategories,
   projectStatus,
   supportTicketPriorities,
+  Week10Day2TaskStatus,
+  week10Day2StatusOptions,
   week9StatusOptions,
 } from '@/lib/data';
 import { relations } from 'drizzle-orm';
@@ -239,4 +241,146 @@ export const week9ProjectsRelations = relations(week9Projects, ({ one, many }) =
 
 export const week9TasksRelations = relations(week9Tasks, ({ one }) => ({
   project: one(week9Projects, { fields: [week9Tasks.projectId], references: [week9Projects.id] }),
+}));
+
+// week10 day2 practice 2026-08-27 practice 1
+export const week10Day2Users = pgTable('week10_day2_users', {
+  id: serial('id').primaryKey(),
+  clerkId: varchar('clerk_id', { length: 255 }).notNull().unique(),
+  emailSnapshot: varchar('email_snapshot', { length: 255 }).notNull(),
+  nameSnapshot: varchar('name_snapshot', { length: 255 }).notNull(),
+  avatarUrlSnapshot: varchar('avatar_url_snapshot', { length: 255 }).notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at')
+    .defaultNow()
+    .notNull()
+    .$onUpdate(() => new Date()),
+});
+
+export type Week10Day2UserInsert = typeof week10Day2Users.$inferInsert;
+export type Week10Day2UserSelect = typeof week10Day2Users.$inferSelect;
+
+export const week10Day2UserProfiles = pgTable('week10_day2_user_profiles', {
+  id: serial('id').primaryKey(),
+  userId: integer('user_id')
+    .references(() => week10Day2Users.id, { onDelete: 'cascade' })
+    .notNull()
+    .unique(),
+  description: varchar('description', { length: 255 }),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at')
+    .defaultNow()
+    .notNull()
+    .$onUpdate(() => new Date()),
+});
+
+export type Week10Day2UserProfileInsert = typeof week10Day2UserProfiles.$inferInsert;
+export type week10Day2UserProfileSelect = typeof week10Day2UserProfiles.$inferSelect;
+
+export const week10Day2ProjectCategories = pgTable('week_10_day2_project_categories', {
+  id: serial('id').primaryKey(),
+  userId: integer('user_id')
+    .references(() => week10Day2Users.id, { onDelete: 'cascade' })
+    .notNull(),
+  name: varchar('name', { length: 255 }).notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at')
+    .defaultNow()
+    .notNull()
+    .$onUpdate(() => new Date()),
+});
+
+export type Week10Day2ProjectCategoryInsert = typeof week10Day2ProjectCategories.$inferInsert;
+export type Week10Day2ProjectCategorySelect = typeof week10Day2ProjectCategories.$inferSelect;
+
+export const week10Day2Projects = pgTable('week_10_day2_projects', {
+  id: serial('id').primaryKey(),
+  userId: integer('user_id')
+    .references(() => week10Day2Users.id, { onDelete: 'cascade' })
+    .notNull(),
+  title: varchar('title', { length: 255 }).notNull(),
+  categoryId: integer('category_id')
+    .references(() => week10Day2ProjectCategories.id, { onDelete: 'cascade' })
+    .notNull(),
+  description: text('description'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at')
+    .defaultNow()
+    .notNull()
+    .$onUpdate(() => new Date()),
+});
+
+export type Week10Day2ProjectInsert = typeof week10Day2Projects.$inferInsert;
+export type Week10Day2ProjectSelect = typeof week10Day2Projects.$inferSelect;
+
+export const week10Day2Tasks = pgTable('week_10_day2_tasks', {
+  id: serial('id').primaryKey(),
+  projectId: integer('project_id')
+    .references(() => week10Day2Projects.id, { onDelete: 'cascade' })
+    .notNull(),
+  title: varchar('title', { length: 255 }).notNull(),
+  description: text('description'),
+  status: varchar('status', {
+    enum: week10Day2StatusOptions.map((item) => item.value) as [
+      Week10Day2TaskStatus,
+      ...Week10Day2TaskStatus[],
+    ],
+  })
+    .notNull()
+    .default('pending'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at')
+    .defaultNow()
+    .notNull()
+    .$onUpdate(() => new Date()),
+});
+
+export type Week10Day2TaskInsert = typeof week10Day2Tasks.$inferInsert;
+export type Week10Day2TaskSelect = typeof week10Day2Tasks.$inferSelect;
+
+// week10 day2 relations of users and user profiles and project categories and projects and tasks practice 2026-08-27
+export const week10Day2UsersRelations = relations(week10Day2Users, ({ one, many }) => ({
+  week10Day2UserProfile: one(week10Day2UserProfiles, {
+    fields: [week10Day2Users.id],
+    references: [week10Day2UserProfiles.userId],
+  }),
+  week10Day2ProjectCategories: many(week10Day2ProjectCategories),
+  week10Day2Projects: many(week10Day2Projects),
+}));
+
+export const week10Day2UserProfilesRelations = relations(week10Day2UserProfiles, ({ one }) => ({
+  week10Day2User: one(week10Day2Users, {
+    fields: [week10Day2UserProfiles.userId],
+    references: [week10Day2Users.id],
+  }),
+}));
+
+export const week10Day2ProjectCategoriesRelations = relations(
+  week10Day2ProjectCategories,
+  ({ one, many }) => ({
+    week10Day2Projects: many(week10Day2Projects),
+    week10Day2User: one(week10Day2Users, {
+      fields: [week10Day2ProjectCategories.userId],
+      references: [week10Day2Users.id],
+    }),
+  })
+);
+
+export const week10Day2ProjectsRelations = relations(week10Day2Projects, ({ one, many }) => ({
+  week10Day2User: one(week10Day2Users, {
+    fields: [week10Day2Projects.userId],
+    references: [week10Day2Users.id],
+  }),
+  week10Day2ProjectCategory: one(week10Day2ProjectCategories, {
+    fields: [week10Day2Projects.categoryId],
+    references: [week10Day2ProjectCategories.id],
+  }),
+  week10Day2Tasks: many(week10Day2Tasks),
+}));
+
+export const week10Day2TasksRelations = relations(week10Day2Tasks, ({ one }) => ({
+  week10Day2Project: one(week10Day2Projects, {
+    fields: [week10Day2Tasks.projectId],
+    references: [week10Day2Projects.id],
+  }),
 }));

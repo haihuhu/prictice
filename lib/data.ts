@@ -21,6 +21,7 @@ export const practiceRoutes: SidebarType[] = [
   { label: 'Week6', href: '/practice/week6' },
   { label: 'Week7', href: '/practice/week7' },
   { label: 'Week9', href: '/practice/week9' },
+  { label: 'Week10', href: '/practice/week10' },
 ];
 
 export const projectCategories = [
@@ -54,6 +55,14 @@ export const week9StatusOptions = [
 
 export type Week9TaskStatus = (typeof week9StatusOptions)[number]['value'];
 
+export const week10Day2StatusOptions = [
+  { label: 'Pending', value: 'pending' },
+  { label: 'In Progress', value: 'in_progress' },
+  { label: 'Done', value: 'done' },
+] as const;
+
+export type Week10Day2TaskStatus = (typeof week10Day2StatusOptions)[number]['value'];
+
 export const studyRoutes: SidebarType[] = [
   { label: 'Study', href: '/study' },
   { label: 'temporary', href: '/study/temporary-plan' },
@@ -68,7 +77,8 @@ export const studyRoutes: SidebarType[] = [
   {
     label: 'Form+zod',
     href: '/study/form-zod',
-    description: 'A quick reference for Zod validators, custom error messages, and automatic type coercion.',
+    description:
+      'A quick reference for Zod validators, custom error messages, and automatic type coercion.',
   },
   {
     label: 'zod-server',
@@ -85,6 +95,7 @@ export const studyRoutes: SidebarType[] = [
     href: '/study/drizzle-postgres-crud',
     description: 'A quick reference for Drizzle ORM and PostgreSQL CRUD',
   },
+  { label: 'Clerk', href: '/study/clerk' },
 ];
 
 export type ProductType = {
@@ -844,10 +855,49 @@ export const week5Days = [
     label: 'Day4',
     href: '/practice/week5/days/day4',
   },
-  {
-    week: 5,
-    id: 5,
-    label: 'Day5',
-    href: '/practice/week5/days/day5',
-  },
 ];
+
+export const test = {
+  data: {
+    birthday: '',
+    created_at: 1654012591514,
+    email_addresses: [
+      {
+        email_address: 'example@example.org',
+        id: 'idn_29w83yL7CwVlJXylYLxcslromF1',
+        linked_to: [],
+        object: 'email_address',
+        verification: {
+          status: 'verified',
+          strategy: 'ticket',
+        },
+      },
+    ],
+    external_accounts: [],
+    external_id: '567772',
+    first_name: 'Example',
+    gender: '',
+    id: 'user_29w83sxmDNGwOuEthce5gg56FcC',
+    image_url: 'https://img.clerk.com/xxxxxx',
+    last_name: 'Example',
+    last_sign_in_at: 1654012591514,
+    object: 'user',
+    password_enabled: true,
+    phone_numbers: [],
+    primary_email_address_id: 'idn_29w83yL7CwVlJXylYLxcslromF1',
+    primary_phone_number_id: null,
+    primary_web3_wallet_id: null,
+    private_metadata: {},
+    profile_image_url: 'https://www.gravatar.com/avatar?d=mp',
+    public_metadata: {},
+    two_factor_enabled: false,
+    unsafe_metadata: {},
+    updated_at: 1654012591835,
+    username: null,
+    web3_wallets: [],
+  },
+  instance_id: 'ins_123',
+  object: 'event',
+  timestamp: 1654012591835,
+  type: 'user.created',
+};
