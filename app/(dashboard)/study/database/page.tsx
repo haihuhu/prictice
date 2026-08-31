@@ -3,7 +3,7 @@ import { CodeWindow } from '@/components/CodeWindow';
 
 export default function DrizzleCheatSheet() {
   return (
-    <div className="max-w-5xl mx-auto p-6 space-y-12 bg-white text-gray-800 rounded-xl shadow-sm leading-relaxed">
+    <div className="max-w-5xl mx-auto p-6 space-y-12 bg- text-gray-800 rounded-xl shadow-sm leading-relaxed">
       {/* 头部标题 */}
       <header className="border-b pb-6 mb-8">
         <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 mb-4">
@@ -55,12 +55,14 @@ export default function DrizzleCheatSheet() {
         <div>
           <h3 className="font-semibold text-lg mb-2">📄 文件职责分工 (File Responsibilities)</h3>
           <pre className="bg-slate-900 text-slate-50 p-4 rounded-md overflow-x-auto text-sm">
-            {`db/
+            <CodeWindow
+              code={`db/
 ├── schema.ts
 │   └── 定义表 (Tables)、列 (Columns)、规则 (Rules) 及推断类型 (Inferred types)
 │
 └── index.ts
     └── 创建并导出唯一的、可复用的数据库实例 (db instance)`}
+            />
           </pre>
         </div>
 

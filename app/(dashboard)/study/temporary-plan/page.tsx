@@ -3,32 +3,26 @@
 
 import { useState } from 'react';
 
-type WeekKey = 'week9' | 'week10' | 'week11';
+type WeekKey = 'week9' | 'week10' | 'week11' | 'week12' | 'week13';
 
 const weeks: { key: WeekKey; label: string; title: string }[] = [
-  {
-    key: 'week9',
-    label: 'Week 9',
-    title: '外键关联 + 关联查询',
-  },
-  {
-    key: 'week10',
-    label: 'Week 10',
-    title: 'Clerk 认证快速跑通',
-  },
-  {
-    key: 'week11',
-    label: 'Week 11',
-    title: 'Better Auth + 用户隔离',
-  },
+  { key: 'week9', label: 'Week 9', title: '外键关联 + 关联查询' },
+  { key: 'week10', label: 'Week 10', title: 'Clerk 认证快速跑通' },
+  { key: 'week11', label: 'Week 11', title: 'Better Auth + 用户隔离' },
+  { key: 'week12', label: 'Week 12', title: '冲刺(上)：建模与读闭环' },
+  { key: 'week13', label: 'Week 13', title: '冲刺(下)：三大表单与全闭环' },
 ];
 
-const content: Record<WeekKey, {
-  goal: string;
-  skills: { name: string; from: number; to: number }[];
-  days: { day: number; morning: string; afternoon: string; check: string }[];
-  exam: string;
-}> = {
+const content: Record<
+  WeekKey,
+  {
+    goal: string;
+    skills: { name: string; from: number; to: number }[];
+    days: { day: number; morning: string; afternoon: string; check: string }[];
+    examTitle: string;
+    exam: string;
+  }
+> = {
   week9: {
     goal: '让数据表之间产生关联，理解"一个用户有多个任务"的数据库表达方式，为 Week 11 的用户隔离打基础。',
     skills: [
@@ -80,6 +74,7 @@ const content: Record<WeekKey, {
         check: '外键正确 + relations 正确 + 嵌套列表 + 删除保护',
       },
     ],
+    examTitle: 'Day 7 — Final Exam',
     exam: 'authors + posts 完整关联系统：建表 → relations → 种子数据 → 嵌套列表 → 新增表单 → 删除保护',
   },
   week10: {
@@ -133,6 +128,7 @@ const content: Record<WeekKey, {
         check: '登录注册跑通 + Webhook 写库 + 显示数据库用户信息',
       },
     ],
+    examTitle: 'Day 7 — Final Exam',
     exam: '完整 Clerk 认证：安装配置 → 保护路由 → Webhook 同步 → 显示用户信息',
   },
   week11: {
@@ -185,14 +181,106 @@ const content: Record<WeekKey, {
         check: '所有查询 + INSERT + UPDATE/DELETE 都隔离，跨表也隔离',
       },
     ],
+    examTitle: 'Day 7 — Final Exam',
     exam: '完整用户隔离系统：users → categories → products，所有 CRUD 加 userId 过滤',
+  },
+  week12: {
+    goal: '终极冲刺（上）：构建 4 张核心物理表，接入 Clerk 并手写 proxy.ts 安全拦截。实现 getCurrentUserId 的 JIT 懒创建，完成包含 with 的复杂关联查询与多租户越权审计。',
+    skills: [
+      { name: '物理建模', from: 5, to: 9 },
+      { name: '路由拦截', from: 4, to: 8.5 },
+      { name: '关联查询', from: 6, to: 9.5 },
+    ],
+    days: [
+      {
+        day: 1,
+        morning: 'Next.js 纯净初始化，关闭 AI 自动补全，手动安装 drizzle-orm、postgres、clerk。',
+        afternoon:
+          '手敲 4 张物理表建模（Users, Categories, Projects, Tasks），配置级联删除与复合索引。',
+        check: 'drizzle-kit push 确认 4 张物理表在 Neon 控制台完美落地。',
+      },
+      {
+        day: 2,
+        morning: '配置 <ClerkProvider>，理清 Next.js 最新路由规范中 proxy.ts 替代中间件的本质。',
+        afternoon:
+          '手敲 proxy.ts，使用 req.nextUrl.pathname 校验路由，一律强制 auth.protect() 拦截。',
+        check: '未登录用户访问 /dashboard 成功被安全拦截并踢回。',
+      },
+      {
+        day: 3,
+        morning: '新建 auth-service.ts，理清后台如何静默完成用户 JIT（懒创建）同步。',
+        afternoon:
+          '手写 getCurrentUserId() 控制流与卫语句，区分直接返回 ID 的热路径与补录的冷路径。',
+        check: '不偷懒手敲卫语句，确保 currentUser() 通过 db.insert() 自动补录。',
+      },
+      {
+        day: 4,
+        morning:
+          '在 /dashboard/page.tsx 第一行锁死当前用户。手敲 projects.ts 关联查询（with 三级嵌套）。',
+        afternoon:
+          '手写 Aside Sidebar 渲染项目/分类，主面板渲染任务列表并设计 Empty State 空卡片。',
+        check: '成功查出当前用户项目及关联分类/任务，消灭 N+1 天坑。',
+      },
+      {
+        day: 5,
+        morning: '多租户数据隔离黑客自测：开启 Chrome（账号 A）与 Edge（账号 B）双开浏览器测试。',
+        afternoon: '强行在 A 浏览器传入 B 账号的项目 ID 请求，验证物理层拦截。',
+        check: '测试 eq(ownerId, currentUserId) 强绑定，直接返回 404，拒绝越权展示。',
+      },
+    ],
+    examTitle: 'Day 5 — 安全黑客自测验证',
+    exam: '在双浏览器环境下，尝试各类越权获取数据的 API 渗透，确保后台直接在 SQL 层面（eq ownerId）实现了完美的数据物理隔离与拦截！',
+  },
+  week13: {
+    goal: '终极冲刺（下）：手写三大表单，实现状态提升联动与 <Controller> 桥接。打通级联清理、唯一冲突查重，最终完成 Vercel 部署与展示级全英文 README。',
+    skills: [
+      { name: '表单联动', from: 4, to: 9 },
+      { name: '复杂状态', from: 5, to: 9.5 },
+      { name: '全栈闭环', from: 6, to: 10 },
+    ],
+    days: [
+      {
+        day: 6,
+        morning: '手写 CategoryForm：绑定 React Hook Form + Zod，提交触发 createCategoryAction。',
+        afternoon: '新建项目弹窗中嵌入新增分类，子表单成功后关窗并即时刷新父级下拉框。',
+        check: '深刻理解“一个爹管两个儿子”的组件状态提升哲学。',
+      },
+      {
+        day: 7,
+        morning: '手写 ProjectForm，支持传入 initialData 区分修改/创建模式。',
+        afternoon:
+          '手写 <Controller> 桥接 Select 组件；写 saveProjectAction 与 onInvalid 本地拦截。',
+        check: 'field.onChange 与 field.value 完美接线，彻底消灭 RHF 状态失联。',
+      },
+      {
+        day: 8,
+        morning: '/projects 渲染项目列表，编写带双锁（and(id, ownerId)）的 deleteProjectAction。',
+        afternoon: '手写 AlertDialog 二次确认弹窗，确认后触发删除与 router.refresh()。',
+        check: '去 Neon 数据库控制台验证，项目删除后底下的 Tasks 瞬间物理消失。',
+      },
+      {
+        day: 9,
+        morning:
+          '手写抽屉式（Drawer） TaskForm，温习 defaultValues 处理 date 格式化（YYYY-MM-DD）。',
+        afternoon: '卡片左侧加一键 Toggle 的 Checkbox；右下角加 Trash 按钮并调用带双锁的安全删除。',
+        check: '卡片一键修改状态极速响应，安全删除功能防越权跑通。',
+      },
+      {
+        day: 10,
+        morning: '后端写入时 try...catch 拦截 Postgres 唯一冲突(23505)，返回统一 fieldErrors。',
+        afternoon: '前端用 Object.entries 一键飘红回显；微调防撑爆样式；推 GitHub 部署 Vercel。',
+        check: '同名分类创建精准飘红；撰写重点突出安全思想的全英文 README 作为门面！',
+      },
+    ],
+    examTitle: 'Day 10 — Vercel 部署与架构展示',
+    exam: '将你的项目一键推送到 Vercel。写一封重点突出 "Multi-tenant Isolation" 和 "JIT User Sync" 的精美英文 README，这将是你满分毕业的金牌门面！',
   },
 };
 
 function SkillBar({ name, from, to }: { name: string; from: number; to: number }) {
   return (
     <div className="flex items-center gap-3">
-      <span className="text-sm font-medium text-gray-700 dark:text-gray-300 w-28 shrink-0">
+      <span className="text-sm font-medium text-gray-700 dark:text-gray-300 w-28 shrink-0 truncate">
         {name}
       </span>
       <div className="flex items-center gap-2 flex-1">
@@ -210,20 +298,18 @@ function SkillBar({ name, from, to }: { name: string; from: number; to: number }
           />
           <div className="absolute inset-0 flex items-center justify-center">
             <span className="text-[10px] font-bold text-white drop-shadow-sm">
-              +{to - from}
+              +{Number((to - from).toFixed(1))}
             </span>
           </div>
         </div>
-        <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 w-4">
-          {to}
-        </span>
+        <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 w-5">{to}</span>
       </div>
     </div>
   );
 }
 
 export default function LearningPlan() {
-  const [activeWeek, setActiveWeek] = useState<WeekKey>('week9');
+  const [activeWeek, setActiveWeek] = useState<WeekKey>('week12'); // 默认展示最新的冲刺周
   const current = content[activeWeek];
 
   return (
@@ -232,29 +318,31 @@ export default function LearningPlan() {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            🚀 Week 9-11 Learning Plan
+            🚀 The Ultimate Sprint Plan
           </h1>
           <p className="text-gray-600 dark:text-gray-400 text-sm">
-            Three weeks to master database relations, authentication, and user isolation
+            Five weeks to master database relations, authentication, and full-stack closure
           </p>
         </div>
 
-        {/* Tabs */}
-        <div className="flex gap-1 bg-white dark:bg-gray-800 rounded-xl p-1.5 shadow-sm border border-gray-200 dark:border-gray-700 mb-8">
+        {/* Tabs - 优化了横向滚动防止 5 个 Tab 挤压 */}
+        <div className="flex gap-2 overflow-x-auto snap-x scrollbar-hide bg-white dark:bg-gray-800 rounded-xl p-2 shadow-sm border border-gray-200 dark:border-gray-700 mb-8">
           {weeks.map((week) => (
             <button
               key={week.key}
               onClick={() => setActiveWeek(week.key)}
-              className={`flex-1 py-3 px-4 rounded-lg text-sm font-medium transition-all duration-200 ${
+              className={`flex-1 min-w-[160px] snap-center py-3 px-4 rounded-lg text-sm font-medium transition-all duration-200 ${
                 activeWeek === week.key
                   ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-md'
                   : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
               }`}
             >
               <span className="block">{week.label}</span>
-              <span className={`text-xs mt-0.5 block ${
-                activeWeek === week.key ? 'text-blue-100' : 'text-gray-400'
-              }`}>
+              <span
+                className={`text-xs mt-0.5 block truncate ${
+                  activeWeek === week.key ? 'text-blue-100' : 'text-gray-400'
+                }`}
+              >
                 {week.title}
               </span>
             </button>
@@ -305,7 +393,10 @@ export default function LearningPlan() {
             </div>
             <div className="divide-y divide-gray-100 dark:divide-gray-700">
               {current.days.map((day) => (
-                <div key={day.day} className="p-6 hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors">
+                <div
+                  key={day.day}
+                  className="p-6 hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors"
+                >
                   <div className="flex items-start gap-4">
                     <div className="shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm shadow-sm">
                       D{day.day}
@@ -314,7 +405,7 @@ export default function LearningPlan() {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
                         <div>
                           <span className="text-xs font-semibold text-yellow-600 dark:text-yellow-400 uppercase tracking-wide">
-                            ☀️ Morning (2h)
+                            ☀️ Morning
                           </span>
                           <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">
                             {day.morning}
@@ -322,15 +413,17 @@ export default function LearningPlan() {
                         </div>
                         <div>
                           <span className="text-xs font-semibold text-orange-600 dark:text-orange-400 uppercase tracking-wide">
-                            🌤️ Afternoon (2h)
+                            🌤️ Afternoon
                           </span>
                           <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">
                             {day.afternoon}
                           </p>
                         </div>
                       </div>
-                      <div className="flex items-start gap-2 bg-green-50 dark:bg-green-900/20 rounded-lg p-3">
-                        <span className="text-green-600 dark:text-green-400 shrink-0 mt-0.5">✅</span>
+                      <div className="flex items-start gap-2 bg-green-50 dark:bg-green-900/20 rounded-lg p-3 mt-4">
+                        <span className="text-green-600 dark:text-green-400 shrink-0 mt-0.5">
+                          ✅
+                        </span>
                         <p className="text-sm text-green-700 dark:text-green-300">
                           <span className="font-semibold">Check: </span>
                           {day.check}
@@ -343,13 +436,13 @@ export default function LearningPlan() {
             </div>
           </div>
 
-          {/* Exam */}
+          {/* Exam / Milestone */}
           <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
             <div className="flex items-start gap-3">
               <span className="text-2xl shrink-0 mt-0.5">🏆</span>
               <div>
                 <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                  Day 7 — Final Exam
+                  {current.examTitle}
                 </h2>
                 <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
                   {current.exam}

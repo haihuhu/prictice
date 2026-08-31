@@ -11,7 +11,7 @@ const TestComponent = () => {
         {user.isSignedIn ? (
           <pre className="text-sm">{JSON.stringify(user, null, 2)}</pre>
         ) : (
-          'Not signed in'
+          'Not user is signed in, please sign in to continue'
         )}
       </div>
     </>

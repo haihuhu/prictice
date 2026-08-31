@@ -267,7 +267,7 @@ export const week10Day2UserProfiles = pgTable('week10_day2_user_profiles', {
     .notNull()
     .unique(),
   description: varchar('description', { length: 255 }),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(), 
   updatedAt: timestamp('updated_at')
     .defaultNow()
     .notNull()
@@ -308,7 +308,7 @@ export const week10Day2Projects = pgTable('week_10_day2_projects', {
     .defaultNow()
     .notNull()
     .$onUpdate(() => new Date()),
-});
+}); 
 
 export type Week10Day2ProjectInsert = typeof week10Day2Projects.$inferInsert;
 export type Week10Day2ProjectSelect = typeof week10Day2Projects.$inferSelect;
