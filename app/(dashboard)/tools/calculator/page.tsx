@@ -4,9 +4,10 @@ import React, { useState, useEffect } from 'react';
 
 // --- 类型定义 ---
 type TabType = 'basic' | 'regular';
+type DisplayMode = 'year' | 'month';
 
 interface TableRowData {
-  period: number;
+  period: number | string;
   principal?: number;
   profit: number;
   finalAmount: number;
@@ -23,8 +24,9 @@ interface ResultData {
 export default function CompoundCalculator() {
   const [tab, setTab] = useState<TabType>('regular');
   const [hasCalculated, setHasCalculated] = useState(false);
+  const [tableDisplay, setTableDisplay] = useState<DisplayMode>('year'); // 表格展示按年还是按月
 
-  // --- 表单状态 (使用字符串以便用户清空输入框时不会变成0) ---
+  // --- 表单状态 ---
   const [basic, setBasic] = useState({
     principal: '10000',
     periods: '20',
@@ -52,8 +54,8 @@ export default function CompoundCalculator() {
   // --- 辅助函数 ---
   const formatMoney = (value: number) => {
     return Number(value).toLocaleString('en-US', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
     });
   };
 
@@ -86,54 +88,129 @@ export default function CompoundCalculator() {
     setHasCalculated(true);
   };
 
-  // --- 计算逻辑：定期定投 (根据图2逆推的特殊单利/复利逻辑) ---
-  const calculateRegular = () => {
+  // --- 计算逻辑：定期定投 (强大的逐月推演算法，修复了单位切换和复利类型无响应的问题) ---
+  const calculateRegular = (overrideDisplay?: DisplayMode) => {
+    const displayMode = overrideDisplay || tableDisplay;
+
     const initP = parseFloat(regular.principal) || 0;
     const monthlyAdd = parseFloat(regular.monthly) || 0;
-    const years = parseFloat(regular.term) || 0; // 为了简化演示，默认视为年份计算
-    const annualRate = (parseFloat(regular.rate) || 0) / 100;
-    const monthlyRate = annualRate / 12;
+    const termValue = parseFloat(regular.term) || 0;
+    const rateValue = parseFloat(regular.rate) || 0;
 
-    let currentBalance = initP;
+    // 1. 统一转换投资时长为"月"
+    const isTermYear = regular.termUnit === 'year';
+    const totalMonths = Math.floor(isTermYear ? termValue * 12 : termValue);
+
+    // 2. 统一转换收益率为相关的标准率
+    const isRateYear = regular.rateUnit === 'year';
+    const annualRate = isRateYear ? rateValue / 100 : (rateValue * 12) / 100;
+    const monthlyRate = annualRate / 12;
+    const dailyRate = annualRate / 360; // 遵循金融算法 日复利 360/年
+
+    let basePrincipal = initP;
+    let accumulatedDeposits = 0;
+    let accumulatedInterest = 0;
     let totalInvested = initP;
     let totalProfit = 0;
+
+    let lastOutputTotalProfit = 0;
     const tableData: TableRowData[] = [];
 
-    // 首月不投（仅本金生息），后11个月定投，按月单利，按年复投。
-    for (let y = 1; y <= years; y++) {
-      const startBalance = currentBalance;
+    // 逐月推演模拟
+    for (let t = 1; t <= totalMonths; t++) {
+      // 规则：从第二个月开始追加本金
+      const deposit = t > 1 ? monthlyAdd : 0;
 
-      // 1. 年初本金产生的年利息
-      const interestOnStart = startBalance * annualRate;
+      // === A. 计算当月利息与本金累加 ===
+      if (regular.compoundType === 'day') {
+        // 日复利：本金每天复滚（按每月30天计算）
+        basePrincipal += deposit;
+        const interestThisMonth = basePrincipal * (Math.pow(1 + dailyRate, 30) - 1);
+        basePrincipal += interestThisMonth;
 
-      // 2. 当年定投产生的利息 (第一年11个月定投，后续每年12个月)
-      // 第一年定投资金停留月数总和: 11+10+...+1 = 66
-      // 后续年份定投资金停留月数总和: 12+11+...+1 = 78
-      const sumOfMonths = y === 1 ? 66 : 78;
-      const interestOnContributions = monthlyAdd * monthlyRate * sumOfMonths;
+        totalInvested += deposit;
+        totalProfit += interestThisMonth;
+      } else {
+        // 其他复利方式：判断复利周期（月）
+        let C = 12; // 默认年复利 (12个月)
+        if (regular.compoundType === 'half-year') C = 6;
+        else if (regular.compoundType === 'quarter') C = 3;
+        else if (regular.compoundType === 'month') C = 1;
 
-      const yearProfit = interestOnStart + interestOnContributions;
-      const yearContribution = y === 1 ? monthlyAdd * 11 : monthlyAdd * 12;
+        accumulatedDeposits += deposit;
+        totalInvested += deposit;
 
-      totalInvested += yearContribution;
-      currentBalance += yearContribution + yearProfit;
-      totalProfit += yearProfit;
+        // 周期内单利计息
+        const interestThisMonth = (basePrincipal + accumulatedDeposits) * monthlyRate;
+        accumulatedInterest += interestThisMonth;
+        totalProfit += interestThisMonth;
 
-      tableData.push({
-        period: y,
-        principal: totalInvested,
-        profit: totalProfit, // 累计收益
-        finalAmount: currentBalance,
-      });
+        // 若到达复利周期节点，或投资期结束，将利息和追加金结转为复利本金
+        if (t % C === 0 || t === totalMonths) {
+          basePrincipal += accumulatedDeposits + accumulatedInterest;
+          accumulatedDeposits = 0;
+          accumulatedInterest = 0;
+        }
+      }
+
+      // === B. 处理表格输出逻辑 ===
+      const currentFinalAmount =
+        regular.compoundType === 'day'
+          ? basePrincipal
+          : basePrincipal + accumulatedDeposits + accumulatedInterest;
+
+      let isEndOfDisplayPeriod = false;
+      let periodLabel: string | number = '';
+
+      if (displayMode === 'year') {
+        if (t % 12 === 0) {
+          isEndOfDisplayPeriod = true;
+          periodLabel = t / 12; // 刚好满一年
+        } else if (t === totalMonths) {
+          isEndOfDisplayPeriod = true;
+          periodLabel = `第${t}个月`; // 不满一年时的期末显示
+        }
+      } else {
+        // 按月展示
+        isEndOfDisplayPeriod = true;
+        periodLabel = t;
+      }
+
+      if (isEndOfDisplayPeriod) {
+        // 本期新增收益
+        const periodProfit = totalProfit - lastOutputTotalProfit;
+        // 本期本金 = 最终金额 - 本期新增收益
+        const periodPrincipal = currentFinalAmount - periodProfit;
+
+        tableData.push({
+          period: periodLabel,
+          principal: periodPrincipal,
+          profit: periodProfit,
+          finalAmount: currentFinalAmount,
+        });
+
+        lastOutputTotalProfit = totalProfit; // 更新标记
+      }
     }
+
+    const finalAmt =
+      regular.compoundType === 'day'
+        ? basePrincipal
+        : basePrincipal + accumulatedDeposits + accumulatedInterest;
 
     setResult({
       totalProfit,
-      finalAmount: currentBalance,
+      finalAmount: finalAmt,
       totalInvested,
       tableData,
     });
     setHasCalculated(true);
+  };
+
+  // 处理表格展示维度的切换 (立刻刷新数据)
+  const handleTableDisplayChange = (mode: DisplayMode) => {
+    setTableDisplay(mode);
+    calculateRegular(mode);
   };
 
   // 组件挂载时默认计算一次定投
@@ -320,7 +397,7 @@ export default function CompoundCalculator() {
             </div>
 
             <button
-              onClick={calculateRegular}
+              onClick={() => calculateRegular()}
               className="mt-4 px-6 py-2 border border-gray-300 rounded text-gray-700 hover:bg-gray-50 transition-colors"
             >
               计算
@@ -355,13 +432,39 @@ export default function CompoundCalculator() {
               </div>
             </div>
 
+            {/* 定期定投的表格视图维度切换 (原图中表格上方的那组单选) */}
+            {tab === 'regular' && (
+              <div className="flex justify-center items-center gap-4 mb-3 text-sm text-gray-700">
+                <label className="flex items-center gap-1 cursor-pointer">
+                  <input
+                    type="radio"
+                    value="year"
+                    checked={tableDisplay === 'year'}
+                    onChange={() => handleTableDisplayChange('year')}
+                    className="accent-teal-600"
+                  />{' '}
+                  年
+                </label>
+                <label className="flex items-center gap-1 cursor-pointer">
+                  <input
+                    type="radio"
+                    value="month"
+                    checked={tableDisplay === 'month'}
+                    onChange={() => handleTableDisplayChange('month')}
+                    className="accent-teal-600"
+                  />{' '}
+                  月
+                </label>
+              </div>
+            )}
+
             {/* 数据表格 */}
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-right border-collapse">
                 <thead>
                   <tr className="bg-gray-100 text-gray-700 border-b border-gray-200">
                     <th className="py-2 px-3 text-center border-r border-gray-200 font-medium">
-                      {tab === 'basic' ? '#' : '年'}
+                      {tab === 'basic' ? '#' : tableDisplay === 'year' ? '年' : '月'}
                     </th>
                     {tab === 'regular' && <th className="py-2 px-3 font-medium">本金 (¥)</th>}
                     <th className="py-2 px-3 font-medium">收益 (¥)</th>
@@ -374,7 +477,7 @@ export default function CompoundCalculator() {
                 <tbody>
                   {result.tableData.map((row, index) => (
                     <tr key={index} className="border-b border-gray-200 hover:bg-gray-50">
-                      <td className="py-2 px-3 text-center border-r border-gray-200 bg-gray-100 font-bold text-gray-600">
+                      <td className="py-2 px-3 text-center border-r border-gray-200 bg-gray-100 font-bold text-gray-600 whitespace-nowrap">
                         {row.period}
                       </td>
                       {tab === 'regular' && (
