@@ -2,7 +2,7 @@ export const navbarRoutes = [
   { label: 'Home', href: '/' },
   { label: 'Practice', href: '/practice' },
   { label: 'Study', href: '/study' },
-  { label: 'Tools', href: '/tools' },
+  { label: 'Tools', href: '/tools/calculator' },
   // { label: 'Project', href: '/project' },
   // { label: 'Contact', href: '/contact' },
   // { label: 'Game', href: '/game' },
