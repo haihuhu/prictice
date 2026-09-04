@@ -2,6 +2,7 @@ export const navbarRoutes = [
   { label: 'Home', href: '/' },
   { label: 'Practice', href: '/practice' },
   { label: 'Study', href: '/study' },
+  { label: 'Tools', href: '/tools' },
   // { label: 'Project', href: '/project' },
   // { label: 'Contact', href: '/contact' },
   // { label: 'Game', href: '/game' },
@@ -24,6 +25,10 @@ export const practiceRoutes: SidebarType[] = [
   { label: 'Week10', href: '/practice/week10' },
 ];
 
+export const toolsRoutes: SidebarType[] = [
+  { label: 'calculator', href: '/tools/calculator' },
+  { label: 'Timer', href: '/tools/timer' },
+];
 export const projectCategories = [
   { label: 'Website', value: 'Website' },
   { label: 'Dashboard', value: 'Dashboard' },

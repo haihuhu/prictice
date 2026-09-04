@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { studyRoutes } from '@/lib/data';
-import { practiceRoutes } from '@/lib/data';
+import { practiceRoutes, toolsRoutes } from '@/lib/data';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
@@ -11,6 +11,7 @@ const Sidebar = () => {
   const displayRoutes =
     (pathname.startsWith('/study') && studyRoutes) ||
     (pathname.startsWith('/practice') && practiceRoutes) ||
+    (pathname.startsWith('/tools') && toolsRoutes) ||
     [];
   return (
     <div className="flex  flex-row md:flex-col overflow-x-auto border-b md:border-b-0 items-center bg-white pt-2 md:pt-5  ">
