@@ -66,9 +66,8 @@ export type Week10Day2TaskStatus = (typeof week10Day2StatusOptions)[number]['val
 export const studyRoutes: SidebarType[] = [
   { label: 'Study', href: '/study' },
   { label: 'temporary', href: '/study/temporary-plan' },
-  { label: 'nextVsShort', href: '/study/next-vs-playlet' },
   { label: 'English', href: '/study/en-study' },
-  { label: 'Code', href: '/study/code' },
+  { label: 'hooks', href: '/study/hooks' },
   { label: 'Git', href: '/study/git-command' },
   { label: 'Promise', href: '/study/promise' },
   { label: 'Tailwind', href: '/study/tailwind' },

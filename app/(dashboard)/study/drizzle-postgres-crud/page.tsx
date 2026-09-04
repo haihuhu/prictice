@@ -537,10 +537,117 @@ const userWithDeepDetails = await db.query.users.findFirst({
               <h3 className="font-bold text-xl text-violet-800 mb-3 flex items-center gap-2">
                 🛠️ 第二轨：SQL-Style Query API (以 leftJoin/innerJoin 查扁平数据)
               </h3>
-              <p className="text-slate-700 mb-2">
+              <p className="text-slate-700 mb-4">
                 <strong>核心特色：</strong>传统 SQL 思维。执行 select +
                 join，完全不需要提前在代码里定义 relations！
               </p>
+
+              {/* 核心 JOIN 解析块开始 */}
+              <div className="bg-slate-50 p-5 rounded-xl border border-slate-200 mb-6">
+                <h4 className="font-bold text-lg text-slate-800 mb-3 border-b border-slate-200 pb-2">
+                  🔍 核心 JOIN 类型直观对比 (INNER vs LEFT vs RIGHT)
+                </h4>
+                <p className="text-sm text-slate-700 mb-4">
+                  在关系型数据库和 Drizzle ORM 中，<strong>JOIN（连接）</strong> 的本质是把两张在物理上分开的表，通过某个关联字段（通常是外键）拼接成一张临时的大宽表。为了让你在手写 SQL 或使用 Drizzle 挑选连接方式时不再纠结，直接用项目里的 <code>projects</code>（项目表，左表） 和 <code>tasks</code>（任务表，右表） 来做像素级对账：
+                </p>
+
+                <div className="space-y-3 mb-5">
+                  <div className="bg-white p-4 rounded-lg border border-green-200 shadow-sm border-l-4 border-l-green-500">
+                    <h5 className="font-bold text-green-700 mb-1">🟢 INNER JOIN（内连接）—— "绝对匹配，缺一不可"</h5>
+                    <p className="text-sm text-slate-600 mb-1"><strong>物理本质：</strong>只有当左表和右表同时存在满足关联条件的数据时，才会返回这一行。</p>
+                    <p className="text-sm text-slate-600"><strong>业务场景：</strong>想查出“当前所有包含任务的项目”。如果一个项目刚创建，底下连一个任务都没有，它在 INNER JOIN 的结果里会直接消失（不显示）。</p>
+                  </div>
+
+                  <div className="bg-white p-4 rounded-lg border border-blue-200 shadow-sm border-l-4 border-l-blue-500">
+                    <h5 className="font-bold text-blue-700 mb-1">🔵 LEFT JOIN（左连接）—— "左表最大，全员保留"</h5>
+                    <p className="text-sm text-slate-600 mb-1"><strong>物理本质：</strong>无条件保留左表的全部数据。右表能匹配上就拼过来，匹配不上则直接补 null。</p>
+                    <p className="text-sm text-slate-600"><strong>业务场景：</strong>SaaS 看板最常用！例如 Sidebar 需要展示当前用户的所有项目，即使新项目一个任务都没有，也得在前端展示项目名字，所以必须用 LEFT JOIN。</p>
+                  </div>
+
+                  <div className="bg-white p-4 rounded-lg border border-rose-200 shadow-sm border-l-4 border-l-rose-500">
+                    <h5 className="font-bold text-rose-700 mb-1">🔴 RIGHT JOIN（右连接）—— "右表最大，反向操作"</h5>
+                    <p className="text-sm text-slate-600 mb-1"><strong>物理本质：</strong>无条件保留右表全部数据，左表匹配不上补 null。</p>
+                    <p className="text-sm text-slate-600"><strong>极少使用：</strong>任何 <code>A RIGHT JOIN B</code> 都完全等价于 <code>B LEFT JOIN A</code>。为了保持代码从左往右阅读的直觉，统一写 LEFT JOIN，几乎不写 RIGHT JOIN。</p>
+                  </div>
+                </div>
+
+                <h5 className="font-bold text-slate-800 mb-2">📊 物理行为对账表 (假定：项目表有3个项目，任务表有2个任务)</h5>
+                <div className="overflow-x-auto mb-5">
+                  <table className="w-full text-left border-collapse text-sm rounded-lg overflow-hidden shadow-sm">
+                    <thead>
+                      <tr className="bg-slate-200 text-slate-800">
+                        <th className="p-3 border border-slate-300">JOIN 类型</th>
+                        <th className="p-3 border border-slate-300">返回行数</th>
+                        <th className="p-3 border border-slate-300">结果中包含哪些项目？</th>
+                        <th className="p-3 border border-slate-300">没有匹配上的字段怎么显示？</th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white">
+                      <tr className="border-b border-slate-200">
+                        <td className="p-3 font-semibold text-green-700">INNER JOIN</td>
+                        <td className="p-3">2 行</td>
+                        <td className="p-3">仅：个人网站、商业SaaS (项目3被物理过滤)</td>
+                        <td className="p-3 text-slate-400">-</td>
+                      </tr>
+                      <tr className="border-b border-slate-200">
+                        <td className="p-3 font-semibold text-blue-700">LEFT JOIN</td>
+                        <td className="p-3">3 行</td>
+                        <td className="p-3">包含：个人网站、商业SaaS、新建项目</td>
+                        <td className="p-3 font-mono text-blue-600">null</td>
+                      </tr>
+                      <tr>
+                        <td className="p-3 font-semibold text-rose-700">RIGHT JOIN</td>
+                        <td className="p-3">2 行</td>
+                        <td className="p-3">仅：个人网站、商业SaaS</td>
+                        <td className="p-3 font-mono text-rose-600">null</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div className="bg-slate-900 rounded-lg p-5 overflow-x-auto text-sm text-slate-300 mb-5">
+                  <h5 className="text-blue-400 font-bold mb-3 flex items-center gap-2">
+                    <span>💻</span> 在 Drizzle ORM 中的手写对账
+                  </h5>
+                  <pre>
+                    <code>
+                      <CodeWindow
+                        code={`import { eq } from 'drizzle-orm';
+
+// 1. LEFT JOIN 写法 (最常用：即使项目没有任务，也会显示项目，任务字段为 null)
+const leftJoinResult = await db
+  .select({
+    projectName: projects.name,
+    taskTitle: tasks.title,
+  })
+  .from(projects)
+  .leftJoin(tasks, eq(projects.id, tasks.projectId));
+
+// 2. INNER JOIN 写法 (只有有任务的项目才会出现在结果中)
+const innerJoinResult = await db
+  .select({
+    projectName: projects.name,
+    taskTitle: tasks.title,
+  })
+  .from(projects)
+  .innerJoin(tasks, eq(projects.id, tasks.projectId));`}
+                      />
+                    </code>
+                  </pre>
+                </div>
+
+                <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
+                  <p className="font-bold text-amber-800 flex items-center gap-2 mb-2">
+                    <span>💡</span> 老师的工程建议 (Upwork 实战金律)
+                  </p>
+                  <p className="text-sm text-slate-700">
+                    如果你在写 <strong>列表渲染、导航侧边栏、看板主体</strong> 等前端展示组件，闭着眼睛选 <strong>LEFT JOIN</strong>（或者直接用 Drizzle 的 <code>db.query</code> 嵌套查询，底层做好了组装）。这样能绝对防止数据“无故失踪”引发客户的 Bug 投诉。<br/><br/>
+                    只有当你需要做 <strong>严格的交集数据分析（Analytics）</strong> 或者进行 <strong>两表对账</strong> 时，才去考虑 <strong>INNER JOIN</strong>。
+                  </p>
+                </div>
+              </div>
+              {/* 核心 JOIN 解析块结束 */}
+
               <div className="bg-red-50 p-4 rounded border border-red-200 mb-3">
                 <p className="font-bold text-red-700">
                   ⚡ 终极天坑：同一张表 Join 两次时的「物理重名歧义」

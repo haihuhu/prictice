@@ -1,6 +1,6 @@
 // app/notes/pwa/page.tsx
 import { AlertTriangle, CheckCircle2, FileCode, Lightbulb } from 'lucide-react';
-
+import { CodeWindow } from '@/components/CodeWindow';
 export default function PWANotes() {
   return (
     <div className="w-full max-w-4xl mx-auto p-6 space-y-8">
@@ -31,7 +31,7 @@ export default function PWANotes() {
 
       {/* Step 1: manifest */}
       <Section icon="file" title="1. public/manifest.json">
-        <CodeBlock
+        <CodeWindow
           code={`{
   "name": "Your App Name",
   "short_name": "AppName",
@@ -84,7 +84,7 @@ export default function PWANotes() {
           </div>
         </div>
 
-        <CodeBlock
+        <CodeWindow
           code={`import type { Metadata, Viewport } from 'next';
 
 // Metadata API: Next.js generates head tags from this
@@ -133,11 +133,13 @@ export default function RootLayout({
               ❌ Manual head (triggers warnings)
             </div>
             <pre className="bg-gray-900 text-gray-100 p-3 text-xs overflow-x-auto">
-              {`<head>
+              <CodeWindow
+                code={`<head>
   <meta name="theme-color" ... />
   <link rel="apple-touch-icon" ... />
   <link rel="icon" ... />
 </head>`}
+              />
             </pre>
           </div>
           <div className="border border-green-200 rounded-lg overflow-hidden">
@@ -145,12 +147,14 @@ export default function RootLayout({
               ✅ Metadata API (clean)
             </div>
             <pre className="bg-gray-900 text-gray-100 p-3 text-xs overflow-x-auto">
-              {`export const metadata = {
+              <CodeWindow
+                code={`export const metadata = {
   icons: { ... },
 };
 export const viewport = {
   themeColor: '#000000',
 };`}
+              />
             </pre>
           </div>
         </div>
