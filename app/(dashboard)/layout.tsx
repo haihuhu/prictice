@@ -7,14 +7,13 @@ const DashboardLayout = ({
 }) => {
   return (
     <div className="flex flex-col md:flex-row">
-      <aside className=" sticky shrink-0 z-50 top-16 self-start w-full md:w-32 ">
-        <Sidebar />
-      </aside>
+      <Sidebar />
 
-      <main className="flex-1 min-w-0 border-l md:pl-5 mt-2 ">
+      <main className="flex-1 min-w-0 mt-2 pl-3 md:pl-5">
         {children}
       </main>
     </div>
   );
 };
+
 export default DashboardLayout;
