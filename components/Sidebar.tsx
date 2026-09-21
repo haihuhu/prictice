@@ -20,16 +20,16 @@ const Sidebar = () => {
     <aside
       className={cn(
         'sticky top-16 self-start bg-white/95 transition-all duration-300 shrink-0',
-        // 移动端：横排占满宽，高度自适应
+        // mobile ：full width ,height auto
         'w-full h-auto',
-        // 桌面端：竖排，高度撑满，按状态切换宽度
+        // desktop: vertical,full height ,switch width by status
         'md:h-[calc(100vh-3.5rem)]',
         isOpen ? 'md:w-48 md:border-r md:border-slate-200/80' : 'md:w-12 md:border-r-0'
       )}
     >
       <button
         type="button"
-        aria-label={isOpen ? '收起侧边栏' : '展开侧边栏'}
+        aria-label={isOpen ? 'hide sidebar' : 'show sidebar'}
         onClick={() => setIsOpen((open) => !open)}
         className="absolute top-3 right-3 md:top-5 md:-right-3 z-20 flex size-6 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-sm transition hover:border-indigo-200 hover:text-indigo-600"
       >
@@ -40,9 +40,9 @@ const Sidebar = () => {
         <div
           className={cn(
             'flex items-center bg-white pt-2 md:pt-5',
-            // 移动端：横排滚动
+            // mobile：horizontal scroll
             'flex-row overflow-x-auto px-2',
-            // 桌面端：竖排
+            // desktop:vertical ,horizontal scrollable
             'md:flex-col md:overflow-visible md:px-3 md:h-full'
           )}
         >

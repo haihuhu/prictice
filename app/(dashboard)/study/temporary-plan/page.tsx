@@ -3,9 +3,11 @@
 
 import { useState } from 'react';
 
-type WeekKey = 'week9' | 'week10' | 'week11' | 'week12';
+type WeekKey = 'week15' | 'week16' | 'week9' | 'week10' | 'week11' | 'week12';
 
 const weeks: { key: WeekKey; label: string; title: string }[] = [
+  { key: 'week15', label: 'Week 15', title: 'Stripe 商业订阅支付闭环' },
+  { key: 'week16', label: 'Week 16', title: 'OpenAI API 与 AI 流式交互' },
   { key: 'week9', label: 'Week 9', title: '外键关联 + 关联查询' },
   { key: 'week10', label: 'Week 10', title: 'Clerk 认证快速跑通' },
   { key: 'week11', label: 'Week 11', title: 'Better Auth + 用户隔离' },
@@ -30,6 +32,130 @@ const content: Record<
     exam: string;
   }
 > = {
+  week15: {
+    goal: '从零搭建具备防越权、Webhook 物理签名校验与多租户权限隔离的 Stripe 商业订阅支付闭环系统。',
+    skills: [
+      { name: 'Stripe 订阅架构', from: 2, to: 8.5 },
+      { name: 'Webhook 签名与幂等', from: 1, to: 9 },
+      { name: '防越权与门户集成', from: 4, to: 8.5 },
+    ],
+    days: [
+      {
+        day: 1,
+        tasks: [
+          '安装 stripe SDK，并在 Stripe Dashboard (Test Mode) 创建 Basic 与 Pro 两个套餐，获取对应 Price ID。',
+          '编写 Server Action `createCheckoutSessionAction`，在 session 中配置 success_url 与 cancel_url。',
+          '【核心绑定】在发起 Checkout 时，将当前登录用户的 userId 写入 Stripe Session 的 metadata 中，打通身份桥梁。',
+          '不看文档独立默写发起结算会话的完整逻辑，验证浏览器能成功跳转至 Stripe 官方托管收银台。',
+        ],
+        check: '无需参考文档，独立跑通跳转官方收银台，Stripe 后台能查看到携带 metadata.userId 的待支付订单。',
+      },
+      {
+        day: 2,
+        tasks: [
+          '扩展 Drizzle Schema，在 users（或 subscriptions）表中增加 stripeCustomerId, stripeSubscriptionId, stripePriceId, stripeCurrentPeriodEnd 字段。',
+          '执行迁移命令推入 PostgreSQL，确保数据库订阅字段状态完备。',
+          '安装配置本地 stripe-cli 工具，执行 stripe login 完成 CLI 鉴权。',
+          '运行本地转发监听：stripe listen --forward-to localhost:3000/api/webhooks/stripe，建立本地 Webhook 调试通道。',
+        ],
+        check: '数据库字段成功同步，stripe-cli 稳定捕获并转发本地事件，控制台无报错。',
+      },
+      {
+        day: 3,
+        tasks: [
+          '创建 Route Handler：/api/webhooks/stripe/route.ts。',
+          '【必踩坑规避】使用 await req.text() 提取 rawBody（严禁使用 req.json()），结合 stripe-signature 请求头执行 stripe.webhooks.constructEvent() 防伪造物理签名校验。',
+          '实现 checkout.session.completed 消费：用户初次付费成功，写库绑定 Customer ID 并解锁权限。',
+          '实现 customer.subscription.updated 消费：用户续费或变更套餐，同步更新 currentPeriodEnd 到期时间。',
+          '实现 customer.subscription.deleted 消费：用户取消订阅或逾期，即时降级为免费账号。',
+          '【幂等性防重复】在数据库记录已处理的 event.id，处理前先查重，若已消费则直接返回 200 OK，杜绝网络重试导致的数据错乱。',
+        ],
+        check: '使用 stripe-cli trigger 触发三大核心事件，验签 100% 通过，数据库内订阅状态与到期周期准确更新。',
+      },
+      {
+        day: 4,
+        tasks: [
+          '编写 createCustomerPortalSessionAction，为已付费用户生成 Stripe Billing Portal 免密管理跳转链接。',
+          '【双锁防越权】跳转前服务端强校验 where(eq(users.id, currentUserId))，确保当前操作用户的 Customer ID 属于本人，防御 IDOR 漏洞。',
+          '在前端封装 <SubscriptionGuard> 权限栅栏组件，统一拦截并保护 Pro 专属功能或页面。',
+          'UI 实现：未订阅用户点击高级特性时弹出升级弹窗，已订阅用户展示“管理订阅/更换账单”入口。',
+        ],
+        check: '越权访问他人 Portal 被物理拦截；页面栅栏生效，非会员无法触碰 Pro 功能。',
+      },
+      {
+        day: 5,
+        tasks: [
+          '清空已有测试代码，从空白工程开始进行全流程极限默写。',
+          '手敲完整闭环：点击购买按钮 → 创建 Session → Stripe 支付成功 → Webhook 异步解构落库 → 页面权限秒级刷新。',
+          '模拟伪造签名非法请求（确保返回 400）与网络重复投递场景，验证系统防重防刷鲁棒性。',
+        ],
+        check: '90 分钟内无文档独立手写实现全流程，签名校验、防越权与数据幂等性测试全绿。',
+      },
+    ],
+    examTitle: 'Day 5 — Stripe 商业闭环攻防大考',
+    exam: '从零默写完整商业支付流：Checkout 发起 + rawBody 签名防伪校验 + 3 大核心事件幂等落库 + 客户 Portal 防越权。',
+  },
+  week16: {
+    goal: '掌握 OpenAI 结构化强类型输出 (Structured Outputs)、打字机流式交互 (Streaming SSE) 以及 Token 额度管控与防刷体系。',
+    skills: [
+      { name: 'AI 结构化强校验', from: 2, to: 8.5 },
+      { name: '流式打字机 (SSE)', from: 3, to: 9 },
+      { name: 'Token配额与频控', from: 2, to: 8 },
+    ],
+    days: [
+      {
+        day: 1,
+        tasks: [
+          '安装 openai SDK，封装服务端通用 generateTaskSummaryAction。',
+          '【提示词注入防护】严格区分 System Role（定义规则约束）与 User Role（包裹用户输入），严禁字符串简单拼接，防止“Ignore previous rules”绕过系统。',
+          '异常边界防御：显式 try...catch 捕获 401（API Key 无效）、429（额度超限/并发过高）与网络超时错误。',
+          '封装前后端统一的 Result 信封规范 { success, data, error }，确保错误能够友好优雅地回显在界面。',
+        ],
+        check: '成功生成项目英文摘要，模拟 401/429 报错时界面均有友好错误提示且服务不崩盘。',
+      },
+      {
+        day: 2,
+        tasks: [
+          '使用 OpenAI response_format 或 zodResponseFormat 启用原生的 Structured Outputs 能力。',
+          '定义任务列表 Zod Schema（包含 title, priority, estimatedHours 等字段），强约束大模型仅输出符合该结构的 JSON。',
+          '服务端接收模型输出后，使用 schema.safeParse 进行防御性二次类型校验。',
+          '校验通过后，使用 Drizzle 批量写入 tasks 表，实现非结构化用户输入一键转化为结构化数据库任务。',
+        ],
+        check: '输入自然语言需求，模型 100% 返回合规 JSON 数组，二次校验成功并批量写入数据库。',
+      },
+      {
+        day: 3,
+        tasks: [
+          '消灭 5~10 秒白屏等待：采用 Route Handler (/api/ai/chat/route.ts) 搭建 SSE (Server-Sent Events) 服务。',
+          '【技术选型】长文本流式打字机优先使用 Route Handler + SSE，对 Stream 的支持比 Server Action 更稳定原生。',
+          '前端集成 useChat hook 或手写 ReadableStreamDefaultReader，实现毫秒级首字打字机效果。',
+          '实现客户端 AbortController 信号传递，用户点击“停止生成”能及时截断网络传输。',
+        ],
+        check: '提问后 200ms 内首字上屏，实时打字机渲染流畅无卡顿，支持随时打断生成。',
+      },
+      {
+        day: 4,
+        tasks: [
+          '数据库 users 表增加 aiUsageCount 与 aiTokensConsumed 字段。',
+          '编写额度扣减与拦截逻辑：请求前先检查可用额度（例如普通用户每日限制 5 次）。',
+          '调用成功后，从 completion.usage 读取 actual total_tokens 并异步更新入库，实时记录消耗。',
+          '在 API 层面结合 IP/用户标识实施请求频控（Rate Limiting），防止恶意循环脚本刷爆 API 配额。',
+        ],
+        check: '超出限制时接口物理返回 403，调用成功后数据库精准更新消耗的 Token，频控拦截生效。',
+      },
+      {
+        day: 5,
+        tasks: [
+          '在 Task Manager 侧边栏嵌入“AI Assistant Drawer（AI 智能项目助手抽屉）”。',
+          '用户输入模糊构想，AI 实时流式生成分步规划，并提供“一键转入真实 Task”按钮。',
+          '【两周技术终极合体】将 Stripe 权限栅栏与 AI 助手打通：普通用户仅享 5 次额度，开通 Stripe Pro 后解锁无限制 AI 生成。',
+        ],
+        check: 'AI 抽屉内流式对话流畅，一键转化 Task 存库成功，且完美受 Stripe 订阅状态鉴权控制。',
+      },
+    ],
+    examTitle: 'Day 5 — AI 智能助手与商业订阅综合实战',
+    exam: '打通“Stripe Pro 订阅 + OpenAI 流式响应 + 结构化入库 + 配额频控”全套体系，完成商业级 SaaS 的核心业务闭环。',
+  },
   week9: {
     goal: '让数据表之间产生关联，理解"一个用户有多个任务"的数据库表达方式，为 Week 11 的用户隔离打基础。',
     skills: [
@@ -295,7 +421,7 @@ function SkillBar({ name, from, to }: { name: string; from: number; to: number }
 }
 
 export default function LearningPlan() {
-  const [activeWeek, setActiveWeek] = useState<WeekKey>('week12');
+  const [activeWeek, setActiveWeek] = useState<WeekKey>('week15');
   const current = content[activeWeek];
 
   return (
